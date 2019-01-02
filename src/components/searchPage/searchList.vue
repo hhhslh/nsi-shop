@@ -70,6 +70,14 @@ export default {
         .infoBox{
             min-height: 155px;
             max-height: 155px;
+            @media (max-width: 376px) {
+                min-height: 140px;
+                max-height: 140px;
+            }
+            @media (max-width: 351px) {
+                min-height: 111px;
+                max-height: 111px;
+            }
             p{
                 margin-bottom: 3px;
             }
@@ -89,6 +97,7 @@ export default {
                 color: rgb(141, 141, 141);
             }
             .bookInfo{
+                padding-right: 10px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;

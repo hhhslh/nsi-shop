@@ -28,11 +28,11 @@
                 </div>
             </div>
         </div>
-        <div class="content" v-html="book.goodsInfo"></div>
+        <div class="content text-center" v-html="book.goodsInfo"></div>
         <div class="buyBox">
             <span class="buyBtn price">￥{{book.goodsPrice}}</span>
             <!-- <span class="buyBtn shoppingCart">加入购物车</span> -->
-            <span class="buyBtn buy">立即购买</span>
+            <router-link to="/order" tag="span" class="buyBtn buy">立即购买</router-link>
         </div>
     </div>
 </template>
@@ -180,6 +180,7 @@ export default {
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
+            z-index: 100;
             .buyBtn{
                 width: 100px;
                 text-align: center;
