@@ -10,7 +10,7 @@
             <div class="nameLogo">{{nameLogo}}</div>
             <div class="addressInfo">
                 <p class="name">{{name}}<span class="phone">{{phone}}</span></p>
-                <p class="address">{{address}}{{address}}</p>
+                <p class="address">{{address}}</p>
             </div>
         </div>
     </div>
