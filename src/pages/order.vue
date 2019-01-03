@@ -1,5 +1,6 @@
 <template>
     <div class="order-com">
+        <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>确认订单</h4>
         <!-- 地址 -->
         <div class="addressBox">
             <div class="addressLogo">
@@ -7,7 +8,7 @@
             </div>
             <div class="adddressInfo">
                 <p class="person">收货人：张益达<span class="phone">17696028573</span></p>
-                <p class="address">收货地址：北京市朝阳区曙光西里时间国际A座1501北京市朝阳区曙光西里时间国际A座1501<span class="moreAddress iconfont icon-iconfonticonfonti2copycopy"></span></p>
+                <p class="address">收货地址：北京市朝阳区曙光西里时间国际A座1501北京市朝阳区曙光西里时间国际A座1501<span class="moreAddress iconfont icon-iconfonticonfonti2copycopy" @click="manageAddress()"></span></p>
             </div>
         </div>
         <!-- 商品信息 -->
@@ -51,11 +52,15 @@ export default {
         handleChange(value) {
             console.log(value);
             this.countPrice()
-        }
-    },
-    computed:{
+        },
         countPrice(){
             return this.totalPrice=188*this.num
+        },
+        backPrePage(){
+            history.back(-1)
+        },
+        manageAddress(){
+            this.$router.push({path:'/manageAddress'})
         }
     }
 }
@@ -63,6 +68,18 @@ export default {
 
 <style lang="scss">
     .order-com{
+        .order-title{
+            height: 50px;
+            line-height: 50px;
+            color: #333;
+            background-color: #f9f9f9;
+            margin-top: 0;
+            position: relative;
+            .back{
+                position: absolute;
+                left: 15px;
+            }
+        }
         .addressBox{
             padding: 15px 20px 15px 15px;
             display: flex;
@@ -139,10 +156,15 @@ export default {
             color: #555;
             border-bottom: 1px solid #eee;
             position: relative;
+            p{
+                margin-bottom: 0;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
             .countNum{
                 position: absolute;
                 right: 10px;
-                top: 7px
+                top: 9px
             }
         }
         .message{
@@ -151,6 +173,7 @@ export default {
             .txt{
                 border: none;
                 outline: none;
+                width: 74%;
             }
         }
         .buyBtnBox{
