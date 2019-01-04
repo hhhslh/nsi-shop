@@ -6,6 +6,7 @@ import personalPage from '@/pages/personal'
 import detailPage from '@/pages/detailPage'
 import orderPage from '@/pages/order'
 import addressPage from '@/pages/address'
+import editAddressPage from '@/components/address/editAddress'
 
 Vue.use(Router)
 
@@ -33,6 +34,9 @@ export default new Router({
             path: '/manageAddress',
             name: 'manageAddress',
             component: addressPage
+        }, {
+            path: '/editAddress',
+            component: editAddressPage
         }
     ]
 })

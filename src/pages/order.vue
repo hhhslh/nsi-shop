@@ -100,6 +100,7 @@ export default {
             }
             .adddressInfo{
                 position: relative;
+                padding-right: 15px;
                 .person{
                     position: relative;
                     .phone{
@@ -112,7 +113,7 @@ export default {
                     position: relative;
                     .moreAddress{
                         position: absolute;
-                        right: -13px;
+                        right: -20px;
                         top: 50%;
                         transform: translateY(-50%)
                     }

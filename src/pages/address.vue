@@ -1,7 +1,7 @@
 <template>
     <div class="address-com">
         <h4 class="order-title text-center" v-if="hasNoAddress"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>地址管理<span class="addAddress" >添加新地址</span></h4>
-        <h4 class="order-title text-center"  v-else><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>地址管理<span class="addAddress">编辑地址</span></h4>
+        <h4 class="order-title text-center"  v-else><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>地址管理<span class="addAddress" @click="editAddress()">编辑地址</span></h4>
         <div class="noAddress" v-if="hasNoAddress">
             <span class="iconfont icon-zanwukoubei"></span>
             <p class="text-center">暂无收货地址</p>
@@ -56,6 +56,9 @@ export default {
                     this.hasNoAddress=true
                 }
             })
+        },
+        editAddress(){
+            this.$router.push({path:'/editAddress'})
         }
     }
 }
