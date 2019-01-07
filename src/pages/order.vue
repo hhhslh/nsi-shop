@@ -2,13 +2,17 @@
     <div class="order-com">
         <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>确认订单</h4>
         <!-- 地址 -->
-        <div class="addressBox">
-            <div class="addressLogo">
-                <span class="iconfont icon-dizhi"></span>
+        <div class="addressBox" :class="{'justCenter':hasNoAddress}">
+            <div class="addressLogo" v-show="!hasNoAddress">
+                <span class="iconfont icon-dizhi" ></span>
             </div>
-            <div class="adddressInfo">
-                <p class="person">收货人：张益达<span class="phone">17696028573</span></p>
-                <p class="address">收货地址：北京市朝阳区曙光西里时间国际A座1501北京市朝阳区曙光西里时间国际A座1501<span class="moreAddress iconfont icon-iconfonticonfonti2copycopy" @click="manageAddress()"></span></p>
+            <div class="noAddress" v-if="hasNoAddress">
+                <span class="iconfont icon-zanwukoubei"></span>
+                <p class="text-center">暂无收货地址<span class="addAddress">添加地址</span></p>
+            </div>
+            <div class="adddressInfo" v-else>
+                <p class="person">收货人：{{name}}<span class="phone">{{phoneVal}}</span></p>
+                <p class="address">收货地址：{{addressVal}}<span class="moreAddress iconfont icon-iconfonticonfonti2copycopy" @click="manageAddress()"></span></p>
             </div>
         </div>
         <!-- 商品信息 -->
@@ -45,7 +49,14 @@ export default {
     data() {
         return {
             num:1,
-            totalPrice:188
+            totalPrice:188,
+            name:'',
+            phoneVal:'',
+            province:'',
+            city:'',
+            addressDetail:'',
+            addressVal:'',
+            hasNoAddress:true
         }
     },
     methods:{
@@ -62,12 +73,40 @@ export default {
         manageAddress(){
             this.$router.push({path:'/manageAddress'})
         }
-    }
+    },
+    created(){
+        this.axios({
+            method:"get",
+            url: '/ShopAddress/getList.do',
+            params:{
+                wechatId:'123123'
+            }
+        }).then((res)=>{
+            // 0成功 1失败
+            let code=res.data.code
+            let receiver=res.data.data
+            // console.log(res.data.data)
+            if(code===0){
+                this.name=receiver.receivename
+                this.phoneVal=receiver.receivephone
+                this.province=receiver.receivearea01
+                this.city=receiver.receivearea02
+                this.addressDetail=receiver.receivearea03
+
+                this.addressVal=this.province+' '+this.city+' '+this.addressDetail
+            }else{
+                
+            }
+        })
+    },
 }
 </script>
 
 <style lang="scss">
     .order-com{
+        .justCenter{
+            justify-content: center
+        }
         .order-title{
             height: 50px;
             line-height: 50px;
@@ -89,7 +128,7 @@ export default {
                 display: flex;
                 justify-content: center;
                 align-content: center;
-                padding-top: 25px;
+                padding-top: 20px;
                 padding-right: 15px;
                 span{
                     display: inline-block;
@@ -98,9 +137,33 @@ export default {
                     // font-weight: 600;
                 }
             }
+            .noAddress{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                span{
+                    font-size: 70px;
+                }
+                p{
+                    color: #888;
+                    font-size: 14px;
+                    margin-top: 15px;
+                }
+                .addAddress{
+                    font-size: 14px;
+                    display: inline-block;
+                    background-color: orangered;
+                    color: #fff;
+                    padding: 2px 15px;
+                    margin-left: 10px;
+                    border-radius: 4px;
+                }
+            }
             .adddressInfo{
                 position: relative;
                 padding-right: 15px;
+                width: 90%;
                 .person{
                     position: relative;
                     .phone{

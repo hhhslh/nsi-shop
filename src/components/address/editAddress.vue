@@ -1,18 +1,18 @@
 <template>
     <div class="editAddress-com" ref="editAddress">
-        <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>添加收货地址<span class="addAddress" @click="saveAddress">保存</span></h4>
+        <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>编辑收货地址<span class="addAddress" @click="saveAddress">保存</span></h4>
         <div class="formBox">
-            <div class="inputBox">
-                <input class="txt" type="text" placeholder="收货人" ref="usr" :value="name">
-            </div>
-            <div class="inputBox">
-                <input class="txt" type="text" placeholder="手机号码" ref="tel" :value="phoneVal">
-            </div>
             <div class="inputBox">
                 <input class="txt" type="text" placeholder="所在地区" @click="showSelectBox" :value="addressVal">
             </div>
             <div class="inputBox">
                 <input class="txt" type="text" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" ref="area03" :value="addressDetail">
+            </div>
+            <div class="inputBox">
+                <input class="txt" type="text" placeholder="收货人" ref="usr" :value="name">
+            </div>
+            <div class="inputBox">
+                <input class="txt" type="text" placeholder="手机号码" ref="tel" :value="phoneVal">
             </div>
         </div>
         <!-- 省市级三级联动 -->
@@ -59,24 +59,28 @@ export default {
         saveAddress(){
             let name=this.$refs.usr.value
             let phoneVal=this.$refs.tel.value
-            let area01=this.province+this.city
-            let area02=this.district
+            let area01=this.province
+            let area02=this.city+this.district
             let area03=this.$refs.area03.value
             console.log(name,phoneVal,area01,area02,area03)
-            // this.axios({
-            //     method:"get",
-            //     url: '/ShopAddress/update.do',
-            //     params:{
-            //         wechatId:'123123',
-            //         receivename:name,
-            //         receivephone:phoneVal,
-            //         receivearea01:area01,
-            //         receivearea02:area02,
-            //         receivearea03:area03,
-            //     }
-            // }).then((res)=>{
-            //     console.log(res)
-            // })
+            this.axios({
+                method:"get",
+                url: '/ShopAddress/update.do',
+                params:{
+                    wechatid:'123123',
+                    receivename:name,
+                    receivephone:phoneVal,
+                    receivearea01:area01,
+                    receivearea02:area02,
+                    receivearea03:area03,
+                }
+            }).then((res)=>{
+                this.$message({
+                    message: '地址更换成功',
+                    type: 'success'
+                });
+                console.log(res)
+            })
         }
     },
     created(){
@@ -111,6 +115,9 @@ export default {
 </script>
 
 <style lang="scss">
+    .el-message{
+        min-width: 300px !important;
+    }
     .editAddress-com{
         .order-title{
             height: 50px;

@@ -64,6 +64,7 @@ export default {
                 }
                 .router-link-active{
                     span,.iconName{
+                        transition: all .3s;
                         color: #333 !important;
                     }
                 }

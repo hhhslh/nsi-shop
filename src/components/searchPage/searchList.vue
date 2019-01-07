@@ -39,13 +39,15 @@ export default {
         const data = new URLSearchParams();
         data.append('type', '新学说书籍');
         data.append('state', '上架');
+        data.append('pageNum', '1');
+        data.append('pageSize', '8');
         this.axios({
             method:'post',
             url:'/goods/goods_list.do',
             data:data
             }).then((res)=>{
-            // console.log(res.data.data)
-            this.bookList=res.data.data
+            console.log(res.data.data)
+            this.bookList=res.data.data.list
         })
     }
 }
