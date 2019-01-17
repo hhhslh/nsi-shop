@@ -3744,52 +3744,17 @@ export default {
 
 <style lang="scss">
     .chooseAddress-com{
-        .myAddress{
-            width: 100%;
-            background-color: white;
-            border-top: 4px solid rgba(245,245,245,1);
-            color:#333;
-        }
-        .myAddress .cont{
-            border-bottom: 1px solid rgba(245,245,245,0.8);
-        }
-        .myAddress .cont span{
-            display: inline-block;
-            font-size: 0.28rem;
-            color: #333;
-            line-height: 0.88rem;
-            margin-left: 0.32rem;
-        }
-        .myAddress .cont section{
-            float:left;
-        }
-        .myAddress .cont p{
-            display: inline-block;
-            font-size: 0.28rem;
-            color: #333333;
-            line-height: 0.88rem;
-            margin-left: 1rem;
-        }
-        .myAddress .cont .pic2{
-            float: right;
-            width: 0.14rem;
-            height: 0.24rem;
-            margin: 0.32rem 0.32rem 0.32rem 0;
-        }
-        .myAddress .cont p.text{
-            margin-left: 0.72rem;
-        }
         .showChose{
             width:100%;
             height:100%;
             position:fixed;
-            top:0;
+            bottom: 0;
             left:0;
             z-index:120;
             background:rgba(77,82,113,0.8);
         }
         .address{
-            position:absolute;
+            position: fixed;
             bottom:0;
             left:0;
             z-index:121;
@@ -3800,7 +3765,7 @@ export default {
         .area{
             display:inline-block;
             font-size:14px;
-            line-height:0.88rem;
+            line-height:20px;
             color:#333;
         }
         .area1,.area2{
@@ -3808,9 +3773,9 @@ export default {
         }
         .addList{
             width:100%;
-            padding-left:0.32rem;
-            font-size:0.34rem;
-            line-height:0.88rem;
+            padding-left:10px;
+            font-size:12px;
+            line-height:20px;
             color:#333;
         }
             /* 修改的格式 */

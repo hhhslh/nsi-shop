@@ -46,7 +46,7 @@ export default {
             url:'/goods/goods_list.do',
             data:data
             }).then((res)=>{
-            console.log(res.data.data)
+            // console.log(res.data.data)
             this.bookList=res.data.data.list
         })
     }

@@ -1,9 +1,9 @@
 <template>
     <div class="editAddress-com" ref="editAddress">
-        <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>编辑收货地址<span class="addAddress" @click="saveAddress">保存</span></h4>
+        <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>添加收货地址<span class="addAddress" @click="saveAddress">保存</span></h4>
         <div class="formBox">
             <div class="inputBox">
-                <input class="txt" type="text" onfocus="this.blur()" placeholder="所在地区" @click="showSelectBox" :value="addressVal">
+                <input class="txt" type="text" placeholder="所在地区" @click="showSelectBox" :value="addressVal">
             </div>
             <div class="inputBox">
                 <input class="txt" type="text" @click="close" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" ref="area03" :value="addressDetail">
@@ -63,7 +63,7 @@ export default {
             let area02=this.city+this.district
             let area03=this.$refs.area03.value
             let openId=localStorage.getItem('openId')
-            // console.log(name,phoneVal,area01,area02,area03)
+            console.log(name,phoneVal,area01,area02,area03)
             this.axios({
                 method:"get",
                 url: '/ShopAddress/update.do',
@@ -77,40 +77,40 @@ export default {
                 }
             }).then((res)=>{
                 this.$message({
-                    message: '地址更换成功',
+                    message: '地址创建成功',
                     type: 'success'
                 });
                 console.log(res)
             })
         }
     },
-    created(){
-        this.axios({
-            method:"get",
-            url: '/ShopAddress/getList.do',
-            params:{
-                wechatId:'123123'
-            }
-        }).then((res)=>{
-            // 0成功 1失败
-            let code=res.data.code
-            let receiver=res.data.data
-            // console.log(res.data.data)
-            if(code===0){
-                this.name=receiver.receivename
-                this.phoneVal=receiver.receivephone
-                this.province=receiver.receivearea01
-                this.city=receiver.receivearea02
-                this.addressDetail=receiver.receivearea03
+    // created(){
+    //     this.axios({
+    //         method:"get",
+    //         url: '/ShopAddress/getList.do',
+    //         params:{
+    //             wechatId:'123123'
+    //         }
+    //     }).then((res)=>{
+    //         // 0成功 1失败
+    //         let code=res.data.code
+    //         let receiver=res.data.data
+    //         // console.log(res.data.data)
+    //         if(code===0){
+    //             this.name=receiver.receivename
+    //             this.phoneVal=receiver.receivephone
+    //             this.province=receiver.receivearea01
+    //             this.city=receiver.receivearea02
+    //             this.addressDetail=receiver.receivearea03
 
-                this.addressVal=this.province+' '+this.city
-            }else{
+    //             this.addressVal=this.province+' '+this.city
+    //         }else{
                 
-            }
-        })
-    },
+    //         }
+    //     })
+    // },
     mounted(){
-        this.$refs.editAddress.style.minHeight=(window.outerHeight-45)+'px';
+        this.$refs.editAddress.style.height=(window.outerHeight-45)+'px';
     }
 }
 </script>

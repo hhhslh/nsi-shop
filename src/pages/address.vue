@@ -52,6 +52,7 @@ export default {
                     this.name=address.receivename
                     this.phone=address.receivephone
                     this.address=address.receivearea01+address.receivearea02+address.receivearea03
+                    // localStorage.setItem("name",name)
                 }else{
                     this.hasNoAddress=true
                 }

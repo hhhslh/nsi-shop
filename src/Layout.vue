@@ -13,7 +13,7 @@
                 </router-link>
                 <router-link to="/mine" tag="li">
                     <p class="iconBox text-center"><span class="iconfont icon-gerenzhongxin1"></span></p>
-                    <p class="iconName text-center">个人中心</p>
+                    <p class="iconName text-center">我的</p>
                 </router-link>
             </ul>
         </div>
@@ -38,6 +38,7 @@ export default {
             background-color: #fff;
             box-shadow: 0 -1px 10px #d8d8d8;
             z-index: 99;
+            padding-top: 2px;
             .barList{
                 display: flex;
                 align-content: center;

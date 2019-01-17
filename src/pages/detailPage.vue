@@ -30,9 +30,9 @@
         </div>
         <div class="content text-center" v-html="book.goodsInfo"></div>
         <div class="buyBox">
-            <span class="buyBtn price">￥{{book.goodsPrice}}</span>
+            <span class="buyBtn price">售价：<span>￥{{book.goodsPrice}}</span><em class="free">免运费</em></span>
             <!-- <span class="buyBtn shoppingCart">加入购物车</span> -->
-            <router-link to="/order" tag="span" class="buyBtn buy">立即购买</router-link>
+            <router-link to="/order" tag="span" class="buyBtn buy" @click.native="saveGoodsInfo">立即购买</router-link>
         </div>
     </div>
 </template>
@@ -55,7 +55,7 @@ export default {
                 }
             }).then((res)=>{
                 this.book=res.data.data
-                console.log(this.book)
+                // console.log(this.book)
                 // document.title=this.detail.title
                 // 微信分享
                 // this.wxShareInfo.title=shareInfo.title
@@ -63,6 +63,9 @@ export default {
                 // this.wxShareInfo.desc=shareInfo.summary
             })
         },
+        saveGoodsInfo(){
+            localStorage.setItem("goodsId",this.book.id)
+        }
     },
     created(){
         this.fetchDate()
@@ -90,8 +93,8 @@ export default {
             }
            .bookBgImg{
                width: 100%;
-               height: 240px;
-               filter: blur(12px);
+            //    height: 240px;
+               filter: blur(20px);
            }
            .bookInfo{
                position: absolute;
@@ -110,7 +113,8 @@ export default {
                        width: 120px;
                        max-width: 120px;
                        border-radius: 4px;
-                       box-shadow: 0 5px 10px #616060;
+                    //    box-shadow: 0 5px 10px #616060;
+                       box-shadow: 0 4px 15px #232323;
                    }
                }
                .bookDescBox{
@@ -182,16 +186,30 @@ export default {
             justify-content: space-between;
             z-index: 100;
             .buyBtn{
-                width: 100px;
+                width: 120px;
                 text-align: center;
-                height: 35px;
-                line-height: 35px;
+                height: 40px;
+                line-height: 40px;
                 border-radius: 4px;
                 margin: 0 3px;
             }
             .price{
                 font-size: 19px;
                 color: #fb2727;
+                // font-weight: 600;
+                width: 160px;
+                span{
+                    font-weight: 600;
+                    font-size: 22px;
+                }
+                .free{
+                    font-style: normal;
+                    font-size: 14px;
+                    color: #9c9a9a;
+                    position: relative;
+                    left: 10px;
+                    top: -1px;
+                }
             }
             .shoppingCart{
                 background-color: #ffaaaa;

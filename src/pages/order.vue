@@ -8,7 +8,7 @@
             </div>
             <div class="noAddress" v-if="hasNoAddress">
                 <span class="iconfont icon-zanwukoubei"></span>
-                <p class="text-center">暂无收货地址<span class="addAddress">添加地址</span></p>
+                <p class="text-center">暂无收货地址<span class="addAddress" @click="editAddress">添加地址</span></p>
             </div>
             <div class="adddressInfo" v-else>
                 <p class="person">收货人：{{name}}<span class="phone">{{phoneVal}}</span></p>
@@ -20,7 +20,7 @@
             <p class="title">商品信息</p>
             <div class="goodsInfo">
                 <div class="goodsPic">
-                    <img src="../assets/searchPage/book.jpg" alt="" class="img-responsive">
+                    <img src="../assets/searchPage/book.jpg" width="100" height="100" alt="" class="img-responsive">
                 </div>
                 <div class="goodsDesc">
                     <p class="goodsName">Vue2.5开发去哪网APP 从零基础入门到实战项目</p>
@@ -34,12 +34,12 @@
             </p>
         </div>
         <div class="message">
-            <p>买家留言：<input class="txt" type="text" placeholder="填写留言"></p>
+            <p>买家留言：<input class="txt" type="text" placeholder="填写留言" ref="buyerMessage"></p>
         </div>
         <!-- 购买btn -->
         <div class="buyBtnBox">
             <div>合计金额：<span class="rmb">￥</span><span class="totalPrice">{{totalPrice}}</span></div>
-            <div class="apply">立即支付</div>
+            <div class="apply" @click="sendShoppingInfo">立即支付</div>
         </div>
     </div>
 </template>
@@ -72,16 +72,40 @@ export default {
         },
         manageAddress(){
             this.$router.push({path:'/manageAddress'})
+        },
+        editAddress(){
+            this.$router.push({path:'/createAddress'})
+        },
+        sendShoppingInfo(){
+            let name=localStorage.getItem("name")
+            let goodsId=localStorage.getItem("goodsId")
+            let openId=localStorage.getItem('openId')
+            let buyerMessage=this.$refs.buyerMessage.value
+            let num=this.num
+            const data = new URLSearchParams();
+            data.append('wechatId', openId);
+            data.append('goodsId', goodsId);
+            data.append('quantity', num);
+            data.append('buyerMessage', buyerMessage);
+            this.axios({
+                method:'post',
+                url:'/order/create.do',
+                data:data
+            }).then((res)=>{
+                console.log(res.data.data)
+            })
         }
     },
     created(){
+        let storage = window.localStorage
         this.axios({
             method:"get",
             url: '/ShopAddress/getList.do',
             params:{
-                wechatId:'123123'
+                wechatId:storage.openid
             }
         }).then((res)=>{
+            this.hasNoAddress=false
             // 0成功 1失败
             let code=res.data.code
             let receiver=res.data.data
@@ -92,13 +116,16 @@ export default {
                 this.province=receiver.receivearea01
                 this.city=receiver.receivearea02
                 this.addressDetail=receiver.receivearea03
-
                 this.addressVal=this.province+' '+this.city+' '+this.addressDetail
+                localStorage.setItem("name",this.name)
             }else{
-                
+                this.hasNoAddress=true
             }
         })
     },
+    mounted(){
+
+    }
 }
 </script>
 
@@ -143,7 +170,7 @@ export default {
                 align-items: center;
                 flex-direction: column;
                 span{
-                    font-size: 70px;
+                    font-size: 45px;
                 }
                 p{
                     color: #888;
@@ -191,7 +218,7 @@ export default {
             }
             .goodsInfo{
                 display: flex;
-                justify-content: center;
+                align-content: flex-start;
                 padding: 15px;
                 background-color: #f3f3f3;
                 border-radius: 4px;
@@ -203,6 +230,7 @@ export default {
                     }
                 }
                 .goodsDesc{
+                    width: 100%;
                     .goodsPrice{
                         color: #f93e3e;
                         position: relative;
@@ -211,6 +239,9 @@ export default {
                             right: 0;
                             color: #666;
                         }
+                    }
+                    .goodsName{
+                        word-break: break-all;
                     }
                 }
             }
@@ -246,8 +277,8 @@ export default {
             width: 100%;
             background-color: #fff;
             z-index: 100;
-            height: 55px;
-            line-height: 55px;
+            height: 58px;
+            line-height: 58px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -262,10 +293,10 @@ export default {
             }
             .apply{
                 background-color: #fb2727;
-                width: 100px;
+                width: 120px;
                 text-align: center;
-                height: 35px;
-                line-height: 35px;
+                height: 40px;
+                line-height: 40px;
                 border-radius: 4px;
                 margin: 0 3px;
                 color: #fff;
