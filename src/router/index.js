@@ -14,6 +14,7 @@ import waitPayCom from '@/components/order/waitPay'
 import waitSendCom from '@/components/order/waitSend'
 import confirmOrderCom from '@/components/order/confirmOrder'
 import successOrderCom from '@/components/order/successOrder'
+import orderDetailCom from '@/components/order/orderDetail'
 
 Vue.use(Router)
 
@@ -59,20 +60,9 @@ export default new Router({
             }]
         },
         {
-            path: "/allOrder",
-            component: allOrderCom
-        },
-        {
-            path: '/waitPay',
-            component: waitPayCom
-        },
-        {
-            path: "/waitOrder",
-            component: waitSendCom
-        },
-        {
-            path: '/confirmOrder',
-            component: confirmOrderCom
+            path: "/orderdetail/:id",
+            name: 'orderDetail',
+            component: orderDetailCom
         },
         {
             path: '/list',

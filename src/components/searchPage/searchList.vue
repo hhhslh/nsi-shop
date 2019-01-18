@@ -32,7 +32,7 @@ export default {
     methods:{
         toDetail(id){
             let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.open(routeData.href, '_blank');
+            window.location.href=routeData.href
         }
     },
     created(){

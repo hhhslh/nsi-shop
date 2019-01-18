@@ -1,5 +1,5 @@
 <template>
-    <div class="orderState-com" ref="bg">
+    <div class="orderState-com waitPay-com" ref="bg">
         <!-- <h4 class="title"><span class="iconfont icon-zuojiantou goBack" @click="goBack()"></span>全部订单</h4> -->
         <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='未支付'">
             <h5 class="goodsTitle">
@@ -18,8 +18,12 @@
             <div class="total">
                 <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}</span></p>
             </div>
+            <div class="btnBox text-right" v-if="item.statusDesc==='未支付'">
+                <a href="javascript:;" class="cancle">取消订单</a>
+                <a href="javascript:;" class="toPay">付款</a>
+            </div>
         </div>
-        <div class="noOrder" v-if="orderStateList.length<=0">
+        <div class="noOrder" v-if="orderCode=='1'">
             <p class="text-center noOrderLogo"><span class="iconfont icon-wuxiaodingdan"></span></p>
             <p class="text-center noOrderTxt">您还没有相关订单</p>
         </div>
@@ -30,8 +34,8 @@
 export default {
     data() {
         return {
-            orderItem:[],
-            orderStateList:[]
+            orderCode:'',
+            orderItem:[]
         }
     },
     methods:{
@@ -44,18 +48,12 @@ export default {
             method:'get',
             url:'/order/get_order_list.do',
             params:{
-                'wechatId':'123123'
+                // 'wechatId':'123123'
+                'wechatId':localStorage.getItem('openId')
             }
         }).then((res)=>{
+            this.orderCode=res.data.code
             this.orderItem=res.data.data
-            let itemList=res.data.data
-            if(itemList.length>0){
-                for(let i=0;i<itemList.length;i++){
-                    if(itemList[i].statusDesc=="未支付"){
-                        this.orderStateList.push(itemList[i])
-                    }
-                }
-            }
         })
     },
     mounted(){

@@ -24,8 +24,8 @@ export default {
         getBannerInfo(){
             this.axios({
                 method:"get",
-                // url:"/manager/official/list.do",
-                url:"https://data.xinxueshuo.cn/nsi-1.0/manager/official/list.do",
+                url:"/manager/official/list.do",
+                // url:"https://data.xinxueshuo.cn/nsi-1.0/manager/official/list.do",
                 params:{
                         'type':'官网首页banner'
                     }
@@ -70,7 +70,7 @@ export default {
         }
         .swiper-pagination-bullet{
             width: 15px;
-            height: 3px;
+            height: 2px;
             border-radius: 50px;
             opacity: 1;
             background-color: #fff;

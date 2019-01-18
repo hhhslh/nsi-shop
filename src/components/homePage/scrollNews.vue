@@ -33,8 +33,8 @@ export default {
         params.append('pageSize', 8);
         this.axios({
             method: 'post',
-            // url: '/article/list.do',
-            url:"https://data.xinxueshuo.cn/nsi-1.0/article/list.do",
+            url: '/article/list.do',
+            // url:"https://data.xinxueshuo.cn/nsi-1.0/article/list.do",
             data: params
         }).then((res)=>{
             const msg=res.data.data.list

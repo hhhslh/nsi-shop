@@ -87,7 +87,8 @@ export default {
             method:"get",
             url: '/ShopAddress/getList.do',
             params:{
-                wechatId:'123123'
+                // wechatId:'123123'
+                wechatId:localStorage.getItem('openId')
             }
         }).then((res)=>{
             // 0成功 1失败

@@ -1,4 +1,7 @@
 .orderState-com {
+    .el-message {
+        min-width: 300px !important;
+    }
     padding: 15px;
     padding-bottom: 45px;
     background-color: #f7f7f7;
@@ -76,7 +79,7 @@
             .totalPrice {
                 font-size: 17px;
                 color: #232323;
-                font-weight: 600;
+                font-weight: 500;
             }
         }
     }
@@ -89,6 +92,27 @@
         }
         .noOrderTxt {
             color: #666;
+        }
+    }
+    .btnBox {
+        a {
+            margin-left: 10px;
+            padding: 3px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            &:link {
+                text-decoration: none;
+            }
+        }
+        .toPay {
+            color: orangered;
+            display: inline-block;
+            text-align: center;
+            border: 1px solid orangered;
+        }
+        .cancle {
+            color: #232323;
+            border: 1px solid #ccc;
         }
     }
 }

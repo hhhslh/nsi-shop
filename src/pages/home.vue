@@ -5,7 +5,7 @@
             <home-banner/>
             <!-- scrollNews -->
             <div class="scrollBox">
-                <div class="text"><span>心</span>选<br/>新闻</div>
+                <div class="text"><span>心</span>选<br/>资讯</div>
                 <scroll-news class="scrollNews"/>
             </div>
             <!-- list -->
@@ -71,7 +71,7 @@ export default {
     methods:{
         toDetail(id){
             let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.open(routeData.href, '_blank');
+            window.location.href=routeData.href
         },
         getQueryStringArgs() {
         var qs = location.search.length > 0 ? location.search.substring(1) : '',

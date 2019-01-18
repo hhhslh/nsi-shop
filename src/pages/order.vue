@@ -23,8 +23,8 @@
                     <img src="../assets/searchPage/book.jpg" width="100" height="100" alt="" class="img-responsive">
                 </div>
                 <div class="goodsDesc">
-                    <p class="goodsName">Vue2.5开发去哪网APP 从零基础入门到实战项目</p>
-                    <p class="goodsPrice">￥188<span class="num">x{{num}}</span></p>
+                    <p class="goodsName">{{goodsName}}</p>
+                    <p class="goodsPrice">￥{{goodsPrice}}<span class="num">x{{num}}</span></p>
                 </div>
             </div>
         </div>
@@ -56,7 +56,9 @@ export default {
             city:'',
             addressDetail:'',
             addressVal:'',
-            hasNoAddress:true
+            hasNoAddress:true,
+            goodsName:'',
+            goodsPrice:''
         }
     },
     methods:{
@@ -98,6 +100,8 @@ export default {
     },
     created(){
         let storage = window.localStorage
+        this.goodsName=localStorage.getItem("goodsName")
+        this.goodsPrice=localStorage.getItem("goodsPrice")
         this.axios({
             method:"get",
             url: '/ShopAddress/getList.do',

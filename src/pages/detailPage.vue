@@ -65,6 +65,8 @@ export default {
         },
         saveGoodsInfo(){
             localStorage.setItem("goodsId",this.book.id)
+            localStorage.setItem("goodsName",this.book.goodsName)
+            localStorage.setItem("goodsPrice",this.book.goodsPrice)
         }
     },
     created(){

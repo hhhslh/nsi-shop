@@ -1,5 +1,6 @@
 <template>
     <div class="orderContainer-com">
+        <router-link tag="h4" to="/mine" class="text-center myOrder"><span class="iconfont icon-zuojiantou"></span>我的订单</router-link>
         <ul class="orderNav">
             <router-link tag="li" exact to="/orderState/all">全部</router-link>
             <router-link tag="li" to="/orderState/wait">待付款</router-link>
@@ -15,12 +16,23 @@
 
 <script>
 export default {
-
+    
 }
 </script>
 
 <style lang="scss">
     .orderContainer-com{
+        .myOrder{
+            position: relative;
+            font-size: 19px;
+            height: 35px;
+            line-height: 35px;
+            span{
+                position: absolute;
+                left: 15px;
+                color: #666;
+            }
+        }
         .orderNav{
             list-style: none;
             padding-left: 0;
