@@ -1,7 +1,7 @@
 <template>
     <div class="orderState-com" ref="bg">
         <!-- <h4 class="title"><span class="iconfont icon-zuojiantou goBack" @click="goBack()"></span>全部订单</h4> -->
-        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='交易成功'">
+        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='订单完成'">
             <h5 class="goodsTitle">
                 <span class="iconfont icon-dianpu goodsLogo"></span><span class="goodsShop">{{item.product.goodsPress}}</span>
                 <span class="goodsState">{{item.statusDesc}}</span>
@@ -50,6 +50,18 @@ export default {
         }).then((res)=>{
             this.orderCode=res.data.code
             this.orderItem=res.data.data
+            if(this.orderCode!=1){
+                let orderList=res.data.data
+                let waitPayList=[]
+                for(let i=0;i<orderList.length;i++){
+                    if(orderList[i].status===5){
+                        waitPayList.push(orderList[i])
+                    }
+                }
+                if(waitPayList.length==0){
+                    this.orderCode='1'
+                }
+            }
         })
     },
     mounted(){

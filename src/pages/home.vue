@@ -126,7 +126,7 @@ export default {
                     url:'/wxPay/get_wx_info.do',
                     data:sendData
                 }).then((res)=>{
-                    storage['openid']=res.data.data.openid
+                    storage['openId']=res.data.data.openid
                     storage['headimgurl']=res.data.data.headimgurl
                     storage['nickname']=res.data.data.nickname
                 })

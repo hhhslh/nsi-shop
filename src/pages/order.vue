@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             num:1,
-            totalPrice:188,
+            totalPrice:'',
             name:'',
             phoneVal:'',
             province:'',
@@ -63,11 +63,11 @@ export default {
     },
     methods:{
         handleChange(value) {
-            console.log(value);
+            // console.log(value);
             this.countPrice()
         },
         countPrice(){
-            return this.totalPrice=188*this.num
+            return this.totalPrice=this.goodsPrice*this.num
         },
         backPrePage(){
             history.back(-1)
@@ -79,6 +79,7 @@ export default {
             this.$router.push({path:'/createAddress'})
         },
         sendShoppingInfo(){
+            let that =this
             let name=localStorage.getItem("name")
             let goodsId=localStorage.getItem("goodsId")
             let openId=localStorage.getItem('openId')
@@ -94,7 +95,57 @@ export default {
                 url:'/order/create.do',
                 data:data
             }).then((res)=>{
-                console.log(res.data.data)
+                let payInfo=res.data.data
+                this.axios({
+                    method:'get',
+                    url:'/Pay/WxPay_public.do',
+                    params:{
+                        openid:openId,
+                        body:localStorage.getItem('goodsName'),
+                        // total_fee:payInfo.totalPrice,
+                        total_fee:'0.01',
+                        out_trade_no:payInfo.orderNo
+                    }
+                }).then((res)=>{
+                    let payment=res.data.data
+                    let appId = payment.appId
+                    let timeStamp = payment.timeStamp
+                    let nonceStr = payment.nonceStr
+                    let packageNum = payment.package
+                    let signType = payment.signType
+                    let paySign = payment.paySign
+
+                    function onBridgeReady(){
+                        WeixinJSBridge.invoke(
+                            'getBrandWCPayRequest', {
+                                "appId": appId, //公众号名称，由商户传入     
+                                "timeStamp": timeStamp, //时间戳，自1970年以来的秒数     
+                                "nonceStr": nonceStr, //随机串     
+                                "package": packageNum,
+                                "signType": signType, //微信签名方式：     
+                                "paySign": paySign //微信签名 
+                            },
+                            function(res) {
+                                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                                    //alert("支付成功")
+                                    let routeData =that.$router.resolve({name:"orderAll"})
+                                    window.location.href=routeData.href
+                                } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+                            }
+                        );
+                    }
+
+                    if (typeof WeixinJSBridge == "undefined") {
+                        if (document.addEventListener) {
+                            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                        } else if (document.attachEvent) {
+                            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                        }
+                    } else {
+                        onBridgeReady();
+                    }
+                })
             })
         }
     },
@@ -106,7 +157,7 @@ export default {
             method:"get",
             url: '/ShopAddress/getList.do',
             params:{
-                wechatId:storage.openid
+                wechatId:storage.openId
             }
         }).then((res)=>{
             this.hasNoAddress=false
@@ -128,7 +179,7 @@ export default {
         })
     },
     mounted(){
-
+        this.countPrice()
     }
 }
 </script>

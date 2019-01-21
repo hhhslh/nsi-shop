@@ -44,7 +44,8 @@ export default new Router({
             redirect: "/orderState/all",
             children: [{
                 path: "/orderState/all",
-                component: allOrderCom
+                component: allOrderCom,
+                name: 'orderAll'
             }, {
                 path: "/orderState/wait",
                 component: waitPayCom

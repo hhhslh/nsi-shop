@@ -66,7 +66,7 @@ export default {
             console.log(name,phoneVal,area01,area02,area03)
             this.axios({
                 method:"get",
-                url: '/ShopAddress/update.do',
+                url: '/ShopAddress/add.do',
                 params:{
                     wechatid:openId,
                     receivename:name,

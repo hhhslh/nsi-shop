@@ -80,7 +80,7 @@ export default {
                     message: '地址更换成功',
                     type: 'success'
                 });
-                console.log(res)
+                // console.log(res)
             })
         }
     },

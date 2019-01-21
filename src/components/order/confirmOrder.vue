@@ -50,6 +50,18 @@ export default {
         }).then((res)=>{
             this.orderCode=res.data.code
             this.orderItem=res.data.data
+            if(this.orderCode!=1){
+                let orderList=res.data.data
+                let waitPayList=[]
+                for(let i=0;i<orderList.length;i++){
+                    if(orderList[i].status===4){
+                        waitPayList.push(orderList[i])
+                    }
+                }
+                if(waitPayList.length==0){
+                    this.orderCode='1'
+                }
+            }
         })
     },
     mounted(){
