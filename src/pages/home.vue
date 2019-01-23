@@ -120,7 +120,7 @@ export default {
             code = decodeURIComponent(args['code']),
             storage = window.localStorage
         storage['wxCode'] = code
-    
+
         if(storage.wxCode!='undefined'){
             if(storage.openId){}else{
                 const sendData=new URLSearchParams()
@@ -146,7 +146,7 @@ export default {
     .home-com{
         .pl0{
             padding-left: 0;
-            
+
         }
         .pr160{
             position: relative;

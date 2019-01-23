@@ -1,15 +1,17 @@
 <template>
     <div class="searchResult-com" ref="list">
-        <div class="container-fluid">
+        <div class="container-fluid searchContainer">
             <h4 class="text-center title"><span class="iconfont icon-zuojiantou" @click="backPrePage"></span>搜索</h4>
             <div class="searchBox">
                 <div class="searchContent">
                     <span class="iconfont icon-sousuo"></span>
-                    <input type="input" @click="isClick" v-model="searchKey" autofocus name="search" class="txt" placeholder="输入你想搜索的书籍">
+                    <input type="text" autofocus @click="isClick" v-model="searchKey" name="search" class="txt" placeholder="输入你想搜索的书籍">
                 </div>
                 <span class="toSearch" @click="getSearchData(searchKey)">搜索</span>
             </div>
             <div class="searchResultTxt" v-if="searchTotal>0&&notClickFlag">共搜到{{searchTotal}}本与<span>{{'"'+searchKey+'"'}}</span>相关的结果</div>
+        </div>
+        <div class="container-fluid">
             <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" :style="'top:'+searchListTop+'px'">
                 <div class="container-fluid" style="padding-bottom:15px">
                     <!-- search -->
@@ -163,7 +165,21 @@ export default {
 
 <style lang="scss">
     .searchResult-com{
+       ._v-content{
+          padding-bottom: 115px;
+        }
         padding-bottom: 45px;
+        .pl0{
+          padding-left: 0;
+        }
+        .searchContainer{
+          width: 100%;
+          background-color: #fff;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 999;
+        }
         .title{
             position: relative;
             font-weight: 500;
@@ -180,16 +196,20 @@ export default {
             .searchContent{
                 background-color: #f5f5f5;
                 border-radius: 20px;
-                height: 45px;
-                line-height: 45px;
+                height: 40px;
+                line-height: 40px;
                 padding-left: 15px;
                 width: 85%;
+                display: flex;
+                align-items: center;
                 .txt{
                     border: none;
                     outline: none;
                     width: 90%;
                     background-color: transparent;
                     padding-left: 10px;
+                    display: flex;
+                    align-items: center;
                 }
             }
             .toSearch{
@@ -255,8 +275,11 @@ export default {
         }
         .searchResultTxt{
             font-weight: 500;
-            margin: 10px;
+            margin: 10px 10px 5px 10px;
             color: #888;
+            // position: relative;
+            // z-index: 999;
+            // top: 130px;
             span{
                 color: #3368a9
             }

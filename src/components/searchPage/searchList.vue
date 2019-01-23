@@ -1,5 +1,5 @@
 <template>
-<div class="searchList-com pt30 mt15" ref="list">
+<div class="searchList-com" ref="list">
     <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" style="top:70px">
         <div class="container-fluid" style="padding-bottom:15px">
             <!-- search -->
@@ -84,14 +84,17 @@ export default {
         this.getData()
     },
     mounted(){
-         this.$refs.list.style.minHeight=(window.innerHeight)+"px"
+        // this.$refs.list.style.minHeight=(window.innerHeight)+"px"
     }
 }
 </script>
 
 <style lang="scss">
     .searchList-com{
-        padding-bottom: 45px;
+        // padding-bottom: 45px;
+        ._v-content{
+          padding-bottom: 45px;
+        }
         .pl0{
             padding-left: 0;
         }

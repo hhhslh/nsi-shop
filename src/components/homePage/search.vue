@@ -3,7 +3,7 @@
         <div class="scroll-wrap">
             <span class="iconfont icon-sousuo searchLogo"></span>
             <ul class="scroll-content" :style="{ top }">
-                <li @click="toResult" v-for="(item,index) in prizeList" class="animated" :class="{'fadeInUp':activeIndex===index,'fadeOutUp':activeIndex===index&&fadeOut}">{{item.goodsName}}</li >  
+                <li @click="toResult" v-for="(item,index) in prizeList" class="animated" :class="{'fadeInUp':activeIndex===index,'fadeOutUp':activeIndex===index&&fadeOut}">{{item.goodsName}}</li >
             </ul>
         </div>
     </div>
@@ -86,7 +86,7 @@ export default {
                 top: 8px;
             }
         }
-            .scroll-content{
+        .scroll-content{
             position: relative;
             padding-left: 30px;
             padding-right: 15px;

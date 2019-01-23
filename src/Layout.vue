@@ -22,7 +22,12 @@
 
 <script>
 export default {
-    name:'app'
+    name:'app',
+    mounted(){
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+          WeixinJSBridge.call('hideToolbar');
+        });
+    }
 }
 </script>
 
