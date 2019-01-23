@@ -9,7 +9,8 @@
                 </div>
                 <div class="goodsInfo">
                     <p class="goodsName">{{itemDesc.product.goodsName}}</p>
-                    <p class="goodsQuantity">数量：{{itemDesc.quantity}} 系列：{{itemDesc.product.goodsLabel}}</p>
+                    <p class="goodsPress">{{itemDesc.product.goodsType}}<span>{{itemDesc.product.goodsLabel}}</span></p>
+                    <p class="goodsQuantity">数量：{{itemDesc.quantity}} 系列：{{itemDesc.product.goodsSeries}}</p>
                     <p class="goodsPrice">￥{{itemDesc.product.goodsPrice}}</p>
                 </div>
             </div>
@@ -23,11 +24,15 @@
         <div class="orderPrice">
             <p>商品总额<span>￥{{itemDesc.total_price}}</span></p>
             <p>运费<span>+ ￥0.00</span></p>
-            <div class="text-right needToPay">需付款：<span>￥{{itemDesc.total_price}}</span></div>
+            <div class="text-right needToPay" v-if="itemDesc.status==1">需付款：<span>￥{{itemDesc.total_price}}</span></div>
+            <div class="text-right needToPay" v-else="itemDesc.status==2||itemDesc.status==4||itemDesc.status==5">实付款：<span>￥{{itemDesc.total_price}}</span></div>
         </div>
-        <div class="btnBox text-right">
-            <a href="javascript:;" class="cancle">取消订单</a>
-            <a href="javascript:;" class="toPay">去支付</a>
+        <div class="btnBox text-right" v-if="itemDesc.status==1">
+            <a href="javascript:;" class="cancle" @click="cancleOrder(itemDesc.orderNo)">取消订单</a>
+            <a href="javascript:;" class="toPay" @click="toPay(itemDesc)">去支付</a>
+        </div>
+         <div class="btnBox text-right" v-if="itemDesc.status==2||itemDesc.status==4||itemDesc.status==5">
+            <a href="javascript:;" class="toPay" @click="toDetail(itemDesc.product.id)">再次购买</a>
         </div>
     </div>
 </template>
@@ -52,7 +57,7 @@ export default {
                 }
             }).then((res)=>{
                 this.itemDesc=res.data.data
-                console.log(this.itemDesc)
+                // console.log(this.itemDesc)
             })
         },
         backPrePage(){
@@ -67,6 +72,81 @@ export default {
             m = date.getMinutes() + ':',
             s = date.getSeconds(); 
             return Y+M+D+h+m+s 
+        },
+        cancleOrder(ordernum){
+            this.axios({
+                method:'get',
+                url:'/order/cancel_me.do',
+                params:{
+                    // wechatId:'123123',
+                    wechatId:localStorage.getItem('openId'),
+                    orderNo:ordernum
+                }
+            }).then((res)=>{
+                this.$message({
+                    message: '订单取消成功',
+                    type: 'info'
+                });
+                let routeData =this.$router.resolve({name:"orderAll"})
+                window.location.href=routeData.href
+            })
+        },
+        toPay(item){
+            let that=this
+            this.axios({
+                method:'get',
+                url:'/Pay/WxPay_public.do',
+                params:{
+                    openid:localStorage.getItem('openId'),
+                    body:item.product.goodsName,
+                    // total_fee:item.totalPrice,
+                    total_fee:'0.01',
+                    out_trade_no:item.orderNo
+                }
+            }).then((res)=>{
+                let payment=res.data.data
+                let appId = payment.appId
+                let timeStamp = payment.timeStamp
+                let nonceStr = payment.nonceStr
+                let packageNum = payment.package
+                let signType = payment.signType
+                let paySign = payment.paySign
+
+                function onBridgeReady(){
+                    WeixinJSBridge.invoke(
+                        'getBrandWCPayRequest', {
+                            "appId": appId, //公众号名称，由商户传入     
+                            "timeStamp": timeStamp, //时间戳，自1970年以来的秒数     
+                            "nonceStr": nonceStr, //随机串     
+                            "package": packageNum,
+                            "signType": signType, //微信签名方式：     
+                            "paySign": paySign //微信签名 
+                        },
+                        function(res) {
+                            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                                //alert("支付成功")
+                                let routeData =that.$router.resolve({name:"orderAll"})
+                                window.location.href=routeData.href
+                            } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+                        }
+                    );
+                }
+
+                if (typeof WeixinJSBridge == "undefined") {
+                    if (document.addEventListener) {
+                        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                    } else if (document.attachEvent) {
+                        document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                    }
+                } else {
+                    onBridgeReady();
+                }
+            })
+        },
+        toDetail(id){
+            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            window.location.href=routeData.href
         }
     },
     mounted(){
@@ -79,7 +159,7 @@ export default {
     .orderDetail-com{
         .myOrder{
             position: relative;
-            font-size: 19px;
+            font-size: 17px;
             height: 35px;
             line-height: 35px;
             span{
@@ -116,6 +196,7 @@ export default {
                     margin-right: 10px;
                     img{
                         border-radius: 4px;
+                        box-shadow: 0 2px 10px #e4e4e4;
                     }
                 }
                 .goodsInfo{
@@ -129,7 +210,13 @@ export default {
                         font-size: 13px;
                         color: #888;
                     }
-
+                    .goodsPress{
+                        color: #205590;
+                        span {
+                            margin-left: 10px;
+                            color: #999;
+                        }
+                    }
                 }
             }
         }

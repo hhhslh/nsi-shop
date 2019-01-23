@@ -1,6 +1,8 @@
 <template>
     <div class="home-com">
         <div class="container-fluid">
+            <!-- search -->
+            <search/>
             <!-- banner -->
             <home-banner/>
             <!-- scrollNews -->
@@ -57,7 +59,8 @@
 
 <script>
 import homeBanner from '@/components/homePage/banner';
-import scrollNews from '@/components/homePage/scrollNews'
+import scrollNews from '@/components/homePage/scrollNews';
+import search from '@/components/homePage/search'
 export default {
     data() {
         return {
@@ -66,7 +69,8 @@ export default {
     },
     components:{
         homeBanner,
-        scrollNews
+        scrollNews,
+        search
     },
     methods:{
         toDetail(id){
@@ -182,7 +186,7 @@ export default {
             .bookImg{
                 border-radius: 4px;
                 box-shadow: 0 5px 10px #ccc;
-                margin-bottom: 5px;
+                margin-bottom: 10px;
             }
             .bookName{
                 font-weight: 600;

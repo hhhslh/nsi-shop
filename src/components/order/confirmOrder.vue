@@ -1,17 +1,18 @@
 <template>
-    <div class="orderState-com" ref="bg">
+    <div class="orderState-com" ref="bg" v-loading='loading'>
         <!-- <h4 class="title"><span class="iconfont icon-zuojiantou goBack" @click="goBack()"></span>全部订单</h4> -->
         <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='已发货'">
             <h5 class="goodsTitle">
                 <span class="iconfont icon-dianpu goodsLogo"></span><span class="goodsShop">{{item.product.goodsPress}}</span>
                 <span class="goodsState">{{item.statusDesc}}</span>
             </h5>
-            <div class="goodsDesc">
+            <div class="goodsDesc" @click="toDetail(item.orderNo)">
                 <div class="goodsPic">
                     <img width="100" height="100" :src="item.product.goodsImg" alt="" class="img-responsive" >
                 </div>
                 <div class="desc">
                     <p class="goodsName">{{item.product.goodsName}}</p>
+                    <p class="goodsPress">{{item.product.goodsPress}}<span>系列：{{item.product.goodsSeries}}</span></p>
                     <p class="goodsPrice">￥{{item.product.goodsPrice}}<span class="num">x{{item.quantity}}</span></p>
                 </div>
             </div>
@@ -30,14 +31,19 @@
 export default {
     data() {
         return {
-            orderCode:'',
-            orderItem:[]
+            orderCode:'1',
+            orderItem:[],
+            loading:true
         }
     },
     methods:{
         goBack(){
             history.go(-1)
-        }
+        },
+        toDetail(orderNum){
+            let routeData =this.$router.resolve({name:"orderDetail",params:{id:orderNum}})
+            window.location.href=routeData.href
+        },
     },
     created(){
         this.axios({
@@ -48,6 +54,7 @@ export default {
                 'wechatId':localStorage.getItem('openId')
             }
         }).then((res)=>{
+            this.loading=false
             this.orderCode=res.data.code
             this.orderItem=res.data.data
             if(this.orderCode!=1){
@@ -60,6 +67,8 @@ export default {
                 }
                 if(waitPayList.length==0){
                     this.orderCode='1'
+                }else{
+                    this.orderCode=''
                 }
             }
         })

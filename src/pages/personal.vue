@@ -18,15 +18,15 @@
             <h4 class="myTitle">我的订单<router-link to="/orderState" tag="div" class="moreOrder">查看全部订单<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
                 <div class="orderBox">
                     <router-link to="/orderState/wait" tag="div" class="orderItme">
-                        <p class="myOrderLogo text-center"><span class="iconfont icon-qianbao"></span></p>
+                        <p class="myOrderLogo orderState text-center"><span class="iconfont icon-qianbao"></span><em class="orderCount" v-if="orderState.NO_PAY>0">{{orderState.NO_PAY}}</em></p>
                         <p class="myOrder text-center">待付款</p>
                     </router-link>
                     <router-link to="/orderState/send" tag="div" class="orderItme">
-                        <p class="myOrderLogo text-center"><span class="iconfont icon-fahuo"></span></p>
+                        <p class="myOrderLogo orderState text-center"><span class="iconfont icon-fahuo"></span><em class="orderCount" v-if="orderState.PAID>0">{{orderState.PAID}}</em></p>
                         <p class="myOrder text-center">待发货</p>
                     </router-link>
                     <router-link to="/orderState/confirm" tag="div" class="orderItme">
-                        <p class="myOrderLogo text-center"><span class="iconfont icon-shouhuo"></span></p>
+                        <p class="myOrderLogo orderState text-center"><span class="iconfont icon-shouhuo"></span><em class="orderCount" v-if="orderState.SHIPPED>0">{{orderState.SHIPPED}}</em></p>
                         <p class="myOrder text-center">待收货</p>
                     </router-link>
                     <router-link v-if="hasNoAddress" tag="div" to="/createAddress" class="orderItme">
@@ -61,6 +61,10 @@
                 </div>
             </div>
         </div>
+
+        <div class="container-fluid copyrightBox">
+            <p class="text-center copyright">- 新学说提供技术支持 -</p>
+        </div>
     </div>
 </template>
 
@@ -70,12 +74,24 @@ export default {
         return {
             headimgurl:'',
             nickname:'',
-            hasNoAddress:true
+            hasNoAddress:true,
+            orderState:{}
         }
     },
     methods:{
         toVip(){
             window.open('https://www.xinxueshuo.cn/#/vip','_blank')
+        },
+        getOrderCount(){
+            this.axios({
+                method:'get',
+                url:'/order/find_order_count.do',
+                params:{
+                    wechatId:localStorage.getItem('openId')
+                }
+            }).then((res)=>{
+                this.orderState=res.data.data
+            })
         }
     },
     created(){
@@ -101,7 +117,8 @@ export default {
         })
     },
     mounted(){
-        this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px"
+        this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px";
+        this.getOrderCount()
     }
 }
 </script>
@@ -204,13 +221,36 @@ export default {
                 .myOrderLogo{
                     margin-bottom: 3px;
                     transition: all .3s;
+                    position: relative;
                     span{
                         font-size: 30px;
+                    }
+                    .orderCount{
+                        font-style: normal;
+                        position: absolute;
+                        width: 20px;
+                        height: 20px;
+                        text-align: center;
+                        line-height: 1.4;
+                        border-radius: 50%;
+                        border: 2px solid orangered;
+                        color: orangered;
+                        right: -5px;
+                        top: 0;
+                        background-color: #fff;
+                        font-size: 12px;
                     }
                 }
                 .myOrder{
                     margin-bottom: 0;
                 }
+            }
+        }
+        .copyrightBox{
+            margin-top: 30px;
+            .copyright{
+                font-size: 12px;
+                color: rgb(180, 180, 180);
             }
         }
     }

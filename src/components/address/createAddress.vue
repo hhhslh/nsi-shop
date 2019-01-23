@@ -3,7 +3,7 @@
         <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>添加收货地址<span class="addAddress" @click="saveAddress">保存</span></h4>
         <div class="formBox">
             <div class="inputBox">
-                <input class="txt" type="text" placeholder="所在地区" @click="showSelectBox" :value="addressVal">
+                <input class="txt" type="text" readonly placeholder="所在地区" @click="showSelectBox" :value="addressVal">
             </div>
             <div class="inputBox">
                 <input class="txt" type="text" @click="close" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" ref="area03" :value="addressDetail">
@@ -80,6 +80,7 @@ export default {
                     message: '地址创建成功',
                     type: 'success'
                 });
+                history.go(-1)
                 // console.log(res)
             })
         }
@@ -136,6 +137,7 @@ export default {
                 right: 15px;
                 font-size: 14px;
                 color: orangered;
+                font-weight: 500;
             }
         }
         .formBox{

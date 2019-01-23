@@ -1,6 +1,9 @@
 <template>
     <div class="detailPage-com">
         <div class="bookBox" >
+            <div class="backBox" @click="backPrePage">
+                <span class="iconfont icon-zuojiantou"></span>
+            </div>
             <div class="bookBg">
                 <img :src="book.goodsImg" alt="" class="bookBgImg">
             </div>
@@ -38,14 +41,24 @@
 </template>
 
 <script>
+import wxShareInit from '@/assets/js/weChatShare.js';
 export default {
     data() {
         return {
-            book:{}
+            book:{},
+            wxShareInfo:{
+                title:"",
+                imgUrl:"",
+                href:window.location.href,
+                desc:""
+            }
         }
     },
     methods:{
-         fetchDate(){
+        backPrePage(){
+            history.back(-1)
+        },
+        fetchDate(){
             this.listId = this.$route.params.id;
             this.axios({
                 method:"get",
@@ -58,9 +71,9 @@ export default {
                 // console.log(this.book)
                 // document.title=this.detail.title
                 // 微信分享
-                // this.wxShareInfo.title=shareInfo.title
-                // this.wxShareInfo.imgUrl=shareInfo.coverImage
-                // this.wxShareInfo.desc=shareInfo.summary
+                this.wxShareInfo.title=this.book.goodsName
+                this.wxShareInfo.imgUrl=this.book.goodsImg
+                this.wxShareInfo.desc=this.book.goodsDescribe
             })
         },
         saveGoodsInfo(){
@@ -71,6 +84,7 @@ export default {
     },
     created(){
         this.fetchDate()
+        setTimeout(wxShareInit.wxReady(this.wxShareInfo),500)
     }
 }
 </script>
@@ -80,9 +94,8 @@ export default {
         padding-bottom: 55px;
         .bookBox{
            position: relative;
-           height: 240px;
+           height: 260px;
            overflow: hidden;
-           position: relative;
             &::after{
                 content: "";
                 width:100%;
@@ -93,6 +106,26 @@ export default {
                 background-color: rgba(95, 95, 95, 0.2);
                 z-index: 1;
             }
+           .backBox{
+               position: absolute;
+               margin: 15px;
+               border-radius: 50%;
+               color: #fff;
+               width: 30px;
+               height: 30px;
+               text-align: center;
+               line-height: 30px;
+               background-color: rgba(0, 0, 0, .5);
+               z-index: 99;
+               span{
+                   position: relative;
+                   left: -1px;
+               }
+           }
+           .bookBg{
+               position: relative;
+               top: -70%;
+           }
            .bookBgImg{
                width: 100%;
             //    height: 240px;
@@ -106,10 +139,10 @@ export default {
                height: 100%;
                z-index: 2;
                display: flex;
-                height: 100%;
-                align-items: center;
-                padding-left: 15px;
-                padding-right: 15px;
+               align-items: center;
+               padding-left: 15px;
+               padding-right: 15px;
+               padding-top: 30px;
                .bookInfoBox{
                    .bookInfo-img{
                        width: 120px;
@@ -123,7 +156,7 @@ export default {
                    margin-left: 15px;
                    color: #FFF;
                    .name{
-                        font-size: 22px;
+                        font-size: 20px;
                         font-weight: 600;
                    }
                    .author{

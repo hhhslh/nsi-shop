@@ -6,6 +6,7 @@ import personalPage from '@/pages/personal'
 import detailPage from '@/pages/detailPage'
 import orderPage from '@/pages/order'
 import addressPage from '@/pages/address'
+import searchResultPage from '@/pages/searchResult'
 import editAddressPage from '@/components/address/editAddress'
 import createAddressPage from '@/components/address/createAddress'
 import orderContainerCom from '@/components/order/orderContainer'
@@ -86,6 +87,10 @@ export default new Router({
         }, {
             path: '/createAddress',
             component: createAddressPage
+        }, {
+            path: '/result',
+            component: searchResultPage,
+            name: 'result'
         }
     ]
 })

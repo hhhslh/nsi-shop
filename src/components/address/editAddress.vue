@@ -3,7 +3,7 @@
         <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>编辑收货地址<span class="addAddress" @click="saveAddress">保存</span></h4>
         <div class="formBox">
             <div class="inputBox">
-                <input class="txt" type="text" onfocus="this.blur()" placeholder="所在地区" @click="showSelectBox" :value="addressVal">
+                <input class="txt" type="text" readonly onfocus="this.blur()" placeholder="所在地区" @click="showSelectBox" :value="addressVal">
             </div>
             <div class="inputBox">
                 <input class="txt" type="text" @click="close" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" ref="area03" :value="addressDetail">
@@ -81,6 +81,7 @@ export default {
                     type: 'success'
                 });
                 // console.log(res)
+                history.go(-1)
             })
         }
     },
@@ -102,7 +103,6 @@ export default {
                 this.province=receiver.receivearea01
                 this.city=receiver.receivearea02
                 this.addressDetail=receiver.receivearea03
-
                 this.addressVal=this.province+' '+this.city
             }else{
                 
@@ -136,6 +136,7 @@ export default {
                 right: 15px;
                 font-size: 14px;
                 color: orangered;
+                font-weight: 500;
             }
         }
         .formBox{

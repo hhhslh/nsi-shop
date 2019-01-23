@@ -5,6 +5,7 @@ import Layout from './Layout'
 import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui';
+import VueScroller from 'vue-scroller';
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
@@ -21,6 +22,7 @@ Vue.prototype.axios = axios
 axios.defaults.baseURL = "https://data.xinxueshuo.cn/nsi-1.0"
 
 Vue.use(ElementUI);
+Vue.use(VueScroller)
 
 /* eslint-disable no-new */
 new Vue({

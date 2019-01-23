@@ -24,7 +24,7 @@ export default {
     .orderContainer-com{
         .myOrder{
             position: relative;
-            font-size: 19px;
+            font-size: 17px;
             height: 35px;
             line-height: 35px;
             span{

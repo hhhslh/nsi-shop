@@ -1,18 +1,22 @@
 <template>
     <div class="searchList-com">
+        <div class="container-fluid">
+            <search/>
+        </div>
         <search-list/>
     </div>
 </template>
 
 <script>
-import searchList from '@/components/searchPage/searchList'
+import searchList from '@/components/searchPage/searchList';
+import search from '@/components/homePage/search'
 export default {
     components:{
-        searchList
+        searchList,
+        search
     }
 }
 </script>
 
-<style lnag="scss">
-
+<style lang="scss">
 </style>

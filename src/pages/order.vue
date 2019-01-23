@@ -2,7 +2,7 @@
     <div class="order-com">
         <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>确认订单</h4>
         <!-- 地址 -->
-        <div class="addressBox" :class="{'justCenter':hasNoAddress}">
+        <div class="addressBox" :class="{'justCenter':hasNoAddress}" v-loading="loading">
             <div class="addressLogo" v-show="!hasNoAddress">
                 <span class="iconfont icon-dizhi" ></span>
             </div>
@@ -12,7 +12,7 @@
             </div>
             <div class="adddressInfo" v-else>
                 <p class="person">收货人：{{name}}<span class="phone">{{phoneVal}}</span></p>
-                <p class="address">收货地址：{{addressVal}}<span class="moreAddress iconfont icon-iconfonticonfonti2copycopy" @click="manageAddress()"></span></p>
+                <p class="address" @click="manageAddress()">收货地址：{{addressVal}}<span class="moreAddress iconfont icon-iconfonticonfonti2copycopy"></span></p>
             </div>
         </div>
         <!-- 商品信息 -->
@@ -58,7 +58,8 @@ export default {
             addressVal:'',
             hasNoAddress:true,
             goodsName:'',
-            goodsPrice:''
+            goodsPrice:'',
+            loading:true
         }
     },
     methods:{
@@ -160,6 +161,7 @@ export default {
                 wechatId:storage.openId
             }
         }).then((res)=>{
+            this.loading=false
             this.hasNoAddress=false
             // 0成功 1失败
             let code=res.data.code
@@ -206,6 +208,7 @@ export default {
             display: flex;
             align-content: center;
             border-bottom: 8px solid #eee;
+            position: relative;
             .addressLogo{
                 display: flex;
                 justify-content: center;

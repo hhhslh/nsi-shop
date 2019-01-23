@@ -3774,7 +3774,7 @@ export default {
         .addList{
             width:100%;
             padding-left:10px;
-            font-size:12px;
+            font-size:13px;
             line-height:20px;
             color:#333;
         }
