@@ -13,7 +13,7 @@
             <!-- list -->
             <div class="bookList">
                 <div class="bookListContent">
-                    <h4 class="title">最受欢迎</h4>
+                    <h4 class="title" style="margin-top:30px;">最受欢迎</h4>
                     <div class="bookContent">
                         <div class="row">
                             <div class="col-xs-4" v-for="(item,index) in bookList" v-if="index<3" @click="toDetail(item.id)">
@@ -61,10 +61,17 @@
 import homeBanner from '@/components/homePage/banner';
 import scrollNews from '@/components/homePage/scrollNews';
 import search from '@/components/homePage/search'
+import wxShareInit from '@/assets/js/weChatShare.js';
 export default {
     data() {
         return {
-            bookList:[]
+            bookList:[],
+            wxShareInfo:{
+                title:"新学说 | 心选商城",
+                imgUrl:"http://data.xinxueshuo.cn/upImage/upInstitutionImg/100062/100062-logo.jpg",
+                href:'http://data.xinxueshuo.cn/nsi-shop/dist/index.html',
+                desc:"心选商城，每件商品都是用心挑选"
+            }
         }
     },
     components:{
@@ -74,8 +81,10 @@ export default {
     },
     methods:{
         toDetail(id){
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
+            window.location.href=href
         },
         getQueryStringArgs() {
         var qs = location.search.length > 0 ? location.search.substring(1) : '',
@@ -101,6 +110,7 @@ export default {
         }
     },
     created(){
+        setTimeout(wxShareInit.wxReady(this.wxShareInfo),500)
         const data = new URLSearchParams();
         data.append('type', '新学说书籍');
         data.append('state', '上架');
@@ -116,28 +126,28 @@ export default {
         })
 
         // 存取code
-        let args = this.getQueryStringArgs(),
-            code = decodeURIComponent(args['code']),
-            storage = window.localStorage
-        storage['wxCode'] = code
+        // let args = this.getQueryStringArgs(),
+        //     code = decodeURIComponent(args['code']),
+        //     storage = window.localStorage
+        // storage['wxCode'] = code
 
-        if(storage.wxCode!='undefined'){
-            if(storage.openId){}else{
-                const sendData=new URLSearchParams()
-                sendData.append('code',code)
-                this.axios({
-                    method:"post",
-                    url:'/wxPay/get_wx_info.do',
-                    data:sendData
-                }).then((res)=>{
-                    storage['openId']=res.data.data.openid
-                    storage['headimgurl']=res.data.data.headimgurl
-                    storage['nickname']=res.data.data.nickname
-                })
-            }
-        }else{
-            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-        }
+        // if(storage.wxCode!='undefined'){
+        //     if(storage.openId){}else{
+        //         const sendData=new URLSearchParams()
+        //         sendData.append('code',code)
+        //         this.axios({
+        //             method:"post",
+        //             url:'/wxPay/get_wx_info.do',
+        //             data:sendData
+        //         }).then((res)=>{
+        //             storage['openId']=res.data.data.openid
+        //             storage['headimgurl']=res.data.data.headimgurl
+        //             storage['nickname']=res.data.data.nickname
+        //         })
+        //     }
+        // }else{
+        //     window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+        // }
     }
 }
 </script>
@@ -159,14 +169,14 @@ export default {
             }
         }
         .bookList{
-            margin-top: 40px;
+            margin-top: 20px;
             .bookListContent{
-                margin-bottom: 40px;
+                margin-bottom: 20px;
             }
             .title{
                 font-size: 20px;
                 color: #222;
-                margin-bottom: 30px;
+                margin-bottom: 20px;
                 letter-spacing: 1px;
                 font-weight: 600;
                 position: relative;
@@ -215,6 +225,9 @@ export default {
             .bookPress{
                 font-size: 14px;
                 color: #205590;
+                @media (max-width: 321px) {
+                    display: none;
+                }
             }
             .bookContentRow{
                 margin-bottom: 20px;
@@ -223,7 +236,8 @@ export default {
                 }
                 .bookDesc{
                     position: absolute;
-                    bottom: 0;
+                    padding-right: 15px;
+                    bottom: 8px;
                     left: 0;
                     overflow: hidden;
                     text-overflow: ellipsis;

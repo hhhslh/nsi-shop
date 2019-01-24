@@ -1,7 +1,7 @@
 <template>
     <div class="editAddress-com" ref="editAddress">
         <h4 class="order-title text-center"><span class="back iconfont icon-zuojiantou" @click="backPrePage()"></span>编辑收货地址<span class="addAddress" @click="saveAddress">保存</span></h4>
-        <div class="formBox">
+        <div class="formBox" v-loading="loading">
             <div class="inputBox">
                 <input class="txt" type="text" readonly onfocus="this.blur()" placeholder="所在地区" @click="showSelectBox" :value="addressVal">
             </div>
@@ -33,7 +33,8 @@ export default {
             city:'',
             district:'',
             addressDetail:'',
-            addressVal:''
+            addressVal:'',
+            loading:true
         }
     },
     components:{
@@ -93,6 +94,7 @@ export default {
                 wechatId:localStorage.getItem('openId')
             }
         }).then((res)=>{
+            this.loading=false
             // 0成功 1失败
             let code=res.data.code
             let receiver=res.data.data
@@ -141,6 +143,7 @@ export default {
         }
         .formBox{
             padding:0 0 15px 0;
+            position: relative;
         }
         .txt{
             padding: 15px 10px;

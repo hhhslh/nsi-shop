@@ -20,7 +20,7 @@
             <p class="title">商品信息</p>
             <div class="goodsInfo">
                 <div class="goodsPic">
-                    <img src="../assets/searchPage/book.jpg" width="100" height="100" alt="" class="img-responsive">
+                    <img :src="goodsPic" width="100" height="100" alt="" class="img-responsive">
                 </div>
                 <div class="goodsDesc">
                     <p class="goodsName">{{goodsName}}</p>
@@ -59,10 +59,63 @@ export default {
             hasNoAddress:true,
             goodsName:'',
             goodsPrice:'',
+            goodsPic:'',
             loading:true
         }
     },
     methods:{
+        getQueryStringArgs() {
+            var qs = location.search.length > 0 ? location.search.substring(1) : '',
+                args = {},
+                items = qs.length ? qs.split('&') : [],
+                item = null,
+                name = null,
+                value = null,
+                i = 0,
+                len = items.length;
+            for (i = 0; i < len; i++) {
+                    item = items[i].split('=');
+                    name = decodeURIComponent(item[0]);
+                    value = decodeURIComponent(item[1]);
+                    name = item[0];
+                    value = item[1];
+
+                    if (name.length) {
+                        args[name] = value;
+                    }
+                }
+            return args;
+        },
+        getUsrInfo(){
+            // 存取code
+            let args = this.getQueryStringArgs(),
+                code = decodeURIComponent(args['code']),
+                storage = window.localStorage
+            storage['wxCode'] = code
+
+            if(storage.wxCode!='undefined'){
+                if(storage.openId){
+                    localStorage.setItem("isShare",false)
+                }else{
+                    localStorage.setItem("isShare",true)
+                    const sendData=new URLSearchParams()
+                    sendData.append('code',code)
+                    this.axios({
+                        method:"post",
+                        url:'/wxPay/get_wx_info.do',
+                        data:sendData
+                    }).then((res)=>{
+                        storage['openId']=res.data.data.openid
+                        storage['headimgurl']=res.data.data.headimgurl
+                        storage['nickname']=res.data.data.nickname
+                        location.reload()
+                    })
+                }
+            }else{
+                // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2fdetailPage%2f"+this.listId+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2forder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+            }
+        },
         handleChange(value) {
             // console.log(value);
             this.countPrice()
@@ -71,7 +124,9 @@ export default {
             return this.totalPrice=this.goodsPrice*this.num
         },
         backPrePage(){
-            history.back(-1)
+            // history.back(-1)
+           let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+localStorage.getItem("goodsId")
+           location.href=href
         },
         manageAddress(){
             this.$router.push({path:'/manageAddress'})
@@ -80,80 +135,88 @@ export default {
             this.$router.push({path:'/createAddress'})
         },
         sendShoppingInfo(){
-            let that =this
-            let name=localStorage.getItem("name")
-            let goodsId=localStorage.getItem("goodsId")
-            let openId=localStorage.getItem('openId')
-            let buyerMessage=this.$refs.buyerMessage.value
-            let num=this.num
-            const data = new URLSearchParams();
-            data.append('wechatId', openId);
-            data.append('goodsId', goodsId);
-            data.append('quantity', num);
-            data.append('buyerMessage', buyerMessage);
-            this.axios({
-                method:'post',
-                url:'/order/create.do',
-                data:data
-            }).then((res)=>{
-                let payInfo=res.data.data
+            if(this.hasNoAddress){
+                this.$message.error('请填加地址');
+            }else{
+                let that =this
+                let name=localStorage.getItem("name")
+                let goodsId=localStorage.getItem("goodsId")
+                let openId=localStorage.getItem('openId')
+                let buyerMessage=this.$refs.buyerMessage.value
+                let num=this.num
+                const data = new URLSearchParams();
+                data.append('wechatId', openId);
+                data.append('goodsId', goodsId);
+                data.append('quantity', num);
+                data.append('buyerMessage', buyerMessage);
                 this.axios({
-                    method:'get',
-                    url:'/Pay/WxPay_public.do',
-                    params:{
-                        openid:openId,
-                        body:localStorage.getItem('goodsName'),
-                        // total_fee:payInfo.totalPrice,
-                        total_fee:'0.01',
-                        out_trade_no:payInfo.orderNo
-                    }
+                    method:'post',
+                    url:'/order/create.do',
+                    data:data
                 }).then((res)=>{
-                    let payment=res.data.data
-                    let appId = payment.appId
-                    let timeStamp = payment.timeStamp
-                    let nonceStr = payment.nonceStr
-                    let packageNum = payment.package
-                    let signType = payment.signType
-                    let paySign = payment.paySign
-
-                    function onBridgeReady(){
-                        WeixinJSBridge.invoke(
-                            'getBrandWCPayRequest', {
-                                "appId": appId, //公众号名称，由商户传入     
-                                "timeStamp": timeStamp, //时间戳，自1970年以来的秒数     
-                                "nonceStr": nonceStr, //随机串     
-                                "package": packageNum,
-                                "signType": signType, //微信签名方式：     
-                                "paySign": paySign //微信签名 
-                            },
-                            function(res) {
-                                if (res.err_msg == "get_brand_wcpay_request:ok") {
-                                    //alert("支付成功")
-                                    let routeData =that.$router.resolve({name:"orderAll"})
-                                    window.location.href=routeData.href
-                                } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
-                            }
-                        );
-                    }
-
-                    if (typeof WeixinJSBridge == "undefined") {
-                        if (document.addEventListener) {
-                            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-                        } else if (document.attachEvent) {
-                            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-                            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                    let payInfo=res.data.data
+                    this.axios({
+                        method:'get',
+                        url:'/Pay/WxPay_public.do',
+                        params:{
+                            openid:openId,
+                            body:localStorage.getItem('goodsName'),
+                            // total_fee:payInfo.totalPrice,
+                            total_fee:'0.01',
+                            out_trade_no:payInfo.orderNo
                         }
-                    } else {
-                        onBridgeReady();
-                    }
+                    }).then((res)=>{
+                        let payment=res.data.data
+                        let appId = payment.appId
+                        let timeStamp = payment.timeStamp
+                        let nonceStr = payment.nonceStr
+                        let packageNum = payment.package
+                        let signType = payment.signType
+                        let paySign = payment.paySign
+
+                        function onBridgeReady(){
+                            WeixinJSBridge.invoke(
+                                'getBrandWCPayRequest', {
+                                    "appId": appId, //公众号名称，由商户传入     
+                                    "timeStamp": timeStamp, //时间戳，自1970年以来的秒数     
+                                    "nonceStr": nonceStr, //随机串     
+                                    "package": packageNum,
+                                    "signType": signType, //微信签名方式：     
+                                    "paySign": paySign //微信签名 
+                                },
+                                function(res) {
+                                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                                        //alert("支付成功")
+                                        let routeData =that.$router.resolve({name:"orderAll"})
+                                        window.location.href=routeData.href
+                                    } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+                                }
+                            );
+                        }
+
+                        if (typeof WeixinJSBridge == "undefined") {
+                            if (document.addEventListener) {
+                                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                            } else if (document.attachEvent) {
+                                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                            }
+                        } else {
+                            onBridgeReady();
+                        }
+                    })
                 })
-            })
+            }
         }
     },
     created(){
+        this.getUsrInfo()
+    },
+    beforeMount(){
         let storage = window.localStorage
         this.goodsName=localStorage.getItem("goodsName")
         this.goodsPrice=localStorage.getItem("goodsPrice")
+        this.goodsPic=localStorage.getItem('goodsPic')
         this.axios({
             method:"get",
             url: '/ShopAddress/getList.do',

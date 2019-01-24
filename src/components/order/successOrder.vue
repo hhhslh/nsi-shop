@@ -12,7 +12,8 @@
                 </div>
                 <div class="desc">
                     <p class="goodsName">{{item.product.goodsName}}</p>
-                    <p class="goodsPress">{{item.product.goodsPress}}<span>系列：{{item.product.goodsSeries}}</span></p>
+                    <p class="goodsPress">{{item.product.goodsPress}}</p>
+                    <p class="goodsPress goodsPress01"><span>系列：{{item.product.goodsSeries}}</span></p>
                     <p class="goodsPrice">￥{{item.product.goodsPrice}}<span class="num">x{{item.quantity}}</span></p>
                 </div>
             </div>
@@ -41,6 +42,7 @@ export default {
             history.go(-1)
         },
         toDetail(orderNum){
+            localStorage.setItem("isShare",false)
             let routeData =this.$router.resolve({name:"orderDetail",params:{id:orderNum}})
             window.location.href=routeData.href
         },

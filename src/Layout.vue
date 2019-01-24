@@ -1,6 +1,8 @@
 <template>
     <div class="layout-com" id="app">
-        <router-view/>
+        <!-- <keep-alive> -->
+            <router-view/>
+        <!-- </keep-alive> -->
         <div class="navBar">
             <ul class="barList">
                 <router-link to="/" tag="li" exact>
@@ -24,9 +26,9 @@
 export default {
     name:'app',
     mounted(){
-      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-          WeixinJSBridge.call('hideToolbar');
-        });
+    //   document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    //       WeixinJSBridge.call('hideToolbar');
+    //     });
     }
 }
 </script>

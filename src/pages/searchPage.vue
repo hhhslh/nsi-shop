@@ -16,7 +16,7 @@ export default {
         search
     },
     mounted(){
-      this.$refs.list.style.height=(window.innerHeight-45)+"px"
+      this.$refs.list.style.height=(window.innerHeight-45)+"px";
     }
 }
 </script>

@@ -49,14 +49,24 @@ export default {
             wxShareInfo:{
                 title:"",
                 imgUrl:"",
-                href:window.location.href,
+                href:'',
                 desc:""
-            }
+            },
+            listId:'',
+            // isShare:false
         }
     },
     methods:{
         backPrePage(){
-            history.back(-1)
+            if(history.length>0){
+                if(localStorage.getItem('isShare')){
+                    location.href="http://data.xinxueshuo.cn/nsi-shop/dist/index.html"
+                }else{
+                    history.go(-1)
+                }
+            }else{
+                location.href="http://data.xinxueshuo.cn/nsi-shop/dist/index.html"
+            }
         },
         fetchDate(){
             this.listId = this.$route.params.id;
@@ -71,8 +81,9 @@ export default {
                 // console.log(this.book)
                 // document.title=this.detail.title
                 // 微信分享
-                this.wxShareInfo.title=this.book.goodsName
+                this.wxShareInfo.title="心选书籍 | "+this.book.goodsName
                 this.wxShareInfo.imgUrl=this.book.goodsImg
+                this.wxShareInfo.href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+this.listId
                 this.wxShareInfo.desc=this.book.goodsDescribe
             })
         },
@@ -80,6 +91,29 @@ export default {
             localStorage.setItem("goodsId",this.book.id)
             localStorage.setItem("goodsName",this.book.goodsName)
             localStorage.setItem("goodsPrice",this.book.goodsPrice)
+            localStorage.setItem("goodsPic",this.book.goodsImg)
+        },
+        getQueryStringArgs() {
+            var qs = location.search.length > 0 ? location.search.substring(1) : '',
+                args = {},
+                items = qs.length ? qs.split('&') : [],
+                item = null,
+                name = null,
+                value = null,
+                i = 0,
+                len = items.length;
+            for (i = 0; i < len; i++) {
+                    item = items[i].split('=');
+                    name = decodeURIComponent(item[0]);
+                    value = decodeURIComponent(item[1]);
+                    name = item[0];
+                    value = item[1];
+
+                if (name.length) {
+                    args[name] = value;
+                }
+            }
+            return args;
         }
     },
     created(){

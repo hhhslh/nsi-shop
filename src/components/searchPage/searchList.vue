@@ -36,8 +36,11 @@ export default {
     },
     methods:{
         toDetail(id){
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
+            window.location.href=href
+            localStorage.setItem("isShare",false)
         },
         getData(){
             const data = new URLSearchParams();
@@ -152,9 +155,10 @@ export default {
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 position: absolute;
-                bottom: 0;
+                bottom: 8px;
                 left: 0;
                 color: rgb(83, 83, 83);
+                max-height: 60px;
             }
         }
     }

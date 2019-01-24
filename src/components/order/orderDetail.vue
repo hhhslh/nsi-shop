@@ -145,8 +145,10 @@ export default {
             })
         },
         toDetail(id){
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
+            window.location.href=href
         }
     },
     mounted(){

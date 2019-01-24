@@ -5,11 +5,11 @@
             <div class="searchBox">
                 <div class="searchContent">
                     <span class="iconfont icon-sousuo"></span>
-                    <input type="text" autofocus @click="isClick" v-model="searchKey" name="search" class="txt" placeholder="输入你想搜索的书籍">
+                    <input type="text" autofocus @click="isClick" @keyup.enter="getSearchData(searchKey)" v-model="searchKey" name="search" class="txt" placeholder="输入你想搜索的书籍">
                 </div>
                 <span class="toSearch" @click="getSearchData(searchKey)">搜索</span>
             </div>
-            <div class="searchResultTxt" v-if="searchTotal>0&&notClickFlag">共搜到{{searchTotal}}本与<span>{{'"'+searchKey+'"'}}</span>相关的结果</div>
+            <div class="searchResultTxt" v-if="searchTotal>0&&notClickFlag">共搜到{{searchTotal}}条与<span>{{'"'+searchKey+'"'}}</span>相关的结果</div>
         </div>
         <div class="container-fluid">
             <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" :style="'top:'+searchListTop+'px'">
@@ -57,11 +57,18 @@ export default {
     },
     methods:{
         backPrePage(){
-            history.go(-1)
+            if(history.length>0){
+                history.go(-1)
+            }else{
+                location.href="http://data.xinxueshuo.cn/nsi-shop/dist/index.html"
+            }
         },
         toDetail(id){
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
+            localStorage.setItem("isShare",false)
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
+            window.location.href=href
         },
         isClick(){
             this.notClickFlag=false
@@ -271,6 +278,7 @@ export default {
                 bottom: 0;
                 left: 0;
                 color: rgb(83, 83, 83);
+                max-height: 60px;
             }
         }
         .searchResultTxt{
