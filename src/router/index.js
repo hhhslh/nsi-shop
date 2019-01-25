@@ -16,6 +16,7 @@ import waitSendCom from '@/components/order/waitSend'
 import confirmOrderCom from '@/components/order/confirmOrder'
 import successOrderCom from '@/components/order/successOrder'
 import orderDetailCom from '@/components/order/orderDetail'
+import logisticsCom from '@/components/order/logistics'
 
 Vue.use(Router)
 
@@ -91,6 +92,10 @@ export default new Router({
             path: '/result',
             component: searchResultPage,
             name: 'result'
+        }, {
+            path: '/logistics',
+            component: logisticsCom,
+            name: 'logistics'
         }
     ]
 })

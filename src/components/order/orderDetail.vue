@@ -1,6 +1,17 @@
 <template>
     <div class="orderDetail-com">
         <h4 class="text-center myOrder"><span class="iconfont icon-zuojiantou" @click="backPrePage()"></span>订单详情</h4>
+        <!-- 配送物流 -->
+        <div class="orderDesc logisticsBox" v-if="itemDesc.status==4" @click="toLogisticsDetail">
+            <div class="iconBox">
+                <span class="iconfont icon-wuliu"></span>
+            </div>
+            <div class="logisticsDesc">
+                <p class="acceptStation">{{traces[0].acceptStation}}</p>
+                <p class="acceptTime">{{traces[0].acceptTime}}</p>
+            </div>
+            <span class="iconfont icon-iconfonticonfonti2copycopy detailIcon"></span>
+        </div>
         <div class="goodsBox">
             <h5 class="shopTitle"><span class="iconfont icon-dianpu"></span>{{itemDesc.product.goodsPress}}</h5>
             <div class="goodsDesc">
@@ -41,10 +52,43 @@
 export default {
     data() {
         return {
-            itemDesc:{}
+            itemDesc:{},
+            traces:[]
         }
     },
     methods:{
+        getOrderInfo(){
+            let listId=this.$route.params.id;
+            var getOrderDetail=new Promise((resolve,reject)=>{
+                this.axios({
+                    method:'get',
+                    url:'/order/find_order_item.do',
+                    params:{
+                        wechatId:localStorage.getItem('openId'),
+                        orderNo:listId
+                    }
+                }).then((res)=>{
+                    resolve(res)
+                })
+            })
+            
+            getOrderDetail.then(res=>{
+                this.itemDesc=res.data.data
+                localStorage.setItem('shippingCode',res.data.data.shippingCode)
+                localStorage.setItem('orderNum',listId)
+                let logisticCode=res.data.data.shippingCode
+                this.axios({
+                    method:'get',
+                    url:'/order/find_logistics_info.do',
+                    params:{
+                        orderNo:listId,
+                        logisticCode:logisticCode
+                    }
+                }).then(res=>{
+                    this.traces=res.data.traces.reverse()
+                })
+            })
+        },
         fetchDate(){
             let listId = this.$route.params.id;
             this.axios({
@@ -57,7 +101,21 @@ export default {
                 }
             }).then((res)=>{
                 this.itemDesc=res.data.data
+                localStorage.setItem('shippingCode',res.data.data.shippingCode)
+                localStorage.setItem('orderNum',listId)
                 // console.log(this.itemDesc)
+                this.axios({
+                    method:'get',
+                    url:'/order/find_logistics_info.do',
+                    params:{
+                        orderNo:listId,
+                        logisticCode:res.data.data.shippingCode
+                    }
+                }).then((res)=>{
+                    // console.log(res.data)
+                    this.traces=res.data.traces.reverse()
+                    // this.traces=this.traces.reverse()
+                })
             })
         },
         backPrePage(){
@@ -149,10 +207,15 @@ export default {
             // window.location.href=routeData.href
             let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
             window.location.href=href
+        },
+        toLogisticsDetail(){
+            let routeData =this.$router.resolve({name:"logistics"})
+            window.location.href=routeData.href
         }
     },
     mounted(){
-        this.fetchDate()
+        // this.fetchDate()
+        this.getOrderInfo()
     }
 }
 </script>
@@ -235,6 +298,41 @@ export default {
                     font-weight: 600;
                     color: #232323;
                 }
+            }
+        }
+        .logisticsBox{
+            display: flex;
+            align-items: center;
+            border-top: 8px solid #eee;
+            border-bottom: 0px;
+            position: relative;
+            .iconBox{
+                margin-right: 10px;
+                span{
+                    display: inline-block;
+                    width: 35px;
+                    height: 35px;
+                    line-height: 35px;
+                    text-align: center;
+                    border-radius: 50%;
+                    background-color: #205590;
+                    color: #FFF;
+                    font-size: 25px;
+                }
+            }
+            .logisticsDesc{
+                padding-right: 30px;
+                .acceptStation{
+                    color: #205590;
+                    line-height: 1.5;
+                    margin-bottom: 0;
+                }
+            }
+            .detailIcon{
+                position: absolute;
+                right: 15px;
+                font-size: 20px;
+                color: #ccc;
             }
         }
         .orderPrice{
