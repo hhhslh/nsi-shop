@@ -113,7 +113,7 @@ export default {
                 }
             }else{
                 // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2fdetailPage%2f"+this.listId+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2forder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2forder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
             }
         },
         handleChange(value) {
@@ -125,7 +125,7 @@ export default {
         },
         backPrePage(){
             // history.back(-1)
-           let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+localStorage.getItem("goodsId")
+           let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+localStorage.getItem("goodsId")
            location.href=href
         },
         manageAddress(){

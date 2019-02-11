@@ -46,15 +46,15 @@
             <div class="myOrderBox">
             <h4 class="myTitle">我的工具</h4>
                 <div class="orderBox">
-                    <router-link to="/waitPay" tag="div" class="orderItme">
+                    <router-link to="/giftCenter" tag="div" class="orderItme">
                         <p class="myOrderLogo text-center"><span class="iconfont icon-youhuiquan"></span></p>
                         <p class="myOrder text-center">礼券</p>
                     </router-link>
-                    <router-link to="/waitOrder" tag="div" class="orderItme">
+                    <router-link to="/service" tag="div" class="orderItme">
                         <p class="myOrderLogo text-center"><span class="iconfont icon-kefu"></span></p>
                         <p class="myOrder text-center">客服</p>
                     </router-link>
-                    <router-link to="/confirmOrder" tag="div" class="orderItme">
+                    <router-link to="/feedback" tag="div" class="orderItme">
                         <p class="myOrderLogo text-center"><span class="iconfont icon-winfo-icon-fankuiwenti"></span></p>
                         <p class="myOrder text-center">反馈</p>
                     </router-link>
@@ -128,7 +128,7 @@ export default {
                 }
             }else{
                 // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2fdetailPage%2f"+this.listId+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2fmine&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fmine&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
             }
         },
         toVip(){

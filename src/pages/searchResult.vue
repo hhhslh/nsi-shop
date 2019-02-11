@@ -60,14 +60,14 @@ export default {
             if(history.length>0){
                 history.go(-1)
             }else{
-                location.href="http://data.xinxueshuo.cn/nsi-shop/dist/index.html"
+                location.href="https://www.xinxueshuo.cn/nsi-shop/dist/index.html"
             }
         },
         toDetail(id){
             localStorage.setItem("isShare",false)
             // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
             // window.location.href=routeData.href
-            let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
             window.location.href=href
         },
         isClick(){

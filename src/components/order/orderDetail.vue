@@ -21,7 +21,7 @@
                 <div class="goodsInfo">
                     <p class="goodsName">{{itemDesc.product.goodsName}}</p>
                     <p class="goodsPress">{{itemDesc.product.goodsType}}<span>{{itemDesc.product.goodsLabel}}</span></p>
-                    <p class="goodsQuantity">数量：{{itemDesc.quantity}} 系列：{{itemDesc.product.goodsSeries}}</p>
+                    <p class="goodsQuantity">数量：{{itemDesc.quantity}}&nbsp;系列：{{itemDesc.product.goodsSeries}}</p>
                     <p class="goodsPrice">￥{{itemDesc.product.goodsPrice}}</p>
                 </div>
             </div>
@@ -205,7 +205,7 @@ export default {
         toDetail(id){
             // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
             // window.location.href=routeData.href
-            let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
             window.location.href=href
         },
         toLogisticsDetail(){

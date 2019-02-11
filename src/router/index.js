@@ -17,6 +17,9 @@ import confirmOrderCom from '@/components/order/confirmOrder'
 import successOrderCom from '@/components/order/successOrder'
 import orderDetailCom from '@/components/order/orderDetail'
 import logisticsCom from '@/components/order/logistics'
+import giftPage from '@/components/giftCertificate/giftPage'
+import servicePage from '@/pages/service'
+import feedBackPage from '@/pages/feedBack'
 
 Vue.use(Router)
 
@@ -96,6 +99,17 @@ export default new Router({
             path: '/logistics',
             component: logisticsCom,
             name: 'logistics'
+        }, {
+            path: '/giftCenter',
+            component: giftPage,
+            name: 'gift'
+        }, {
+            path: '/service',
+            component: servicePage,
+            name: 'service'
+        }, {
+            path: '/feedback',
+            component: feedBackPage
         }
     ]
 })

@@ -60,12 +60,12 @@ export default {
         backPrePage(){
             if(history.length>0){
                 if(localStorage.getItem('isShare')){
-                    location.href="http://data.xinxueshuo.cn/nsi-shop/dist/index.html"
+                    location.href="http://www.xinxueshuo.cn/nsi-shop/dist/index.html"
                 }else{
                     history.go(-1)
                 }
             }else{
-                location.href="http://data.xinxueshuo.cn/nsi-shop/dist/index.html"
+                location.href="http://www.xinxueshuo.cn/nsi-shop/dist/index.html"
             }
         },
         fetchDate(){
@@ -83,7 +83,7 @@ export default {
                 // 微信分享
                 this.wxShareInfo.title="心选书籍 | "+this.book.goodsName
                 this.wxShareInfo.imgUrl=this.book.goodsImg
-                this.wxShareInfo.href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+this.listId
+                this.wxShareInfo.href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+this.listId
                 this.wxShareInfo.desc=this.book.goodsDescribe
             })
         },

@@ -2,8 +2,10 @@
     <div class="banner-com">
         <div class="swiper-container indexBannerM" id="indexBannerM">
           <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(bannerInfos,item) in bannerList" :key="item" v-if="item<4">
-                  <img :src="bannerInfos.content03" alt="" class="img-responsive" @click="toDetail(bannerInfos.content02)">
+              <!-- <div class="swiper-slide" v-for="(bannerInfos,item) in bannerList" :key="item" v-if="item<4"> -->
+              <div class="swiper-slide">
+                  <!-- <img :src="bannerInfos.content03" alt="" class="img-responsive" @click="toDetail(bannerInfos.content02)"> -->
+                  <img src="../../assets/shopBanner.jpg" alt="">
               </div>
           </div>
           <div class="swiper-pagination" slot="pagination"></div>

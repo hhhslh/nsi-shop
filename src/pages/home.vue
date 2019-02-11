@@ -68,8 +68,8 @@ export default {
             bookList:[],
             wxShareInfo:{
                 title:"新学说 | 心选商城",
-                imgUrl:"http://data.xinxueshuo.cn/upImage/upInstitutionImg/100062/100062-logo.jpg",
-                href:'http://data.xinxueshuo.cn/nsi-shop/dist/index.html',
+                imgUrl:"https://data.xinxueshuo.cn/upImage/upInstitutionImg/100062/100062-logo.jpg",
+                href:'https://www.xinxueshuo.cn/nsi-shop/dist/index.html',
                 desc:"心选商城，每件商品都是用心挑选"
             }
         }
@@ -83,7 +83,7 @@ export default {
         toDetail(id){
             // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
             // window.location.href=routeData.href
-            let href='http://data.xinxueshuo.cn/nsi-shop/dist/#/detailPage/'+id
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
             window.location.href=href
         },
         getQueryStringArgs() {
