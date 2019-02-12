@@ -1,27 +1,29 @@
 <template>
-<div class="searchList-com" ref="list">
-    <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" style="top:70px">
-        <div class="container-fluid" style="padding-bottom:15px">
-            <!-- search -->
-            <!-- searchList -->
-            <div class="row bookList" v-for="(book,index) in bookList" :key="index" @click="toDetail(book.id)">
-                <div class="col-xs-4">
-                    <div class="picBox">
-                        <img :src="book.goodsImg" alt="" class="img-responsive">
+    <div class="courseList-com" ref="list">
+        <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" style="top:15px">
+            <div class="container-fluid" style="padding-bottom:15px">
+                <!-- search -->
+                <!-- searchList -->
+                <div class="row bookList" v-for="(book,index) in bookList" :key="index" @click="toDetail(book.listId)">
+                    <div class="col-xs-4">
+                        <div class="picBox">
+                            <!-- <img :src="book.listImg" alt="" class="img-responsive"> -->
+                            <img src="../../assets/course.jpg" alt="" class="img-responsive">
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-8 pl0">
-                    <div class="infoBox">
-                        <!-- <p class="englishName">{{book.englishName}}</p> -->
-                        <p class="name">{{book.goodsName}}</p>
-                        <p class="author">{{book.goodsAuthor}}</p>
-                        <p class="bookInfo">{{book.goodsDescribe}}</p>
+                    <div class="col-xs-8 pl0">
+                        <div class="infoBox">
+                            <!-- <p class="englishName">{{book.englishName}}</p> -->
+                            <p class="name">{{book.listTitle}}</p>
+                            <p class="bookInfo">{{book.listDescription}}</p>
+                            <p class="author">{{book.lecturer}}</p>
+                            <p class="price">原价 ￥{{book.listPrice}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </scroller>
-</div>
+        </scroller>
+    </div>
 </template>
 
 <script>
@@ -36,11 +38,11 @@ export default {
     },
     methods:{
         toDetail(id){
-            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            // window.location.href=routeData.href
-            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
-            window.location.href=href
-            localStorage.setItem("isShare",false)
+            let routeData =this.$router.resolve({name:"detailCourse",params:{id:id}})
+            window.location.href=routeData.href
+            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            // window.location.href=href
+            // localStorage.setItem("isShare",false)
         },
         getData(){
             const data = new URLSearchParams();
@@ -50,13 +52,14 @@ export default {
             data.append('pageSize', this.pageSize);
             this.axios({
                 method:'post',
-                url:'/goods/goods_list.do',
+                url:'/courseList/get_course_list.do',
                 data:data
                 }).then((res)=>{
                 // console.log(res.data.data)
                 let maxSize=res.data.data.list.length
                 if(this.pageNum==1){
                     this.bookList=res.data.data.list
+                    console.log(this.bookList)
                 }else{
                     if(maxSize!=0){
                         this.bookList=this.bookList.concat(res.data.data.list)
@@ -93,8 +96,8 @@ export default {
 </script>
 
 <style lang="scss">
-    .searchList-com{
-        // padding-bottom: 45px;
+    .courseList-com{
+                // padding-bottom: 45px;
         ._v-content{
           padding-bottom: 45px;
         }
@@ -139,13 +142,26 @@ export default {
                 font-family: -webkit-pictograph,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             }
             .name{
-                font-size: 19px;
-                color: #232323;
+                font-size: 17px;
+                color: #1c1f21;
                 font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                // min-height: 54px;
+                max-height: 54px;
+                line-height: 24px;
+                margin-bottom: 8px;
+                @media (max-width:376px) {
+                    -webkit-line-clamp: 1;
+                    max-height: 24px;
+                }
             }
             .author{
-                font-size: 14px;
-                color: rgb(141, 141, 141);
+                font-size: 12px;
+                color: #9199a1;
             }
             .bookInfo{
                 padding-right: 10px;
@@ -154,11 +170,20 @@ export default {
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
-                position: absolute;
-                bottom: 8px;
-                left: 0;
-                color: rgb(83, 83, 83);
+                // position: absolute;
+                // bottom: 8px;
+                // left: 0;
+                color: #545c63;
                 max-height: 60px;
+                font-size: 14px;
+                line-height: 18px;
+                margin-bottom: 10px;
+            }
+            .price{
+                font-size: 12px;
+                color: #9199a1;
+                text-align: left;
+                line-height: 26px;
             }
         }
     }

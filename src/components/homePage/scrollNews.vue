@@ -2,7 +2,7 @@
     <div class="scrollNews-com">
         <div class="scroll-wrap">
             <ul class="scroll-content" :style="{ top }">
-                <li @click="toUrl(item.articleUrl)" v-for="(item,index) in prizeList" class="animated" :class="{'fadeInUp':activeIndex===index,'fadeOutUp':activeIndex===index&&fadeOut}">{{item.title}}</li >  
+                <li @click="toUrl(item.articleUrl)" v-for="(item,index) in prizeList" :key="index" class="animated" :class="{'fadeInUp':activeIndex===index,'fadeOutUp':activeIndex===index&&fadeOut}">{{item.title}}</li >  
             </ul>
         </div>
     </div>

@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/pages/home'
 import searchPage from '@/pages/searchPage'
+import coursePage from '@/pages/coursePage'
 import personalPage from '@/pages/personal'
 import detailPage from '@/pages/detailPage'
+import detailCourse from '@/components/coursePage/detailCourse'
 import orderPage from '@/pages/order'
 import addressPage from '@/pages/address'
 import searchResultPage from '@/pages/searchResult'
@@ -31,17 +33,10 @@ export default new Router({
         {
             path: '/mine',
             component: personalPage,
-            // redirect: 'mine/all',
-            // children: [{
-            //     path: '/mine/all',
-            //     component: allOrderCom
-            // }, {
-            //     path: '/mine/wait',
-            //     component: waitSendCom
-            // }, {
-            //     path: '/mine/confirm',
-            //     component: confirmOrderCom
-            // }]
+        },
+        {
+            path: '/course',
+            component: coursePage
         },
         {
             path: '/orderState',
@@ -78,7 +73,13 @@ export default new Router({
             path: '/detailPage/:id',
             name: 'detail',
             component: detailPage
-        }, {
+        },
+        {
+            path: '/detailCourse/:id',
+            name: 'detailCourse',
+            component: detailCourse
+        },
+        {
             path: '/order',
             component: orderPage
         }, {

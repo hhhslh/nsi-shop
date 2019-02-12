@@ -16,7 +16,7 @@
                     <h4 class="title" style="margin-top:30px;">最受欢迎</h4>
                     <div class="bookContent">
                         <div class="row">
-                            <div class="col-xs-4" v-for="(item,index) in bookList" v-if="index<3" @click="toDetail(item.id)">
+                            <div class="col-xs-4" v-for="(item,index) in bookList" :key="index" v-if="index<3" @click="toDetail(item.id)">
                                 <img :src="item.goodsImg" alt="" class="img-responsive bookImg">
                                 <h4 class="bookName">{{item.goodsName}}</h4>
                                 <p class="bookAuthor">{{item.goodsAuthor}}</p>
@@ -28,7 +28,7 @@
                     <h4 class="title">限时特价</h4>
                     <div class="bookContent">
                         <div class="row">
-                            <div class="col-xs-4" v-for="(item,index) in bookList" v-if="index>=3&&index<6" @click="toDetail(item.id)">
+                            <div class="col-xs-4" v-for="(item,index) in bookList" :key="index" v-if="index>=3&&index<6" @click="toDetail(item.id)">
                                 <img :src="item.goodsImg" alt="" class="img-responsive bookImg">
                                 <h4 class="bookName">{{item.goodsName}}</h4>
                                 <p class="bookAuthor">{{item.goodsAuthor}}</p>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="bookListContent">
                     <h4 class="title">主编推荐</h4>
-                    <div class="bookContentRow" v-for="(item,index) in bookList" v-if="index>=3&&index<6" @click="toDetail(item.id)">
+                    <div class="bookContentRow" v-for="(item,index) in bookList" :key="index" v-if="index>=3&&index<6" @click="toDetail(item.id)">
                         <div class="row">
                             <div class="col-xs-4">
                                 <img :src="item.goodsImg" alt="" class="img-responsive bookImg">
