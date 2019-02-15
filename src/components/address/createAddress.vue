@@ -22,6 +22,7 @@
 
 <script>
 import chooseAddress from '@/components/address/chooseAddress';
+import {createAddress} from '@/api/api'
 export default {
     data() {
         return {
@@ -63,53 +64,24 @@ export default {
             let area02=this.city+this.district
             let area03=this.$refs.area03.value
             let openId=localStorage.getItem('openId')
-            console.log(name,phoneVal,area01,area02,area03)
-            this.axios({
-                method:"get",
-                url: '/ShopAddress/add.do',
-                params:{
-                    wechatid:openId,
-                    receivename:name,
-                    receivephone:phoneVal,
-                    receivearea01:area01,
-                    receivearea02:area02,
-                    receivearea03:area03,
-                }
-            }).then((res)=>{
+            // console.log(name,phoneVal,area01,area02,area03)
+            createAddress({
+                wechatid:openId,
+                receivename:name,
+                receivephone:phoneVal,
+                receivearea01:area01,
+                receivearea02:area02,
+                receivearea03:area03,
+            }).then(res=>{
                 this.$message({
                     message: '地址创建成功',
                     type: 'success'
                 });
                 history.go(-1)
-                // console.log(res)
             })
         }
     },
-    // created(){
-    //     this.axios({
-    //         method:"get",
-    //         url: '/ShopAddress/getList.do',
-    //         params:{
-    //             wechatId:'123123'
-    //         }
-    //     }).then((res)=>{
-    //         // 0成功 1失败
-    //         let code=res.data.code
-    //         let receiver=res.data.data
-    //         // console.log(res.data.data)
-    //         if(code===0){
-    //             this.name=receiver.receivename
-    //             this.phoneVal=receiver.receivephone
-    //             this.province=receiver.receivearea01
-    //             this.city=receiver.receivearea02
-    //             this.addressDetail=receiver.receivearea03
 
-    //             this.addressVal=this.province+' '+this.city
-    //         }else{
-                
-    //         }
-    //     })
-    // },
     mounted(){
         this.$refs.editAddress.style.height=(window.outerHeight-45)+'px';
     }

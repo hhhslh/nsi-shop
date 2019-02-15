@@ -22,6 +22,7 @@
 
 <script>
 import chooseAddress from '@/components/address/chooseAddress';
+import {editAddress,getAddress} from '@/api/api';
 export default {
     data() {
         return {
@@ -65,19 +66,15 @@ export default {
             let area03=this.$refs.area03.value
             let openId=localStorage.getItem('openId')
             // console.log(name,phoneVal,area01,area02,area03)
-            this.axios({
-                method:"get",
-                url: '/ShopAddress/update.do',
-                params:{
-                    wechatid:openId,
-                    receivename:name,
-                    receivephone:phoneVal,
-                    receivearea01:area01,
-                    receivearea02:area02,
-                    receivearea03:area03,
-                }
-            }).then((res)=>{
-                this.$message({
+            editAddress({
+                wechatid:openId,
+                receivename:name,
+                receivephone:phoneVal,
+                receivearea01:area01,
+                receivearea02:area02,
+                receivearea03:area03,
+            }).then(res=>{
+                 this.$message({
                     message: '地址更换成功',
                     type: 'success'
                 });
@@ -87,17 +84,13 @@ export default {
         }
     },
     created(){
-        this.axios({
-            method:"get",
-            url: '/ShopAddress/getList.do',
-            params:{
-                wechatId:localStorage.getItem('openId')
-            }
-        }).then((res)=>{
+        getAddress({
+            wechatId:localStorage.getItem('openId')
+        }).then(res=>{
             this.loading=false
             // 0成功 1失败
-            let code=res.data.code
-            let receiver=res.data.data
+            let code=res.code
+            let receiver=res.data
             // console.log(res.data.data)
             if(code===0){
                 this.name=receiver.receivename
@@ -106,9 +99,7 @@ export default {
                 this.city=receiver.receivearea02
                 this.addressDetail=receiver.receivearea03
                 this.addressVal=this.province+' '+this.city
-            }else{
-                
-            }
+            }else{}
         })
     },
     mounted(){

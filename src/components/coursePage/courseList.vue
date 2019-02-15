@@ -1,6 +1,6 @@
 <template>
     <div class="courseList-com" ref="list">
-        <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" style="top:15px">
+        <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com">
             <div class="container-fluid" style="padding-bottom:15px">
                 <!-- search -->
                 <!-- searchList -->
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import {getCourseList} from '@/api/api'
 export default {
     data() {
         return {
@@ -38,6 +39,7 @@ export default {
     },
     methods:{
         toDetail(id){
+            localStorage.setItem('courseId',id)
             let routeData =this.$router.resolve({name:"detailCourse",params:{id:id}})
             window.location.href=routeData.href
             // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
@@ -45,24 +47,20 @@ export default {
             // localStorage.setItem("isShare",false)
         },
         getData(){
-            const data = new URLSearchParams();
-            data.append('type', '新学说书籍');
-            data.append('state', '上架');
-            data.append('pageNum', this.pageNum);
-            data.append('pageSize', this.pageSize);
-            this.axios({
-                method:'post',
-                url:'/courseList/get_course_list.do',
-                data:data
-                }).then((res)=>{
-                // console.log(res.data.data)
-                let maxSize=res.data.data.list.length
+            getCourseList({
+                type:'新学说书籍',
+                state:'上架',
+                pageNum:this.pageNum,
+                pageSize:this.pageSize
+            }).then((res)=>{
+                // console.log(res.data)
+                 let maxSize=res.data.list.length
                 if(this.pageNum==1){
-                    this.bookList=res.data.data.list
-                    console.log(this.bookList)
+                    this.bookList=res.data.list
+                    // console.log(this.bookList)
                 }else{
                     if(maxSize!=0){
-                        this.bookList=this.bookList.concat(res.data.data.list)
+                        this.bookList=this.bookList.concat(res.data.list)
                     }else{
                         this.noDate=true
                     }
@@ -117,9 +115,10 @@ export default {
         }
         .scroller-com{
             padding-bottom: 45px;
+            padding-top: 15px;
         }
         .bookList{
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .infoBox{
             min-height: 155px;

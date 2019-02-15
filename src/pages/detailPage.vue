@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="content text-center" v-html="book.goodsInfo"></div>
+        <div class="content" v-html="book.goodsInfo"></div>
         <div class="buyBox">
             <span class="buyBtn price">售价：<span>￥{{book.goodsPrice}}</span><em class="free">免运费</em></span>
             <!-- <span class="buyBtn shoppingCart">加入购物车</span> -->

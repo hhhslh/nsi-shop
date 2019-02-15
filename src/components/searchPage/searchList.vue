@@ -1,6 +1,6 @@
 <template>
 <div class="searchList-com" ref="list">
-    <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" style="top:70px">
+    <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com">
         <div class="container-fluid" style="padding-bottom:15px">
             <!-- search -->
             <!-- searchList -->
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import {getBookList} from '@/api/api'
 export default {
     data() {
         return {
@@ -43,23 +44,20 @@ export default {
             localStorage.setItem("isShare",false)
         },
         getData(){
-            const data = new URLSearchParams();
-            data.append('type', '新学说书籍');
-            data.append('state', '上架');
-            data.append('pageNum', this.pageNum);
-            data.append('pageSize', this.pageSize);
-            this.axios({
-                method:'post',
-                url:'/goods/goods_list.do',
-                data:data
-                }).then((res)=>{
-                // console.log(res.data.data)
-                let maxSize=res.data.data.list.length
+            getBookList({
+                type:'新学说书籍',
+                state:'上架',
+                pageNum:this.pageNum,
+                pageSize:this.pageSize
+            }).then((res)=>{
+                // console.log(res.data)
+                 let maxSize=res.data.list.length
                 if(this.pageNum==1){
-                    this.bookList=res.data.data.list
+                    this.bookList=res.data.list
+                    // console.log(this.bookList)
                 }else{
                     if(maxSize!=0){
-                        this.bookList=this.bookList.concat(res.data.data.list)
+                        this.bookList=this.bookList.concat(res.data.list)
                     }else{
                         this.noDate=true
                     }
@@ -114,6 +112,7 @@ export default {
         }
         .scroller-com{
             padding-bottom: 45px;
+            padding-top: 70px;
         }
         .bookList{
             margin-bottom: 20px;

@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import {getBookList} from '@/api/api'
 export default {
   data () {
     return {
@@ -30,22 +31,18 @@ export default {
     }
   },
   created(){
-        const data = new URLSearchParams();
-        data.append('type', '新学说书籍');
-        data.append('state', '上架');
-        data.append('pageNum', '1');
-        data.append('pageSize', '8');
-        this.axios({
-            method: 'post',
-            url: '/goods/goods_list.do',
-            data: data
-        }).then((res)=>{
-            const msg=res.data.data.list
-            // console.log(msg)
-            for(let i=0;i<msg.length;i++){
-                this.prizeList.push(msg[i])
-            }
-        })
+    getBookList({
+      type:'新学说书籍',
+      state:'上架',
+      pageNum:'1',
+      pageSize:'8'
+    }).then(res=>{
+       const msg=res.data.list
+          // console.log(msg)
+          for(let i=0;i<msg.length;i++){
+              this.prizeList.push(msg[i])
+          }
+    })
   },
   mounted() {
     setInterval(_ => {

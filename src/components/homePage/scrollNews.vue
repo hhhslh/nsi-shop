@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import {getScrollNews} from '@/api/api'
 export default {
   data () {
     return {
@@ -28,17 +29,12 @@ export default {
     }
   },
   created(){
-        const params = new URLSearchParams();
-        params.append('pageNum', 1);
-        params.append('pageSize', 8);
-        this.axios({
-            method: 'post',
-            url: '/article/list.do',
-            // url:"https://data.xinxueshuo.cn/nsi-1.0/article/list.do",
-            data: params
+        getScrollNews({
+          'pageNum':1,
+          'pageSize': 8
         }).then((res)=>{
-            const msg=res.data.data.list
-            // console.log(msg)
+            const msg=res.data.list
+            // Array.prototype.push.apply(this.prizeList,msg)
             for(let i=0;i<msg.length;i++){
                 this.prizeList.push(msg[i])
             }

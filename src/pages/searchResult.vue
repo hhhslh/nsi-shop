@@ -12,7 +12,7 @@
             <div class="searchResultTxt" v-if="searchTotal>0&&notClickFlag">共搜到{{searchTotal}}条与<span>{{'"'+searchKey+'"'}}</span>相关的结果</div>
         </div>
         <div class="container-fluid">
-            <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" :style="'top:'+searchListTop+'px'">
+            <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com" :style="'padding-top:'+searchListTop+'px'">
                 <div class="container-fluid" style="padding-bottom:15px">
                     <!-- search -->
                     <!-- searchList -->
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-
+import {getBookList} from '@/api/api'
 export default {
     data() {
         return {
@@ -102,26 +102,21 @@ export default {
             })
         },
         getSearchData(key){
-            const data = new URLSearchParams();
-            // this.searchNum=1
-            data.append('type', '新学说书籍');
-            data.append('state', '上架');
-            data.append('pageNum', this.searchNum);
-            data.append('pageSize', this.searchSize);
-            data.append('searchKey', key);
-            this.axios({
-                method:'post',
-                url:'/goods/goods_list.do',
-                data:data
-                }).then((res)=>{
-                    this.notClickFlag=true
+            getBookList({
+                type:'新学说书籍',
+                state:'上架',
+                pageNum:this.searchNum,
+                pageSize:this.searchSize,
+                searchKey:key
+            }).then(res=>{
+                 this.notClickFlag=true
                     this.searchListTop=135
                 // console.log(res.data.data)
-                let maxSize=res.data.data.list.length
-                this.searchTotal=res.data.data.total
+                let maxSize=res.data.list.length
+                this.searchTotal=res.data.total
                 if(this.searchNum==1){
                     if(maxSize!=0){
-                        this.searchList=res.data.data.list
+                        this.searchList=res.data.list
                     }else{
                         this.noDate=true
                         this.searchList=[]
@@ -129,7 +124,7 @@ export default {
                     }
                 }else{
                     if(maxSize!=0){
-                        this.searchList=this.searchList.concat(res.data.data.list)
+                        this.searchList=this.searchList.concat(res.data.list)
                     }else{
                         this.noDate=true
                         this.$refs.myscroller.finishInfinite(true);//这个方法是不让它加载了，显示“没有更多数据”，要不然会一直转圈圈

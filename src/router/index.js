@@ -22,6 +22,8 @@ import logisticsCom from '@/components/order/logistics'
 import giftPage from '@/components/giftCertificate/giftPage'
 import servicePage from '@/pages/service'
 import feedBackPage from '@/pages/feedBack'
+import courseInfoCom from '@/components/coursePage/courseInfo'
+import chooseCourseCom from '@/components/coursePage/chooseCourse'
 
 Vue.use(Router)
 
@@ -77,7 +79,17 @@ export default new Router({
         {
             path: '/detailCourse/:id',
             name: 'detailCourse',
-            component: detailCourse
+            component: detailCourse,
+            redirect: '/detailCourse/courseInfo',
+            children: [{
+                    path: '/detailCourse/courseInfo',
+                    component: courseInfoCom
+                },
+                {
+                    path: '/detailCourse/chooseCourse',
+                    component: chooseCourseCom
+                }
+            ]
         },
         {
             path: '/order',

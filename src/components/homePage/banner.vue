@@ -16,6 +16,7 @@
 <script>
 import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.css'
+import {getHomeBanner} from '@/api/api'
 export default {
     data() {
         return {
@@ -24,19 +25,28 @@ export default {
     },
     methods:{
         getBannerInfo(){
-            this.axios({
-                method:"get",
-                url:"/manager/official/list.do",
-                // url:"https://data.xinxueshuo.cn/nsi-1.0/manager/official/list.do",
-                params:{
-                        'type':'官网首页banner'
-                    }
+            getHomeBanner({
+                'type':'官网首页banner'
             }).then((res)=>{
-                this.bannerList=res.data.data
+                this.bannerList=res.data
+                // console.log(res.data)
                 this.$nextTick(()=>{
                     this.swiperInit()
                 })
             })
+            // this.axios({
+            //     method:"get",
+            //     url:"/manager/official/list.do",
+            //     // url:"https://data.xinxueshuo.cn/nsi-1.0/manager/official/list.do",
+            //     params:{
+            //             'type':'官网首页banner'
+            //         }
+            // }).then((res)=>{
+            //     this.bannerList=res.data.data
+            //     this.$nextTick(()=>{
+            //         this.swiperInit()
+            //     })
+            // })
         },
         swiperInit(){
             const self=this
