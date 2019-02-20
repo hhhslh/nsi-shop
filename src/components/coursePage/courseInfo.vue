@@ -1,6 +1,6 @@
 <template>
     <div class="courseInfo-com">
-        this is courseInfo
+        <img src="../../assets/courseInfo.jpg" alt="" class="img-responsive">
     </div>
 </template>
 

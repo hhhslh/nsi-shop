@@ -67,10 +67,10 @@ export default {
         return {
             bookList:[],
             wxShareInfo:{
-                title:"新学说 | 心选商城",
+                title:"新学说 | 国际教育研究院",
                 imgUrl:"https://data.xinxueshuo.cn/upImage/upInstitutionImg/100062/100062-logo.jpg",
                 href:'https://www.xinxueshuo.cn/nsi-shop/dist/index.html',
-                desc:"心选商城，每件商品都是用心挑选"
+                desc:"国际教育研究院，一站式解决国际化学校人才职业培训和能力提升"
             }
         }
     },

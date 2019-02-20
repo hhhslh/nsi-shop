@@ -23,3 +23,21 @@ export const editAddress = p => get('/ShopAddress/update.do', p)
 
 // 获取地址
 export const getAddress = p => get('/ShopAddress/getList.do', p)
+
+// 判断用户注册完整
+export const judgeuserInfo = p => get('/order/valid_userInfo.do', p)
+
+// 用户信息补全
+export const complementInfo = p => post('/order/mall_register.do', p)
+
+// 创建课程订单
+export const createCourseOrder = p => get('/order/create_course.do', p)
+
+// 微信支付
+export const wxPay = p => get('/Pay/WxPay_public.do', p)
+
+// 验证课程权限
+export const checkCoursePrivilege = p => get('/ClassUser/vierify_open.do', p)
+
+// 插入课程观看权限
+export const insertCoursePrivilege = p => get('/ClassUser/Course_User_Insert.do', p)

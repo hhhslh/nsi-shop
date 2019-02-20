@@ -149,6 +149,7 @@ export default {
                 data.append('goodsId', goodsId);
                 data.append('quantity', num);
                 data.append('buyerMessage', buyerMessage);
+                data.append('productType', '书店');
                 this.axios({
                     method:'post',
                     url:'/order/create.do',

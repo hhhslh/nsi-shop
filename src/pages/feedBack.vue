@@ -37,7 +37,7 @@ export default {
     data () {
       return {
         checkList: [],
-        textarea:'心选商城',
+        textarea:'国际教育研究院',
         textarea1: '',
         textarea2:'',
         sendTxt:''

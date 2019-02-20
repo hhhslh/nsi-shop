@@ -24,6 +24,7 @@ import servicePage from '@/pages/service'
 import feedBackPage from '@/pages/feedBack'
 import courseInfoCom from '@/components/coursePage/courseInfo'
 import chooseCourseCom from '@/components/coursePage/chooseCourse'
+import courseOrderCom from '@/components/coursePage/courseOrder'
 
 Vue.use(Router)
 
@@ -123,6 +124,11 @@ export default new Router({
         }, {
             path: '/feedback',
             component: feedBackPage
+        },
+        {
+            path: '/courseorder',
+            component: courseOrderCom,
+            name: 'courseOrder'
         }
     ]
 })
