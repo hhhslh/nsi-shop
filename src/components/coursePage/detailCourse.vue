@@ -2,12 +2,16 @@
     <div class="detailCourse-com" ref="bg">
         <div class="videoBox">
             <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" controls ref="play" controlslist="nodownload"></video> -->
-            <video src="https://nsi.oss-cn-zhangjiakou.aliyuncs.com/test/yearVideo/xxs.mp4" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
+            <video :src="getUrl" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
             <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video> -->
             <div class="cover coverbg" ref="coverbg">
                 <div class="cover coverContent">
                     <span class="iconfont icon-bofang" @click="toplay"></span>
                 </div>
+            </div>
+            <!-- back -->
+            <div class="back" @click="toBack">
+                <span class="iconfont icon-zuojiantou"></span>
             </div>
         </div>
         <!-- <h4>{{listId}}</h4> -->
@@ -18,16 +22,12 @@
         <div class="courseContent">
             <router-view></router-view>
         </div>
-        <p>{{getUrl}}</p>
         <div v-if="notBought" class="toBuy text-center" @click="toBuy">
             <span class="iconfont icon-gouwuche"></span>立即购买
         </div>
         <!-- <complement-info-com v-if="isShow"/> -->
         <complement-info-com v-if="isShow" @hideCom="hideInfoBox" :class="[isShow?'bounceInUp':'bounceOutDown']"/>
-        <!-- back -->
-        <div class="back" @click="toBack">
-            <span class="iconfont icon-zuojiantou"></span>
-        </div>
+        
     </div>
 </template>
 
@@ -43,7 +43,7 @@ export default {
         return{
             listId:'',
             isPlay:false,
-            getUrl:'',
+            getUrl:'https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/xu01.mp4',
             isShow:false,
             notBought:true
         }
@@ -81,7 +81,9 @@ export default {
         getSourse(){
             // console.log(data)
             Bus.$on('getSourse', (msg) => {
-                this.getUrl = msg
+                if(this.notBought===false){
+                    this.getUrl = msg
+                }
                 // console.log(this.getUrl)
             })
         },
@@ -121,6 +123,7 @@ export default {
 
 <style lang="scss">
     .detailCourse-com{
+        padding-bottom: 20px;
         position: relative;
         .videoBox{
             position: relative;
@@ -207,20 +210,22 @@ export default {
             }
         }
         .back{
-            position: fixed;
-            bottom: 80px;
-            right: 30px;
-            width: 45px;
-            height: 45px;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 30px;
+            height: 30px;
             text-align: center;
-            line-height: 45px;
+            line-height: 30px;
             border-radius: 50%;
-            z-index: 999;
-            background-color: rgba(255, 255, 255, .85);
-            box-shadow: 0 5px 10px rgba(122, 122, 122,.6);
+            z-index: 99;
+            background-color: rgba(0, 0, 0, .5);
+            // box-shadow: 0 5px 10px rgba(122, 122, 122,.6);
             span{
-                color: #ccdee7;
-                font-size: 20px;
+                color: #fff;
+                font-size: 16px;
+                position: relative;
+                left: -1px;
             }
         }
     }

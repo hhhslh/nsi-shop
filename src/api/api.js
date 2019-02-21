@@ -41,3 +41,9 @@ export const checkCoursePrivilege = p => get('/ClassUser/vierify_open.do', p)
 
 // 插入课程观看权限
 export const insertCoursePrivilege = p => get('/ClassUser/Course_User_Insert.do', p)
+
+// 检测邮箱是否注册
+export const checkEmailIsLogin = p => post('/user/UserMailCheck.do', p)
+
+// 查询我的课程
+export const myCourse = p => get('/order/get_order_course_list.do', p)

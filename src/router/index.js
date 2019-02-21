@@ -25,6 +25,10 @@ import feedBackPage from '@/pages/feedBack'
 import courseInfoCom from '@/components/coursePage/courseInfo'
 import chooseCourseCom from '@/components/coursePage/chooseCourse'
 import courseOrderCom from '@/components/coursePage/courseOrder'
+import myCoursePage from '@/components/coursePage/myCoursePage'
+import allCourse from '@/components/coursePage/allCourse'
+import waitPayCourse from '@/components/coursePage/waitPay'
+import successCourse from '@/components/coursePage/successCourse'
 
 Vue.use(Router)
 
@@ -129,6 +133,24 @@ export default new Router({
             path: '/courseorder',
             component: courseOrderCom,
             name: 'courseOrder'
+        },
+        {
+            path: '/mycourse',
+            component: myCoursePage,
+            redirect: '/mycourse/all',
+            children: [{
+                    path: '/mycourse/all',
+                    component: allCourse
+                },
+                {
+                    path: '/mycourse/wait',
+                    component: waitPayCourse
+                },
+                {
+                    path: '/mycourse/success',
+                    component: successCourse
+                }
+            ]
         }
     ]
 })

@@ -12,12 +12,13 @@
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
+                <el-form-item label="邮箱" prop="email">
+                    <el-input v-model="ruleForm.email" @blur="checkEmail"></el-input>
+                </el-form-item>
                 <el-form-item label="公司" prop="campany">
                     <el-input v-model="ruleForm.campany"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="ruleForm.email"></el-input>
-                </el-form-item>
+                <p class="tips">{{tips}}</p>
                 <a href="javascript:;" class="btn btn-danger apply" @click="toapply">提交</a>
             </el-form>
         </div>
@@ -25,10 +26,11 @@
 </template>
 
 <script>
-import {complementInfo} from '@/api/api'
+import {complementInfo,checkEmailIsLogin} from '@/api/api'
 export default {
     data() {
         return {
+            tips:'',
             isShow:true,
             ruleForm: {
                 name:'',
@@ -44,12 +46,26 @@ export default {
                 ],
                 email:[
                     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+                    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
+                    // {validator:checkEmail,trigger:'blur'}
                 ]
             }
         }
     },
     methods:{
+        checkEmail(){
+            if(this.ruleForm.email!=''){
+                checkEmailIsLogin({
+                    UserMail: this.ruleForm.email
+                }).then(res=>{
+                    if(res.code===1){
+                        this.tips="您的邮箱已注册，将为您绑定微信账号"
+                    }else{
+                        this.tips=""
+                    }
+                })
+            }
+        },
         hideBox(){
             this.isShow=false
             this.$emit('hideCom',this.isShow)
@@ -93,7 +109,7 @@ export default {
         position: fixed;
         z-index: 100;
         bottom: 0;
-        min-height: 300px;
+        min-height: 320px;
         background-color: #FFF;
         width: 100%;
         // border-top: 2px solid #e33626;
@@ -128,6 +144,13 @@ export default {
         .apply{
             // margin-top: 15px;
             margin: 0 auto;
+            position: relative;
+            transition: all .3s ease-in-out;
+        }
+        .tips{
+            color: rgb(46, 184, 4);
+            font-size: 12px;
+            font-weight: 600;
         }
     }
 </style>
