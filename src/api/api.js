@@ -12,8 +12,14 @@ export const getCourseList = p => post('/courseList/get_course_list.do', p)
 // 课堂详情
 export const getCourseDetail = p => get('/category/list.do', p)
 
+//父课堂详情
+export const getFcourseDetail = p => get('/courseList/get_course_item.do', p)
+
 // 书籍列表
 export const getBookList = p => post('/goods/goods_list.do', p)
+
+// 首页最受欢迎、特价、推荐书籍
+export const getBookPopList = p => post('/goods/Get_Home_Config.do', p)
 
 // 地址创建
 export const createAddress = p => get('/ShopAddress/add.do', p)
