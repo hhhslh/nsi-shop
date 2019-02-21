@@ -1,15 +1,68 @@
 <template>
     <div class="courseInfo-com">
-        <img src="../../assets/courseInfo.jpg" alt="" class="img-responsive">
+        <div class="CourseDetail">
+            <p class="courseDesc">描述<br><span>{{CourseDetail.listDescription}}</span></p>
+            <div class="more">
+                <p class="moreCourse" @click="moreCourse()">查看课程目录<span class="iconfont icon-gengduo"></span></p>
+            </div>
+        </div>
+        
     </div>
 </template>
 
 <script>
+import {getFcourseDetail} from '@/api/api'
 export default {
+    data() {
+        return {
+            CourseDetail:[],
+        }
+    },
+    methods:{
+        courseDetail(){
+            getFcourseDetail({
+                'listId':localStorage.getItem('courseId')
+            }).then((res)=>{
+                this.CourseDetail=res.data
+            })
+        },
+        moreCourse(){
+            this.$router.push({path:'/detailCourse/chooseCourse'})
+        }
 
+    },
+    created(){
+        this.courseDetail()
+    }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.CourseDetail{
+    .courseDesc{
+        font-size: 20px;
+        padding: 0 15px;
+        span{
+            display: inline-block;
+            text-indent: 25px;
+            font-size: 14px;
+        }
+    }
+    .more{
+        max-height:50px;
+        min-height:50px;
+        .moreCourse{
+            color: #777;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f1f1f1;
+            padding: 5px;
+            border-radius: 5px;
+            width: 90%;
+            margin: 0 auto;
+        }
+    }
+    
+}
 </style>

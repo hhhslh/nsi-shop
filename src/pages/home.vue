@@ -16,7 +16,7 @@
                     <h4 class="title" style="margin-top:30px;">最受欢迎</h4>
                     <div class="bookContent">
                         <div class="row">
-                            <div class="col-xs-4" v-for="(item,index) in bookList" :key="index" v-if="index<3" @click="toDetail(item.id)">
+                            <div class="col-xs-4" v-for="(item,index) in bookPopList" :key="index" v-if="index<3" @click="toDetail(item.id)">
                                 <img :src="item.goodsImg" alt="" class="img-responsive bookImg">
                                 <h4 class="bookName">{{item.goodsName}}</h4>
                                 <p class="bookAuthor">{{item.goodsAuthor}}</p>
@@ -28,7 +28,7 @@
                     <h4 class="title">限时特价</h4>
                     <div class="bookContent">
                         <div class="row">
-                            <div class="col-xs-4" v-for="(item,index) in bookList" :key="index" v-if="index>=3&&index<6" @click="toDetail(item.id)">
+                            <div class="col-xs-4" v-for="(item,index) in bookSaleList" :key="index"  @click="toDetail(item.id)">
                                 <img :src="item.goodsImg" alt="" class="img-responsive bookImg">
                                 <h4 class="bookName">{{item.goodsName}}</h4>
                                 <p class="bookAuthor">{{item.goodsAuthor}}</p>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="bookListContent">
                     <h4 class="title">主编推荐</h4>
-                    <div class="bookContentRow" v-for="(item,index) in bookList" :key="index" v-if="index>=3&&index<6" @click="toDetail(item.id)">
+                    <div class="bookContentRow" v-for="(item,index) in bookCommandList" :key="index"  @click="toDetail(item.id)">
                         <div class="row">
                             <div class="col-xs-4">
                                 <img :src="item.goodsImg" alt="" class="img-responsive bookImg">
@@ -46,13 +46,14 @@
                             <div class="col-xs-8 pl0 pr160">
                                 <h4 class="bookName">{{item.goodsName}}</h4>
                                 <p class="bookAuthor">{{item.goodsAuthor}}</p>
-                                <p class="bookPress">{{item.goodsPress}}</p>
+                                <!-- <p class="bookPress">{{item.goodsPress}}</p> -->
                                 <p class="bookDesc">{{item.goodsDescribe}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="more" @click="more">查看更多<span class="iconfont icon-gengduo"></span></div>
         </div>
     </div>
 </template>
@@ -62,10 +63,13 @@ import homeBanner from '@/components/homePage/banner';
 import scrollNews from '@/components/homePage/scrollNews';
 import search from '@/components/homePage/search'
 import wxShareInit from '@/assets/js/weChatShare.js';
+import {getBookPopList} from '@/api/api'
 export default {
     data() {
         return {
-            bookList:[],
+            bookPopList:[],
+            bookSaleList:[],
+            bookCommandList:[],
             wxShareInfo:{
                 title:"新学说 | 国际教育研究院",
                 imgUrl:"https://data.xinxueshuo.cn/upImage/upInstitutionImg/100062/100062-logo.jpg",
@@ -75,7 +79,7 @@ export default {
         }
     },
     components:{
-        homeBanner,
+        homeBanner,    
         scrollNews,
         search
     },
@@ -86,25 +90,48 @@ export default {
             let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
             window.location.href=href
         },
+        bookPop(){
+            getBookPopList({
+                'type':'ShopHomeTop'
+            }).then((res)=>{
+                this.bookPopList=res.data.goodList
+            })
+        },
+        bookSale(){
+            getBookPopList({
+                'type':'ShopHomeSale'
+            }).then((res)=>{
+                this.bookSaleList=res.data.goodList
+            })
+        },
+        bookCommand(){
+            getBookPopList({
+                'type':'ShopHomeRecommend'
+            }).then((res)=>{
+                this.bookCommandList=res.data.goodList
+            })
+        },
+        more(){
+            this.$router.push({path:'/list'})
+        },
         getQueryStringArgs() {
-        var qs = location.search.length > 0 ? location.search.substring(1) : '',
-            args = {},
-            items = qs.length ? qs.split('&') : [],
-            item = null,
-            name = null,
-            value = null,
-            i = 0,
-            len = items.length;
-        for (i = 0; i < len; i++) {
-                item = items[i].split('=');
-                name = decodeURIComponent(item[0]);
-                value = decodeURIComponent(item[1]);
-                name = item[0];
-                value = item[1];
-
-                if (name.length) {
-                    args[name] = value;
-                }
+            var qs = location.search.length > 0 ? location.search.substring(1) : '',
+                args = {},
+                items = qs.length ? qs.split('&') : [],
+                item = null,
+                name = null,
+                value = null,
+                i = 0,
+                len = items.length;
+            for (i = 0; i < len; i++) {
+                    item = items[i].split('=');
+                    name = decodeURIComponent(item[0]);
+                    value = decodeURIComponent(item[1]);
+                    name = item[0];
+                    value = item[1];
+                    if (name.length) {
+                        args[name] = value;
+                    }
             }
             return args;
         }
@@ -112,19 +139,10 @@ export default {
     created(){
         setTimeout(wxShareInit.wxReady(this.wxShareInfo),500)
         const data = new URLSearchParams();
-        data.append('type', '新学说书籍');
-        data.append('state', '上架');
-        data.append('pageNum', '1');
-        data.append('pageSize', '8');
-        this.axios({
-            method:'post',
-            url:'/goods/goods_list.do',
-            data:data
-            }).then((res)=>{
-            // console.log(res.data.data.list)
-            this.bookList=res.data.data.list
-        })
 
+        this.bookPop()
+        this.bookSale()
+        this.bookCommand()
         // 存取code
         // let args = this.getQueryStringArgs(),
         //     code = decodeURIComponent(args['code']),
@@ -200,15 +218,15 @@ export default {
             }
             .bookName{
                 font-weight: 600;
-                font-size: 17px;
+                font-size: 13px;
                 color: #333;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
-                -webkit-line-clamp: 1;
+                // -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
-                min-height: 17px;
-                max-height: 17px;
+                min-height: 27px;
+                max-height: 27px;
                 margin: 6px 0;
             }
             .bookAuthor{
@@ -235,6 +253,7 @@ export default {
                     margin-top: 0;
                 }
                 .bookDesc{
+                    color:#777;
                     position: absolute;
                     padding-right: 15px;
                     bottom: 8px;
@@ -245,10 +264,21 @@ export default {
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                     margin-bottom: 0;
-                    // min-height: 38px;
-                    // max-height: 38px;
+                    min-height: 38px;
+                    max-height: 38px;
                 }
             }
+        }
+        .more{
+            position: relative;
+            top: -20px;
+            color: #777;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f1f1f1;
+            padding: 5px;
+            border-radius: 5px;
         }
 
         // scrollNews
