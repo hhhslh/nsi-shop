@@ -41,6 +41,22 @@
             </div>
         </div>
 
+        <!-- 课程 -->
+        <div class="container-fluid mt15">
+            <div class="myOrderBox">
+                <h4 class="myTitle">我的课程<router-link to="/mycourse" tag="div" class="moreOrder">更多<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
+                <div class="orderBox courseContent">
+                    <p class="noCourse text-center" v-if="courseList.length<=0">暂无购买的课程</p>
+                    <div v-else class="courseBox" v-for="(item,index) in courseList">
+                        <div class="courseImgBox">
+                            <img :src="item.listImgAddr" alt="" class="img-responsive">
+                        </div>
+                        <p class="courseName">{{item.listTitle}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 工具 -->
         <div class="container-fluid mt15">
             <div class="myOrderBox">
@@ -69,13 +85,15 @@
 </template>
 
 <script>
+import {myCourse} from '@/api/api'
 export default {
     data() {
         return {
             headimgurl:'',
             nickname:'',
             hasNoAddress:true,
-            orderState:{}
+            orderState:{},
+            courseList:[]
         }
     },
     methods:{
@@ -144,6 +162,20 @@ export default {
             }).then((res)=>{
                 this.orderState=res.data.data
             })
+        },
+        getMyCourse(){
+            myCourse({
+               wechatId:localStorage.getItem('openId')
+            }).then(res=>{
+                // console.log(res.data)
+                for(let i=0;i<res.data.length;i++){
+                    if(res.data[i].statusDesc==="订单完成"){
+                        this.courseList.push(res.data[i])
+                    }
+                }
+                // console.log(this.courseList.length)
+                // this.courseList=res.data
+            })
         }
     },
     created(){
@@ -174,6 +206,7 @@ export default {
     mounted(){
         this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px";
         this.getOrderCount()
+        this.getMyCourse()
     }
 }
 </script>
@@ -181,6 +214,7 @@ export default {
 <style lang="scss">
     .personal-com{
         background-color: #f7f7f7;
+        padding-bottom: 30px;
         .mt15{
             margin-top: 15px;
         }
@@ -306,6 +340,35 @@ export default {
             .copyright{
                 font-size: 12px;
                 color: rgb(180, 180, 180);
+            }
+        }
+        // 课程样式
+        .courseContent{
+            margin-top: 15px;
+            overflow: hidden;
+            justify-content: flex-start !important;
+            overflow-x: auto;
+            .noCourse{
+                color: #888;
+                margin: 0 auto;
+            }
+            .courseBox{
+                margin-right: 10px;
+                img{
+                    width: 80px;
+                    border-radius: 4px;
+                }
+                .courseName{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    min-height: 18px;
+                    max-height: 18px;
+                    margin-top: 5px;
+                    width: 80px;
+                }
             }
         }
     }
