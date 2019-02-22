@@ -12,7 +12,7 @@ export const getCourseList = p => post('/courseList/get_course_list.do', p)
 // 课堂详情
 export const getCourseDetail = p => get('/category/list.do', p)
 
-//父课堂详情
+//首页课堂详情
 export const getFcourseDetail = p => get('/courseList/get_course_item.do', p)
 
 // 书籍列表

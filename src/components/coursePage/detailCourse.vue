@@ -16,7 +16,7 @@
         </div>
         <!-- <h4>{{listId}}</h4> -->
         <div class="link">
-            <router-link tag="div" to="/detailCourse/courseInfo" exact>学习资料</router-link>
+            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact>学习资料</router-link>
             <router-link tag="div" to="/detailCourse/chooseCourse">课程选集</router-link>
         </div>
         <div class="courseContent">

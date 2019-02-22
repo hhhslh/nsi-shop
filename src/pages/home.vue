@@ -24,6 +24,22 @@
                         </div>
                     </div>
                 </div>
+                 <div class="bookListContent">
+                    <h4 class="title">在线课程</h4>    
+                    <div class="courseContentRow" v-for="(item,index) in courseList" :key="index"  @click="toCourseDetail(item.listId)">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img :src="item.listImg" alt="" class="img-responsive bookImg">
+                            </div>
+                            <div class="col-xs-8 pl0 pr160">
+                                <h4 class="bookName">{{item.listTitle}}</h4>
+                                <p class="bookAuthor">{{item.lecturer}}</p>
+                                <!-- <p class="bookPress">{{item.goodsPress}}</p> -->
+                                <p class="bookDesc">{{item.listDescription}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="bookListContent">
                     <h4 class="title">限时特价</h4>
                     <div class="bookContent">
@@ -37,7 +53,7 @@
                     </div>
                 </div>
                 <div class="bookListContent">
-                    <h4 class="title">主编推荐</h4>
+                    <h4 class="title">主编推荐</h4>    
                     <div class="bookContentRow" v-for="(item,index) in bookCommandList" :key="index"  @click="toDetail(item.id)">
                         <div class="row">
                             <div class="col-xs-4">
@@ -63,10 +79,13 @@ import homeBanner from '@/components/homePage/banner';
 import scrollNews from '@/components/homePage/scrollNews';
 import search from '@/components/homePage/search'
 import wxShareInit from '@/assets/js/weChatShare.js';
-import {getBookPopList} from '@/api/api'
+import {getBookPopList,getCourseList} from '@/api/api'
 export default {
     data() {
         return {
+            courseList:[],
+            pageNum:1,
+            pageSize:8,
             bookPopList:[],
             bookSaleList:[],
             bookCommandList:[],
@@ -85,10 +104,27 @@ export default {
     },
     methods:{
         toDetail(id){
-            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            // window.location.href=routeData.href
-            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
-            window.location.href=href
+            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            window.location.href=routeData.href
+            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            // window.location.href=href
+        },
+        toCourseDetail(listId){
+            localStorage.setItem('courseId',listId)
+            let routeData =this.$router.resolve({name:"detailCourse",params:{id:localStorage.getItem('courseId')}})
+            window.location.href=routeData.href
+            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+listId
+            // window.location.href=href
+        },
+        courseIndex(){
+            getCourseList({
+                type:'新学说书籍',
+                state:'上架',
+                pageNum:this.pageNum,
+                pageSize:this.pageSize
+            }).then((res)=>{
+                this.courseList=res.data.list.slice(0,3)
+            })
         },
         bookPop(){
             getBookPopList({
@@ -139,7 +175,7 @@ export default {
     created(){
         setTimeout(wxShareInit.wxReady(this.wxShareInfo),500)
         const data = new URLSearchParams();
-
+        this.courseIndex()
         this.bookPop()
         this.bookSale()
         this.bookCommand()
@@ -251,12 +287,34 @@ export default {
                 margin-bottom: 20px;
                 .bookName{
                     margin-top: 0;
+                    font-size:18px;
                 }
                 .bookDesc{
                     color:#777;
                     position: absolute;
                     padding-right: 15px;
                     bottom: 8px;
+                    left: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    margin-bottom: 0;
+                    min-height: 38px;
+                    max-height: 38px;
+                }
+            }
+            .courseContentRow{
+                .bookName{
+                    margin-top: 0;
+                    font-size:18px;
+                }
+                .bookDesc{
+                    color:#777;
+                    position: absolute;
+                    padding-right: 15px;
+                    bottom: 45px;
                     left: 0;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -289,12 +347,13 @@ export default {
             // box-shadow: 0 2px 10px #e4e4e4;
             box-shadow: 0 2px 10px #dde9f1;
             border-radius: 4px;
-            padding: 5px 10px 5px 20px;
+            padding: 2px 10px 2px 20px;
             .text{
                 font-size: 19px;
                 font-weight: 700;
-                letter-spacing: 2px;
+                letter-spacing: 6px;
                 position: relative;
+                left: -7px;
                 span{
                     color: rgb(247, 75, 75);
                 }
