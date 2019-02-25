@@ -186,7 +186,7 @@ export default {
         }
     },
     created(){
-        // this.getUsrInfo()
+        this.getUsrInfo()
     },
     beforeMount(){
         let storage = window.localStorage

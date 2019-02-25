@@ -16,7 +16,7 @@
         </div>
         <!-- <h4>{{listId}}</h4> -->
         <div class="link">
-            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact>学习资料</router-link>
+            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact>课程介绍</router-link>
             <router-link tag="div" to="/detailCourse/chooseCourse">课程选集</router-link>
         </div>
         <div class="courseContent">
@@ -60,8 +60,7 @@ export default {
                 imgUrl:"",
                 href:'',
                 desc:""
-            },
-            testmsg:''
+            }
         }
     },
     methods:{
@@ -178,6 +177,14 @@ export default {
                     this.getUrl = msg
                     video.load()
                     video.play()
+                }else{
+                    this.$refs.coverbg.style.display="block";
+                    this.isPlay=false
+                    video.pause()
+                    this.$message({
+                        message: '您未购买该课程',
+                        type: 'info'
+                    });
                 }
                 // console.log(this.getUrl)
             })
@@ -225,6 +232,7 @@ export default {
                     if(that.notBought===false){
                         play()
                     }else{
+                        video.pause()
                         that.$refs.coverbg.style.display="block"
                         that.$message({
                             message: '请购买该课程以便观看下一节',
@@ -246,7 +254,7 @@ export default {
     },
     mounted(){
         this.coursePrice=localStorage.getItem('coursePrice')
-        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f')
+        // getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f'+ localStorage.getItem('courseId'))
         // this.getUsrInfo()
         this.judgeBought()
         this.getCourseInfo()
@@ -256,7 +264,7 @@ export default {
         this.fetchDate()
         this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px"
         setTimeout(wxShareInit.wxReady(this.wxShareInfo),30)
-        this.testmsg=window.location.href
+        // this.testmsg=window.location.href
     }
 }
 </script>

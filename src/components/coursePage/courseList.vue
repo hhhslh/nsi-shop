@@ -46,10 +46,10 @@ export default {
             localStorage.setItem('courseTitle',item.listTitle)
             localStorage.setItem('courseTheme',item.listTheme)
             localStorage.setItem('coursePrice',item.listPrice)
-            // let routeData =this.$router.resolve({name:"detailCourse",params:{id:item.listId}})
-            // window.location.href=routeData.href
-            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+item.listId
-            window.location.href=href
+            let routeData =this.$router.resolve({name:"detailCourse",params:{id:item.listId}})
+            window.location.href=routeData.href
+            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+item.listId
+            // window.location.href=href
         },
         getData(){
             getCourseList({
