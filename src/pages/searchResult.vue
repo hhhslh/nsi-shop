@@ -9,6 +9,10 @@
                 </div>
                 <span class="toSearch" @click="getSearchData(searchKey)">搜索</span>
             </div>
+            <p class="hotKey">热门搜索</p>
+            <div class="bookName">
+                <span  v-for="item in CommandName" :key="item" @click="toEnter(item.id)">{{item.goodsName}}</span>
+            </div>
             <div class="searchResultTxt" v-if="searchTotal>0&&notClickFlag">共搜到{{searchTotal}}条与<span>{{'"'+searchKey+'"'}}</span>相关的结果</div>
         </div>
         <div class="container-fluid">
@@ -16,7 +20,7 @@
                 <div class="container-fluid" style="padding-bottom:15px">
                     <!-- search -->
                     <!-- searchList -->
-                    <div class="row bookList" v-for="(book,index) in searchList" @click="toDetail(book.id)">
+                    <div class="row bookList" v-for="(book,index) in searchList" @click="toDetail(book.id)" :key="index">
                         <div class="col-xs-4">
                             <div class="picBox">
                                 <img :src="book.goodsImg" alt="" class="img-responsive">
@@ -38,7 +42,7 @@
 </template>
 
 <script>
-import {getBookList} from '@/api/api'
+import {getBookList,getBookPopList} from '@/api/api'
 export default {
     data() {
         return {
@@ -52,7 +56,8 @@ export default {
             searchSize:8,
             searchTotal:0,
             notClickFlag:true,
-            searchListTop:105
+            searchListTop:105,
+            CommandName:[]
         }
     },
     methods:{
@@ -65,15 +70,28 @@ export default {
         },
         toDetail(id){
             localStorage.setItem("isShare",false)
-            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            // window.location.href=routeData.href
-            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
-            window.location.href=href
+            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            window.location.href=routeData.href
+            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            // window.location.href=href
         },
         isClick(){
             this.notClickFlag=false
             this.searchListTop=105
             this.searchNum=1
+        },
+        searchCount(){
+            getBookPopList({
+                'type':'ShopHomeRecommend'
+            }).then((res)=>{
+                this.CommandName=res.data.goodList
+            })
+        },
+        toEnter(id){
+            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            window.location.href=routeData.href
+            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            // window.location.href=href
         },
         getData(){
             // console.log(this.searchKey)
@@ -157,6 +175,7 @@ export default {
     },
     created(){
         // this.getData()
+        this.searchCount()
     },
     mounted(){
         this.$refs.list.style.minHeight=(window.innerHeight-45)+"px"
@@ -218,6 +237,24 @@ export default {
                 font-size: 16px;
                 color: #888;
                 margin-left: 10px;
+            }
+        }
+        .hotKey{
+            font-size: 16px;
+            margin: 14px 10px 0;
+            font-weight: bold;
+        }
+        .bookName{
+            span{
+                background-color: #f7f7f7;
+                color:#777;
+                padding: 5px 20px;
+                border-radius: 10px;
+                margin: 8px 7px;
+                display: inline-block;
+                &:first-of-type{
+                    margin-top:15px;
+                }
             }
         }
 

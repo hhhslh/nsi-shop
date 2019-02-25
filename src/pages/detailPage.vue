@@ -125,7 +125,6 @@ export default {
 
 <style lang="scss">
     .detailPage-com{
-        padding-bottom: 55px;
         .bookBox{
            position: relative;
            height: 260px;
