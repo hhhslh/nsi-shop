@@ -137,7 +137,7 @@ export default new Router({
         {
             path: '/mycourse',
             component: myCoursePage,
-            redirect: '/mycourse/all',
+            redirect: '/mycourse/success',
             children: [{
                     path: '/mycourse/all',
                     component: allCourse

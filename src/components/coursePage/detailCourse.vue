@@ -3,7 +3,7 @@
         <div class="videoBox">
             <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" controls ref="play" controlslist="nodownload"></video> -->
             <video :src="getUrl" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
-            <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video> -->
+            <!-- <video src="https://nsi.oss-cn-zhangjiakou.aliyuncs.com/test/yearVideo/xxs.mp4" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video> -->
             <div class="cover coverbg" ref="coverbg">
                 <div class="cover coverContent">
                     <span class="iconfont icon-bofang" @click="toplay"></span>
@@ -22,19 +22,26 @@
         <div class="courseContent">
             <router-view></router-view>
         </div>
-        <div v-if="notBought" class="toBuy text-center" @click="toBuy">
-            <span class="iconfont icon-gouwuche"></span>立即购买
+        <div v-if="notBought" class="pay">
+            <div>￥<span>{{coursePrice}}.00</span></div>
+            <div class="toBuy text-center" @click="toBuy">
+                <span class="iconfont icon-gouwuche"></span>立即购买
+            </div>
         </div>
         <!-- <complement-info-com v-if="isShow"/> -->
         <complement-info-com v-if="isShow" @hideCom="hideInfoBox" :class="[isShow?'bounceInUp':'bounceOutDown']"/>
-        
+        <!-- <div class="test">
+            {{testmsg}}
+        </div> -->
     </div>
 </template>
 
 <script>
 import Bus from '@/assets/js/Bus'
 import complementInfoCom from '@/components/coursePage/complementInfo'
-import {judgeuserInfo,checkCoursePrivilege} from '@/api/api'
+import {judgeuserInfo,checkCoursePrivilege,getCourseDetail,getBigCourseDetail,checkOpenIdCourseIdPrivilege} from '@/api/api'
+import wxShareInit from '@/assets/js/weChatShare.js';
+import {getUsrInfo} from '@/assets/js/common.js'
 export default {
     components:{
         complementInfoCom
@@ -43,16 +50,100 @@ export default {
         return{
             listId:'',
             isPlay:false,
-            getUrl:'https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/xu01.mp4',
+            getUrl:'#',
             isShow:false,
-            notBought:true
+            notBought:true,
+            urlList:[],
+            coursePrice:'',
+            wxShareInfo:{
+                title:"",
+                imgUrl:"",
+                href:'',
+                desc:""
+            },
+            testmsg:''
         }
     },
     methods:{
+        // getQueryStringArgs() {
+        //     var qs = location.search.length > 0 ? location.search.substring(1) : '',
+        //         args = {},
+        //         items = qs.length ? qs.split('&') : [],
+        //         item = null,
+        //         name = null,
+        //         value = null,
+        //         i = 0,
+        //         len = items.length;
+        //     for (i = 0; i < len; i++) {
+        //             item = items[i].split('=');
+        //             name = decodeURIComponent(item[0]);
+        //             value = decodeURIComponent(item[1]);
+        //             name = item[0];
+        //             value = item[1];
+
+        //             if (name.length) {
+        //                 args[name] = value;
+        //             }
+        //         }
+        //     return args;
+        // },
+        // getUsrInfo(){
+        //     // 存取code
+        //     let storage = window.localStorage
+        //     let args = this.getQueryStringArgs()
+        //     let code =decodeURIComponent(args['code'])
+        //     localStorage.setItem('wxCode',code)
+
+        //     if(storage.getItem('openId')){
+        //         this.testmsg+=storage.getItem('openId')
+        //     }else{
+        //         if(localStorage.getItem('wxCode')=='undefined'){
+        //             window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f"+localStorage.getItem('courseId')+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+        //         }else{
+        //             this.testmsg+=storage.getItem('wxCode')
+        //             const sendData=new URLSearchParams()
+        //             sendData.append('code',code)
+        //             this.axios({
+        //                 method:"post",
+        //                 url:'/wxPay/get_wx_info.do',
+        //                 data:sendData
+        //             }).then((res)=>{
+        //                     localStorage.setItem('openId',res.data.data.openid)
+        //                     localStorage.setItem('headimgurl',res.data.data.headimgurl)
+        //                     localStorage.setItem('nickname',res.data.data.nickname)
+        //                     location.reload()
+        //                 })
+        //             }
+        //     }
+        // },
+        fetchDate(){
+            getBigCourseDetail({
+                listId:this.$route.params.id
+            }).then(res=>{
+                // console.log(res.data)
+                // 微信分享配置
+                this.wxShareInfo.title="国际教育研究院 | "+res.data.listTitle
+                this.wxShareInfo.imgUrl=res.data.listImg
+                this.wxShareInfo.href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+res.data.listId
+                this.wxShareInfo.desc=res.data.listDescription
+
+                // 本地存储课程信息
+                let item=res.data
+                localStorage.setItem('courseId',item.listId)
+                localStorage.setItem('courseImg',item.listImg)
+                localStorage.setItem('coursePrice',item.listPrice)
+                localStorage.setItem('courseTitle',item.listTitle)
+                localStorage.setItem('courseTheme',item.listTheme)
+                localStorage.setItem('coursePrice',item.listPrice)
+
+                // 通过分享添加dom数据
+                this.coursePrice=item.listPrice
+            })
+        },
         judgeBought(){
-            checkCoursePrivilege({
+            checkOpenIdCourseIdPrivilege({
                 'classId':localStorage.getItem('courseId'),
-                'usermail':localStorage.getItem('email')
+                'wechatId':localStorage.getItem('openId')
             }).then(res=>{
                 // 用户已购买
                 if(res.code===0){
@@ -66,6 +157,7 @@ export default {
         },
         getCourseInfo(){
             this.listId = this.$route.params.id;
+            // console.log(this.listId)
         },
         createPlayer(){
             let videoHeight=(window.innerWidth/16*9)+"px"
@@ -80,9 +172,12 @@ export default {
         },
         getSourse(){
             // console.log(data)
+            let video=this.$refs.play
             Bus.$on('getSourse', (msg) => {
                 if(this.notBought===false){
                     this.getUrl = msg
+                    video.load()
+                    video.play()
                 }
                 // console.log(this.getUrl)
             })
@@ -109,14 +204,59 @@ export default {
         },
         toBack(){
             window.location.href="https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/course"
-        }
+        },
+        nextPlay(){
+            let video=this.$refs.play
+            let that=this
+             getCourseDetail({
+                listId:localStorage.getItem('courseId')
+            }).then(res=>{
+                // console.log(res.data.courseLists)
+                for(let i=0;i<res.data.courseLists.length;i++){
+                    this.urlList.push(res.data.courseLists[i].courseAddress)
+                }
+                // console.log(this.urlList)
+                // 默认赋值第一节课地址
+                this.getUrl=this.urlList[0]
+
+                let vLen=this.urlList.length
+                let curr=0
+                video.addEventListener('ended',function(){
+                    if(that.notBought===false){
+                        play()
+                    }else{
+                        that.$refs.coverbg.style.display="block"
+                        that.$message({
+                            message: '请购买该课程以便观看下一节',
+                            type: 'info'
+                        });
+                    }
+                })
+                function play(){
+                    video.src=that.urlList[curr]
+                    video.load()
+                    video.play()
+                    curr++;
+                    if(curr>=vLen){
+                        curr=0
+                    }
+                }
+            })
+        },
     },
     mounted(){
+        this.coursePrice=localStorage.getItem('coursePrice')
+        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f')
+        // this.getUsrInfo()
         this.judgeBought()
         this.getCourseInfo()
         this.createPlayer()
         this.getSourse()
+        this.nextPlay()
+        this.fetchDate()
         this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px"
+        setTimeout(wxShareInit.wxReady(this.wxShareInfo),30)
+        this.testmsg=window.location.href
     }
 }
 </script>
@@ -189,26 +329,7 @@ export default {
                 border-bottom: 2px solid goldenrod;
             }
         }
-        .toBuy{
-            position: fixed;
-            width: 100%;
-            height: 57px;
-            line-height: 57px;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            background-color: #e33626;
-            color: #FFF;
-            font-size: 15px;
-            font-weight: 500;
-            span{
-                margin-right: 5px;
-                font-size: 25px;
-                vertical-align: middle;
-                position: relative;
-                top: -2px;
-            }
-        }
+
         .back{
             position: absolute;
             top: 10px;
@@ -226,6 +347,46 @@ export default {
                 font-size: 16px;
                 position: relative;
                 left: -1px;
+            }
+        }
+        .pay{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            height: 57px;
+            line-height: 57px;
+            display: flex;
+            justify-content: space-around;
+            background-color: #FFF;
+            div{
+                width: 50%;
+                font-size: 15px;
+                text-align: center;
+                span{
+                    color: #f33b3a;
+                    font-size: 19px;
+                    font-weight: 500;
+                    margin-left: 5px;
+                }
+                &:last-of-type{
+                    background-color:#f33b3a;
+                    color: #fff;
+                }
+            }
+            .toBuy{
+                color: #FFF;
+                font-size: 15px;
+                font-weight: 500;
+                span{
+                    color: #fff;
+                    margin-right: 5px;
+                    font-size: 25px;
+                    vertical-align: middle;
+                    position: relative;
+                    top: -2px;
+                }
             }
         }
     }

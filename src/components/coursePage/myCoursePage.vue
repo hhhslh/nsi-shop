@@ -2,9 +2,9 @@
     <div class="myCoursePage-com">
         <router-link tag="h4" to="/mine" class="text-center myOrder"><span class="iconfont icon-zuojiantou"></span>我的课程</router-link>
         <ul class="orderNav">
-            <router-link tag="li" exact to="/mycourse/all">全部</router-link>
+            <router-link tag="li" exact to="/mycourse/success">已付款</router-link>
             <router-link tag="li" to="/mycourse/wait">待付款</router-link>
-            <router-link tag="li" to="/mycourse/success">交易成功</router-link>
+            <router-link tag="li" to="/mycourse/all">全部</router-link>
         </ul>
         <keep-alive>
             <router-view></router-view>

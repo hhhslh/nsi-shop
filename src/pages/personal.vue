@@ -15,7 +15,7 @@
         <!-- 订单 -->
         <div class="container-fluid mt15">
             <div class="myOrderBox">
-            <h4 class="myTitle">我的订单<router-link to="/orderState" tag="div" class="moreOrder">查看全部订单<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
+            <h4 class="myTitle">书籍订单<router-link to="/orderState" tag="div" class="moreOrder">查看全部订单<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
                 <div class="orderBox">
                     <router-link to="/orderState/wait" tag="div" class="orderItme">
                         <p class="myOrderLogo orderState text-center"><span class="iconfont icon-qianbao"></span><em class="orderCount" v-if="orderState.NO_PAY>0">{{orderState.NO_PAY}}</em></p>
@@ -47,7 +47,7 @@
                 <h4 class="myTitle">我的课程<router-link to="/mycourse" tag="div" class="moreOrder">更多<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
                 <div class="orderBox courseContent">
                     <p class="noCourse text-center" v-if="courseList.length<=0">暂无购买的课程</p>
-                    <div v-else class="courseBox" v-for="(item,index) in courseList" :key="index">
+                    <div v-else class="courseBox" v-for="(item,index) in courseList" @click="toDetailCourse(item.listId)">
                         <div class="courseImgBox">
                             <img :src="item.listImgAddr" alt="" class="img-responsive">
                         </div>
@@ -157,7 +157,8 @@ export default {
                 method:'get',
                 url:'/order/find_order_count.do',
                 params:{
-                    wechatId:localStorage.getItem('openId')
+                    wechatId:localStorage.getItem('openId'),
+                    productType:'书店'
                 }
             }).then((res)=>{
                 this.orderState=res.data.data
@@ -165,17 +166,23 @@ export default {
         },
         getMyCourse(){
             myCourse({
-               wechatId:localStorage.getItem('openId')
+               wechatId:localStorage.getItem('openId'),
+               productType:'课程'
             }).then(res=>{
                 // console.log(res.data)
                 for(let i=0;i<res.data.length;i++){
-                    if(res.data[i].statusDesc==="订单完成"){
+                    if(res.data[i].statusDesc==="已付款"){
                         this.courseList.push(res.data[i])
                     }
                 }
                 // console.log(this.courseList.length)
                 // this.courseList=res.data
             })
+        },
+        toDetailCourse(id){
+            // console.log(id)
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+id
+            window.location.href=href
         }
     },
     created(){

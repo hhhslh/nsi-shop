@@ -1,7 +1,7 @@
 <template>
     <div class="courseInfo-com">
         <div class="CourseDetail">
-            <p class="courseDesc">描述<br><span>{{CourseDetail.listDescription}}</span></p>
+            <p class="courseDesc">描述<br><span v-html="CourseDetail.listDescription"></span></p>
             <div class="more">
                 <p class="moreCourse" @click="moreCourse()">查看课程目录<span class="iconfont icon-gengduo"></span></p>
             </div>
@@ -15,7 +15,7 @@ import {getFcourseDetail} from '@/api/api'
 export default {
     data() {
         return {
-            CourseDetail:[],
+            CourseDetail:{},
         }
     },
     methods:{

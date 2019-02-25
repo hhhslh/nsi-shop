@@ -4,11 +4,11 @@
         <div class="courseInfo">
             <h5 class="title">商品信息</h5>
             <div class="courseBox">
-                <!-- <div class="courseImg"><img :src="courseImg" alt="" class="img-responsive"></div> -->
-                <div><img src="../../assets/course.jpg" alt="" class="img-responsive courseImg"></div>
+                <div class="courseImg"><img :src="courseImg" alt="" class="img-responsive"></div>
+                <!-- <div><img src="../../assets/course.jpg" alt="" class="img-responsive courseImg"></div> -->
                 <div class="courseTitle">
                     <p>{{courseTitle}}</p>
-                    <p class="them">{{courseTheme}}</p>
+                    <!-- <p class="them">{{courseTheme}}</p> -->
                     <span class="price">￥{{coursePrice}}.00</span>
                 </div>
             </div>
@@ -172,7 +172,7 @@ export default {
         }
     },
     beforeMount(){
-        this.getUsrInfo()
+        // this.getUsrInfo()
     },
     mounted(){
         this.getCourseInfo()

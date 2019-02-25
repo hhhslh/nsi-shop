@@ -22,6 +22,18 @@ Vue.prototype.axios = axios
 // axios.defaults.baseURL = "http://data.xinxueshuo.cn/nsi-1.0"
 axios.defaults.baseURL = "https://data.xinxueshuo.cn/nsi-1.0"
 
+router.afterEach((to, from, next) => { 
+    setTimeout(() => {   
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e898a1b6e73616a0c84313f55a47efd6";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    }, 0);
+});
+
 Vue.use(ElementUI);
 Vue.use(VueScroller)
 
