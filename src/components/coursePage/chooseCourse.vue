@@ -3,7 +3,7 @@
         <h4 class="title">课程目录</h4>
         <div class="container">
             <ul class="courseList">
-                <li @click="getCourseAddress(item.courseAddress)" v-for="(item,index) in list" :key="index"><span class="index">{{index+1}}.</span>{{item.courseName}}<span class="time">{{item.duration}}</span></li>
+                <li @click="getCourseAddress(item.courseAddress,index)" :class="{'isActive':active===index}" v-for="(item,index) in list" :key="index"><span class="index">{{index+1}}.</span>{{item.courseName}}<span class="free" v-if="index===0">免费</span><span class="time">{{item.duration}}</span></li>
             </ul>
         </div>
     </div>
@@ -15,11 +15,13 @@ import Bus from '@/assets/js/Bus'
 export default {
     data(){
         return{
-            list:[]
+            list:[],
+            active:0
         }
     },
     methods:{
-        getCourseAddress(url){
+        getCourseAddress(url,index){
+            this.active=index
             // console.log(url)
             Bus.$emit("getSourse",url)
         },
@@ -85,6 +87,23 @@ export default {
                     color: #ccc;
                 }
             }
+            .isActive{
+                color: goldenrod;
+            }
+            .free{
+                margin-left: 8px;
+                background-color: goldenrod;
+                color: #fff;
+                border-radius: 4px;
+                display: inline-block;
+                height: 20px;
+                line-height: 20px;
+                font-size: 12px;
+                padding: 0 8px;
+                position: relative;
+                top: 10px;
+            }
         }
+
     }
 </style>

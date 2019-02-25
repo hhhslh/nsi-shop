@@ -1,7 +1,7 @@
 <template>
     <div class="orderState-com" ref="bg" v-loading='loading'>
         <!-- <h4 class="title"><span class="iconfont icon-zuojiantou goBack" @click="goBack()"></span>全部订单</h4> -->
-        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='订单完成'">
+        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='已付款'">
             <h5 class="goodsTitle">
                 <span class="iconfont icon-dianpu goodsLogo"></span><span class="goodsShop">新学说</span>
                 <span class="goodsState">{{item.statusDesc}}</span>
@@ -55,7 +55,7 @@ export default {
                     let orderList=res.data
                     let waitPayList=[]
                     for(let i=0;i<orderList.length;i++){
-                        if(orderList[i].status===5){
+                        if(orderList[i].status===2){
                             waitPayList.push(orderList[i])
                         }
                     }

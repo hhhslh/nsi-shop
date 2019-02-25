@@ -16,9 +16,11 @@ let weiChatInit = {
         axios({
             method: "get",
             // url: '/Admin_api?whereFrom=WeChatShare&Callback=',
-            url: '/wxPay/wx_chat_share.do',
+            // url: '/wxPay/wx_chat_share.do',
+            url: '/CommonApi/WxShare.do',
             params: {
-                url: window.location.href
+                // url: window.location.href
+                URL: window.location.href
             }
         }).then((res) => {
             let data = res.data.data

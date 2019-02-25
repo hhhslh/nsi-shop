@@ -85,9 +85,9 @@ export default new Router({
             path: '/detailCourse/:id',
             name: 'detailCourse',
             component: detailCourse,
-            redirect: '/detailCourse/courseInfo',
+            redirect: '/detailCourse/courseInfo/:id',
             children: [{
-                    path: '/detailCourse/courseInfo',
+                    path: '/detailCourse/courseInfo/:id',
                     component: courseInfoCom
                 },
                 {
@@ -137,7 +137,7 @@ export default new Router({
         {
             path: '/mycourse',
             component: myCoursePage,
-            redirect: '/mycourse/all',
+            redirect: '/mycourse/success',
             children: [{
                     path: '/mycourse/all',
                     component: allCourse

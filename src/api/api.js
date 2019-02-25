@@ -53,3 +53,9 @@ export const checkEmailIsLogin = p => post('/user/UserMailCheck.do', p)
 
 // 查询我的课程
 export const myCourse = p => get('/order/get_order_course_list.do', p)
+
+// 根据大课程id查询该课程信息
+export const getBigCourseDetail = p => get('/courseList/get_course_item.do', p)
+
+// 根据课程id 微信id验证课程观看权限
+export const checkOpenIdCourseIdPrivilege = p => get('/ClassUser/verify_open_by_wechatid.do', p)

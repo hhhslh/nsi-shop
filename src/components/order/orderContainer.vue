@@ -1,6 +1,6 @@
 <template>
     <div class="orderContainer-com">
-        <router-link tag="h4" to="/mine" class="text-center myOrder"><span class="iconfont icon-zuojiantou"></span>我的订单</router-link>
+        <router-link tag="h4" to="/mine" class="text-center myOrder"><span class="iconfont icon-zuojiantou"></span>书籍订单</router-link>
         <ul class="orderNav">
             <router-link tag="li" exact to="/orderState/all">全部</router-link>
             <router-link tag="li" to="/orderState/wait">待付款</router-link>
