@@ -37,12 +37,17 @@
             <!-- <span class="buyBtn shoppingCart">加入购物车</span> -->
             <router-link to="/order" tag="span" class="buyBtn buy" @click.native="saveGoodsInfo">立即购买</router-link>
         </div>
+        <service-detail></service-detail>
     </div>
 </template>
 
 <script>
+import serviceDetail from '../pages/serviceDetail'
 import wxShareInit from '@/assets/js/weChatShare.js';
 export default {
+    components:{
+        serviceDetail
+    },
     data() {
         return {
             book:{},

@@ -7,15 +7,15 @@
                 <div class="row bookList" v-for="(book,index) in bookList" :key="index" @click="toDetail(book)">
                     <div class="col-xs-4">
                         <div class="picBox">
-                            <img :src="book.listImg" alt="" class="img-responsive">
-                            <!-- <img src="../../assets/course.jpg" alt="" class="img-responsive"> -->
+                            <!-- <img :src="book.listImg" alt="" class="img-responsive"> -->
+                            <img src="../../assets/course.jpg" alt="" class="img-responsive">
                         </div>
                     </div>
                     <div class="col-xs-8 pl0">
                         <div class="infoBox">
                             <!-- <p class="englishName">{{book.englishName}}</p> -->
                             <p class="name">{{book.listTitle}}</p>
-                            <p class="bookInfo">{{book.syllabus}}</p>
+                            <p class="bookInfo">{{book.listDescription}}</p>
                             <p class="author">{{book.lecturer}}</p>
                             <p class="price">原价 ￥{{book.listPrice}}</p>
                         </div>
@@ -45,11 +45,10 @@ export default {
             localStorage.setItem('coursePrice',item.listPrice)
             localStorage.setItem('courseTitle',item.listTitle)
             localStorage.setItem('courseTheme',item.listTheme)
-            localStorage.setItem('coursePrice',item.listPrice)
-            // let routeData =this.$router.resolve({name:"detailCourse",params:{id:item.listId}})
-            // window.location.href=routeData.href
-            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+item.listId
-            window.location.href=href
+            let routeData =this.$router.resolve({name:"detailCourse",params:{id:item.listId}})
+            window.location.href=routeData.href
+            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            // window.location.href=href
         },
         getData(){
             getCourseList({
@@ -172,14 +171,14 @@ export default {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
                 // position: absolute;
                 // bottom: 8px;
                 // left: 0;
                 color: #545c63;
-                max-height: 35px;
-                min-height: 35px;
+                max-height: 55px;
+                min-height: 55px;
                 font-size: 14px;
                 line-height: 18px;
                 margin-bottom: 10px;

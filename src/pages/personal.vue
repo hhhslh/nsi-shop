@@ -47,7 +47,7 @@
                 <h4 class="myTitle">我的课程<router-link to="/mycourse" tag="div" class="moreOrder">更多<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
                 <div class="orderBox courseContent">
                     <p class="noCourse text-center" v-if="courseList.length<=0">暂无购买的课程</p>
-                    <div v-else class="courseBox" v-for="(item,index) in courseList" @click="toDetailCourse(item.listId)">
+                    <div v-else class="courseBox" v-for="(item,index) in courseList" @click="toDetailCourse(item.listId)" :key="index">
                         <div class="courseImgBox">
                             <img :src="item.listImgAddr" alt="" class="img-responsive">
                         </div>

@@ -29,6 +29,7 @@ import myCoursePage from '@/components/coursePage/myCoursePage'
 import allCourse from '@/components/coursePage/allCourse'
 import waitPayCourse from '@/components/coursePage/waitPay'
 import successCourse from '@/components/coursePage/successCourse'
+import serviceDetail from '@/pages/serviceDetail'
 
 Vue.use(Router)
 
@@ -125,6 +126,10 @@ export default new Router({
             path: '/service',
             component: servicePage,
             name: 'service'
+        }, {
+            path: '/serviceDetail',
+            component: serviceDetail,
+            name: 'serviceDetail'
         }, {
             path: '/feedback',
             component: feedBackPage

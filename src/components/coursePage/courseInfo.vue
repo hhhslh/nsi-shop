@@ -6,13 +6,17 @@
                 <p class="moreCourse" @click="moreCourse()">查看课程目录<span class="iconfont icon-gengduo"></span></p>
             </div>
         </div>
-        
+        <service-detail></service-detail>
     </div>
 </template>
 
 <script>
+import serviceDetail from '../../pages/serviceDetail'
 import {getFcourseDetail} from '@/api/api'
 export default {
+    components:{
+        serviceDetail
+    },
     data() {
         return {
             CourseDetail:{},
@@ -29,7 +33,6 @@ export default {
         moreCourse(){
             this.$router.push({path:'/detailCourse/chooseCourse'})
         }
-
     },
     created(){
         this.courseDetail()

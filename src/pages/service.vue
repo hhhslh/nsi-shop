@@ -42,8 +42,8 @@ export default {
                 width:60%;
                 margin:0 auto;
                 border-radius: 5px;
-                margin-top:50px;
-                margin-bottom:40px;
+                margin-top: 70px;
+                margin-bottom: 40px;
             }
             p{
                 text-align: center;
@@ -54,13 +54,14 @@ export default {
         .content{
             display: flex;
             justify-content: center;
-            margin-top:70px;
+            margin-top:40px;
             p{
                 text-align: center;
                 background-color: #f7f7f7;
-                width:80%;
+                width:83%;
                 padding:8px 16px;
                 color:#8c8c8c;
+                border-radius: 5px;
             }
         }
     }
