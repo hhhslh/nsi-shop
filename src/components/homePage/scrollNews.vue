@@ -77,7 +77,7 @@ export default {
                 height: 60px;
                 display: flex;
                 align-items: center;
-                margin-left: 15px;
+                margin-left: 5px;
                 color: #232323;
             }
         }

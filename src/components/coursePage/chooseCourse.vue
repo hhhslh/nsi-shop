@@ -3,7 +3,7 @@
         <h4 class="title">课程目录</h4>
         <div class="container">
             <ul class="courseList">
-                <li @click="getCourseAddress(item.courseAddress,index)" :class="{'isActive':active===index}" v-for="(item,index) in list" :key="index"><span class="index">{{index+1}}.</span>{{item.courseName}}<span class="free" v-if="index===0">免费</span><span class="time">{{item.duration}}</span></li>
+                <li @click="getCourseAddress(item.courseAddress,index)" :class="{'isActive':active===index}" v-for="(item,index) in list" :key="index"><span class="index">{{index+1}}.</span>{{item.courseName}}<span class="free" v-if="item.pattern==1">免费</span><span class="time">{{item.duration}}</span></li>
             </ul>
         </div>
     </div>

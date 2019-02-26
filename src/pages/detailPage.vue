@@ -64,13 +64,9 @@ export default {
     methods:{
         backPrePage(){
             if(history.length>0){
-                if(localStorage.getItem('isShare')){
-                    location.href="http://www.xinxueshuo.cn/nsi-shop/dist/index.html"
-                }else{
-                    history.go(-1)
-                }
+                history.go(-1)
             }else{
-                location.href="http://www.xinxueshuo.cn/nsi-shop/dist/index.html"
+                location.href="http://www.xinxueshuo.cn/nsi-shop/dist/index.html#/list"
             }
         },
         fetchDate(){

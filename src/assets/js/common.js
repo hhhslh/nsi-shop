@@ -1,3 +1,4 @@
+import axios from 'axios'
 export function getUsrInfo(url) {
     function getQueryStringArgs() {
         var qs = location.search.length > 0 ? location.search.substring(1) : '',
@@ -27,16 +28,13 @@ export function getUsrInfo(url) {
     let code = decodeURIComponent(args['code'])
     localStorage.setItem('wxCode', code)
 
-    if (storage.getItem('openId')) {
-        this.testmsg += storage.getItem('openId')
-    } else {
+    if (storage.getItem('openId')) {} else {
         if (localStorage.getItem('wxCode') == 'undefined') {
-            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=" + url + localStorage.getItem('courseId') + " &response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=" + url + " &response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
         } else {
-            this.testmsg += storage.getItem('wxCode')
             const sendData = new URLSearchParams()
             sendData.append('code', code)
-            this.axios({
+            axios({
                 method: "post",
                 url: '/wxPay/get_wx_info.do',
                 data: sendData

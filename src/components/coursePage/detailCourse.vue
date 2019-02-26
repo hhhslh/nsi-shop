@@ -4,7 +4,7 @@
             <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" controls ref="play" controlslist="nodownload"></video> -->
             <video :src="getUrl" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
             <!-- <video src="https://nsi.oss-cn-zhangjiakou.aliyuncs.com/test/yearVideo/xxs.mp4" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video> -->
-            <div class="cover coverbg" ref="coverbg">
+            <div class="cover coverbg" ref="coverbg" :style="'background-image:url('+coverImg+')'">
                 <div class="cover coverContent">
                     <span class="iconfont icon-bofang" @click="toplay"></span>
                 </div>
@@ -16,7 +16,7 @@
         </div>
         <!-- <h4>{{listId}}</h4> -->
         <div class="link">
-            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact>学习资料</router-link>
+            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact>课程介绍</router-link>
             <router-link tag="div" to="/detailCourse/chooseCourse">课程选集</router-link>
         </div>
         <div class="courseContent">
@@ -55,13 +55,13 @@ export default {
             notBought:true,
             urlList:[],
             coursePrice:'',
+            coverImg:'',
             wxShareInfo:{
                 title:"",
                 imgUrl:"",
                 href:'',
                 desc:""
-            },
-            testmsg:''
+            }
         }
     },
     methods:{
@@ -125,10 +125,11 @@ export default {
                 this.wxShareInfo.title="国际教育研究院 | "+res.data.listTitle
                 this.wxShareInfo.imgUrl=res.data.listImg
                 this.wxShareInfo.href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+res.data.listId
-                this.wxShareInfo.desc=res.data.listDescription
+                this.wxShareInfo.desc=res.data.syllabus
 
                 // 本地存储课程信息
                 let item=res.data
+                this.coverImg=item.listImg
                 localStorage.setItem('courseId',item.listId)
                 localStorage.setItem('courseImg',item.listImg)
                 localStorage.setItem('coursePrice',item.listPrice)
@@ -178,6 +179,14 @@ export default {
                     this.getUrl = msg
                     video.load()
                     video.play()
+                }else{
+                    this.$refs.coverbg.style.display="block";
+                    this.isPlay=false
+                    video.pause()
+                    this.$message({
+                        message: '您未购买该课程',
+                        type: 'info'
+                    });
                 }
                 // console.log(this.getUrl)
             })
@@ -225,6 +234,7 @@ export default {
                     if(that.notBought===false){
                         play()
                     }else{
+                        video.pause()
                         that.$refs.coverbg.style.display="block"
                         that.$message({
                             message: '请购买该课程以便观看下一节',
@@ -246,7 +256,7 @@ export default {
     },
     mounted(){
         this.coursePrice=localStorage.getItem('coursePrice')
-        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f')
+        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f'+ localStorage.getItem('courseId'))
         // this.getUsrInfo()
         this.judgeBought()
         this.getCourseInfo()
@@ -256,7 +266,7 @@ export default {
         this.fetchDate()
         this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px"
         setTimeout(wxShareInit.wxReady(this.wxShareInfo),30)
-        this.testmsg=window.location.href
+        // this.testmsg=window.location.href
     }
 }
 </script>
@@ -282,10 +292,11 @@ export default {
                 top: 0;
             }
             .coverbg{
-                background-image: url('../../assets/course.jpg');
-                background-size: cover;
-                background-position: center top;
+                // background-image: url('../../assets/course.jpg');
+                background-size: 100%;
+                background-position: center center;
                 z-index: 1;
+                overflow: hidden;
                 &::after{
                     content: "";
                     width:100%;
@@ -294,7 +305,7 @@ export default {
                     left:0;
                     top:0;
                     background: inherit;
-                    filter: blur(5px);
+                    filter: blur(8px);
                     z-index: 2;
                 }
             }
