@@ -119,8 +119,8 @@ export default {
                 wxPay({
                     openid:openId,
                     body:courseTitle,
-                    // total_fee:payInfo.totalPrice,
-                    total_fee:'0.01',
+                    total_fee:payInfo.totalPrice,
+                    // total_fee:'0.01',
                     out_trade_no:payInfo.orderNo
                 }).then(res=>{
                         let payment=res.data

@@ -30,9 +30,6 @@
 export default {
     name:'app',
     mounted(){
-    //   document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-    //       WeixinJSBridge.call('hideToolbar');
-    //     });
     }
 }
 </script>

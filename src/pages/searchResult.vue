@@ -12,7 +12,7 @@
             <div :class="ishotKey ? 'show':'hide'">
                 <p class="hotKey">热门搜索</p>
                 <div class="bookName">
-                    <span  v-for="item in CommandName" :key="item" @click="toEnter(item.id)">{{item.goodsName}}</span>
+                    <span  v-for="(item,index) in CommandName" :key="index" @click="toEnter(item.id)">{{item.goodsName}}</span>
                 </div>
             </div>
             <div class="searchResultTxt" v-if="searchTotal>0&&notClickFlag">共搜到{{searchTotal}}条与<span>{{'"'+searchKey+'"'}}</span>相关的结果</div>

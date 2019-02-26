@@ -30,6 +30,7 @@ import allCourse from '@/components/coursePage/allCourse'
 import waitPayCourse from '@/components/coursePage/waitPay'
 import successCourse from '@/components/coursePage/successCourse'
 import serviceDetail from '@/pages/serviceDetail'
+import pcPage from '@/pages/judgeIsPc'
 
 Vue.use(Router)
 
@@ -156,6 +157,10 @@ export default new Router({
                     component: successCourse
                 }
             ]
+        },
+        {
+            path: '/pc',
+            component: pcPage
         }
     ]
 })

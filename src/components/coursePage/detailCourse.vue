@@ -2,7 +2,7 @@
     <div class="detailCourse-com" ref="bg">
         <div class="videoBox">
             <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" controls ref="play" controlslist="nodownload"></video> -->
-            <video :src="getUrl" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
+            <video webkit-playsinline="true" :src="getUrl" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
             <!-- <video src="https://nsi.oss-cn-zhangjiakou.aliyuncs.com/test/yearVideo/xxs.mp4" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video> -->
             <div class="cover coverbg" ref="coverbg" :style="'background-image:url('+coverImg+')'">
                 <div class="cover coverContent">
@@ -176,6 +176,7 @@ export default {
             let video=this.$refs.play
             Bus.$on('getSourse', (msg) => {
                 if(this.notBought===false){
+                    video.pause()
                     this.getUrl = msg
                     video.load()
                     video.play()
@@ -256,7 +257,7 @@ export default {
     },
     mounted(){
         this.coursePrice=localStorage.getItem('coursePrice')
-        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f'+ localStorage.getItem('courseId'))
+        // getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f'+ localStorage.getItem('courseId'))
         // this.getUsrInfo()
         this.judgeBought()
         this.getCourseInfo()

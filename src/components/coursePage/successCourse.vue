@@ -71,9 +71,9 @@ export default {
             history.go(-1)
         },
         toDetail(id){
-            localStorage.getItem('courseId',id)
+            localStorage.setItem('courseId',id)
             this.courseId=id
-            window.location.href="https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo"
+            window.location.href="https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/"+id
         },
         cancleOrder(ordernum){
             this.axios({
@@ -101,8 +101,8 @@ export default {
                 params:{
                     openid:localStorage.getItem('openId'),
                     body:item.product.goodsName,
-                    // total_fee:item.totalPrice,
-                    total_fee:'0.01',
+                    total_fee:item.totalPrice,
+                    // total_fee:'0.01',
                     out_trade_no:item.orderNo
                 }
             }).then((res)=>{
@@ -132,7 +132,7 @@ export default {
                                     ClassId:localStorage.getItem('courseId'),
                                     UserMail:localStorage.getItem('email')
                                 }).then(res=>{
-                                    window.location.href="https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo"
+                                    window.location.href="https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo"+localStorage.getItem('courseId')
                                 })
                             } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
                         }

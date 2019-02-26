@@ -102,8 +102,8 @@ export default {
                 params:{
                     openid:localStorage.getItem('openId'),
                     body:item.product.goodsName,
-                    // total_fee:item.totalPrice,
-                    total_fee:0.01,
+                    total_fee:item.totalPrice,
+                    // total_fee:0.01,
                     out_trade_no:item.orderNo
                 }
             }).then((res)=>{

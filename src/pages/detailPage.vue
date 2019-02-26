@@ -63,11 +63,7 @@ export default {
     },
     methods:{
         backPrePage(){
-            if(history.length>0){
-                history.go(-1)
-            }else{
-                location.href="http://www.xinxueshuo.cn/nsi-shop/dist/index.html#/list"
-            }
+            location.href="http://www.xinxueshuo.cn/nsi-shop/dist/index.html#/list"
         },
         fetchDate(){
             this.listId = this.$route.params.id;
