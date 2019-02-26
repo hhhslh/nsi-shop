@@ -1,7 +1,7 @@
 <template>
     <div class="complementInfo-com animated">
         <div class="infoBox">
-            <h4 class="title">请补全信息以完成购买<span class="close" @click="hideBox">x</span></h4>
+            <h4 class="title text-center"><i class="el-icon-warning warning"></i>&nbsp;请补全信息以完成购买<span class="close el-icon-error" @click="hideBox"></span></h4>
             <!-- <div class="form text-center">
                 <input type="text" class="txt" placeholder="姓名">
                 <input type="text" class="txt" placeholder="公司">
@@ -19,7 +19,7 @@
                     <el-input v-model="ruleForm.campany"></el-input>
                 </el-form-item>
                 <p class="tips">{{tips}}</p>
-                <a href="javascript:;" class="btn btn-danger apply" @click="toapply">提交</a>
+                <el-button href="javascript:;" type="primary" class="apply" @click="toapply" icon="el-icon-check" round>提交</el-button>
             </el-form>
         </div>
     </div>
@@ -108,26 +108,33 @@ export default {
     .complementInfo-com{
         position: fixed;
         z-index: 100;
-        bottom: 0;
+        bottom: 8px;
         min-height: 320px;
         background-color: #FFF;
-        width: 100%;
+        width: 96%;
+        left: 50%;
+        margin-left: -48%;
         // border-top: 2px solid #e33626;
-        box-shadow: 0 -3px 10px rgba(46, 46, 46, 0.3);
-        padding:0 20px;
+        box-shadow: 0 -3px 10px rgba(46, 46, 46, 0.2);
+        padding:15px 20px 15px;
+        border-radius: 10px;
         .title{
             font-size: 15px;
             font-weight: 600;
             color: #232323;
             position: relative;
+            margin-top: 0;
             margin-bottom: 20px;
+            .warning{
+                color: goldenrod;
+            }
         }
         .close{
             position: absolute;
-            right: 0;
-            top: -10px;
-            font-size: 30px;
-            color: #525252;
+            right: -8px;
+            top: -5px;
+            font-size: 20px;
+            color: #242424;
         }
         .txt{
             display: block;

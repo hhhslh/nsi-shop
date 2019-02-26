@@ -9,6 +9,7 @@
                         <div class="picBox">
                             <img :src="book.listImg" alt="" class="img-responsive">
                             <!-- <img src="../../assets/course.jpg" alt="" class="img-responsive"> -->
+                            <span class="iconfont icon-bofang listlogo"></span>
                         </div>
                     </div>
                     <div class="col-xs-8 pl0">
@@ -17,7 +18,8 @@
                             <p class="name">{{book.listTitle}}</p>
                             <p class="bookInfo">{{book.syllabus}}</p>
                             <p class="author">{{book.lecturer}}</p>
-                            <p class="price">原价 ￥{{book.listPrice}}</p>
+                            <p class="price" v-if="book.listPrice!=0">原价 ￥{{book.listPrice}}</p>
+                            <p class="price" v-else>即将上线</p>
                         </div>
                     </div>
                 </div>
@@ -40,16 +42,24 @@ export default {
     methods:{
         toDetail(item){
             // console.log(item)
-            localStorage.setItem('courseId',item.listId)
-            localStorage.setItem('courseImg',item.listImg)
-            localStorage.setItem('coursePrice',item.listPrice)
-            localStorage.setItem('courseTitle',item.listTitle)
-            localStorage.setItem('courseTheme',item.listTheme)
-            localStorage.setItem('coursePrice',item.listPrice)
-            let routeData =this.$router.resolve({name:"detailCourse",params:{id:item.listId}})
-            window.location.href=routeData.href
-            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+item.listId
-            // window.location.href=href
+            if(item.listPrice!=0){
+                localStorage.setItem('courseId',item.listId)
+                localStorage.setItem('courseImg',item.listImg)
+                localStorage.setItem('coursePrice',item.listPrice)
+                localStorage.setItem('courseTitle',item.listTitle)
+                localStorage.setItem('courseTheme',item.listTheme)
+                localStorage.setItem('coursePrice',item.listPrice)
+                // let routeData =this.$router.resolve({name:"detailCourse",params:{id:item.listId}})
+                // window.location.href=routeData.href
+                let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+item.listId
+                window.location.href=href
+            }else{
+                this.$message({
+                    message: '课程筹备中，敬请期待',
+                    type: 'warning',
+                    duration:1500
+                });
+            }
         },
         getData(){
             getCourseList({
@@ -124,6 +134,16 @@ export default {
         }
         .bookList{
             margin-bottom: 10px;
+        }
+        .picBox{
+            position: relative;
+            .listlogo{
+                position: absolute;
+                right: 8px;
+                bottom: 3px;
+                font-size: 25px;
+                color: #fff;
+            }
         }
         .infoBox{
             min-height: 155px;

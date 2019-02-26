@@ -7,6 +7,10 @@
                   <!-- <img :src="bannerInfos.content03" alt="" class="img-responsive" @click="toDetail(bannerInfos.content02)"> -->
                   <img src="../../assets/shopBanner.jpg" alt="">
               </div>
+              <div class="swiper-slide">
+                  <!-- <img :src="bannerInfos.content03" alt="" class="img-responsive" @click="toDetail(bannerInfos.content02)"> -->
+                  <img src="../../assets/banner02.jpg" alt="">
+              </div>
           </div>
           <div class="swiper-pagination" slot="pagination"></div>
       </div>
