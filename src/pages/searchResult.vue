@@ -9,9 +9,11 @@
                 </div>
                 <span class="toSearch" @click="getSearchData(searchKey)">搜索</span>
             </div>
-            <p class="hotKey">热门搜索</p>
-            <div class="bookName">
-                <span  v-for="(item,index) in CommandName" :key="index" @click="toEnter(item.id)">{{item.goodsName}}</span>
+            <div :class="ishotKey ? 'show':'hide'">
+                <p class="hotKey">热门搜索</p>
+                <div class="bookName">
+                    <span  v-for="item in CommandName" :key="item" @click="toEnter(item.id)">{{item.goodsName}}</span>
+                </div>
             </div>
             <div class="searchResultTxt" v-if="searchTotal>0&&notClickFlag">共搜到{{searchTotal}}条与<span>{{'"'+searchKey+'"'}}</span>相关的结果</div>
         </div>
@@ -57,7 +59,8 @@ export default {
             searchTotal:0,
             notClickFlag:true,
             searchListTop:105,
-            CommandName:[]
+            CommandName:[],
+            ishotKey:true
         }
     },
     methods:{
@@ -67,13 +70,13 @@ export default {
             }else{
                 location.href="https://www.xinxueshuo.cn/nsi-shop/dist/index.html"
             }
-        },
+        }, 
         toDetail(id){
             localStorage.setItem("isShare",false)
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
-            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
-            // window.location.href=href
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            window.location.href=href
         },
         isClick(){
             this.notClickFlag=false
@@ -88,12 +91,12 @@ export default {
             })
         },
         toEnter(id){
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
-            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
-            // window.location.href=href
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            window.location.href=href
         },
-        getData(){
+        getData(){  
             // console.log(this.searchKey)
             const data = new URLSearchParams();
             data.append('type', '新学说书籍');
@@ -127,8 +130,9 @@ export default {
                 pageSize:this.searchSize,
                 searchKey:key
             }).then(res=>{
-                 this.notClickFlag=true
-                    this.searchListTop=135
+                this.ishotKey=false
+                this.notClickFlag=true
+                this.searchListTop=135
                 // console.log(res.data.data)
                 let maxSize=res.data.list.length
                 this.searchTotal=res.data.total

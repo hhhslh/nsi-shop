@@ -7,13 +7,13 @@
             <home-banner/>
             <!-- scrollNews -->
             <div class="scrollBox">
-                <div class="text"><span>心</span>选<br/>资讯</div>
+                <div class="text">教育<br/>资讯</div>
                 <scroll-news class="scrollNews"/>
             </div>
             <!-- list -->
             <div class="bookList">
                 <div class="bookListContent">
-                    <h4 class="title" style="margin-top:30px;">最受欢迎</h4>
+                    <h4 class="title" style="margin-top:30px;">最新研究报告</h4>
                     <div class="bookContent">
                         <div class="row">
                             <div class="col-xs-4" v-for="(item,index) in bookPopList" :key="index" v-if="index<3" @click="toDetail(item.id)">
@@ -25,23 +25,24 @@
                     </div>
                 </div>
                  <div class="bookListContent">
-                    <h4 class="title">在线课程</h4>    
+                    <h4 class="title">国际学校职能岗位课程</h4>    
                     <div class="courseContentRow" v-for="(item,index) in courseList" :key="index"  @click="toCourseDetail(item.listId)">
                         <div class="row">
                             <div class="col-xs-4">
                                 <img :src="item.listImg" alt="" class="img-responsive bookImg">
+                                <span class="iconfont icon-bofang"></span>
                             </div>
                             <div class="col-xs-8 pl0 pr160">
                                 <h4 class="bookName">{{item.listTitle}}</h4>
                                 <p class="bookAuthor">{{item.lecturer}}</p>
                                 <!-- <p class="bookPress">{{item.goodsPress}}</p> -->
-                                <p class="bookDesc">{{item.listDescription}}</p>
+                                <p class="bookDesc">{{item.syllabus}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bookListContent">
-                    <h4 class="title">限时特价</h4>
+                    <h4 class="title">限时特惠</h4>
                     <div class="bookContent">
                         <div class="row">
                             <div class="col-xs-4" v-for="(item,index) in bookSaleList" :key="index"  @click="toDetail(item.id)">
@@ -103,7 +104,7 @@ export default {
         search
     },
     methods:{
-        toDetail(id){
+        toDetail(id){  
             let routeData =this.$router.resolve({name:"detail",params:{id:id}})
             window.location.href=routeData.href
             // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
@@ -115,7 +116,7 @@ export default {
             window.location.href=routeData.href
             // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+listId
             // window.location.href=href
-        },
+        },             
         courseIndex(){
             getCourseList({
                 type:'新学说书籍',
@@ -123,9 +124,9 @@ export default {
                 pageNum:this.pageNum,
                 pageSize:this.pageSize
             }).then((res)=>{
-                this.courseList=res.data.list.slice(0,3)
+                this.courseList=res.data.list.slice(0,1)
             })
-        },
+        },   
         bookPop(){
             getBookPopList({
                 'type':'ShopHomeTop'
@@ -288,6 +289,8 @@ export default {
                 .bookName{
                     margin-top: 0;
                     font-size:18px;
+                    min-height: 40px;
+                    max-height:40px;
                 }
                 .bookDesc{
                     color:#777;
@@ -306,15 +309,27 @@ export default {
                 }
             }
             .courseContentRow{
+                img{
+                    position: relative;
+                }
+                span{
+                    position: absolute;
+                    right: 20px;
+                    bottom: 12px;
+                    font-size: 25px;
+                    color: #fff;
+                }
                 .bookName{
                     margin-top: 0;
                     font-size:18px;
+                    min-height: 40px;
+                    max-height: 40px;
                 }
                 .bookDesc{
                     color:#777;
                     position: absolute;
                     padding-right: 15px;
-                    bottom: 45px;
+                    bottom: 15px;
                     left: 0;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -354,9 +369,6 @@ export default {
                 letter-spacing: 6px;
                 position: relative;
                 left: -7px;
-                span{
-                    color: rgb(247, 75, 75);
-                }
                 &::after{
                     display: block;
                     content:"";
