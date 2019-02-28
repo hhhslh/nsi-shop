@@ -105,17 +105,17 @@ export default {
     },
     methods:{
         toDetail(id){  
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
-            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
-            // window.location.href=href
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            window.location.href=href
         },
         toCourseDetail(listId){
             localStorage.setItem('courseId',listId)
-            let routeData =this.$router.resolve({name:"detailCourse",params:{id:localStorage.getItem('courseId')}})
-            window.location.href=routeData.href
-            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+listId
-            // window.location.href=href
+            // let routeData =this.$router.resolve({name:"detailCourse",params:{id:localStorage.getItem('courseId')}})
+            // window.location.href=routeData.href
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+listId
+            window.location.href=href
         },             
         courseIndex(){
             getCourseList({

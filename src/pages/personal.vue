@@ -86,6 +86,7 @@
 
 <script>
 import {myCourse} from '@/api/api'
+import {getUsrInfo} from '@/assets/js/common.js'
 export default {
     data() {
         return {
@@ -97,58 +98,58 @@ export default {
         }
     },
     methods:{
-        getQueryStringArgs() {
-            var qs = location.search.length > 0 ? location.search.substring(1) : '',
-                args = {},
-                items = qs.length ? qs.split('&') : [],
-                item = null,
-                name = null,
-                value = null,
-                i = 0,
-                len = items.length;
-            for (i = 0; i < len; i++) {
-                    item = items[i].split('=');
-                    name = decodeURIComponent(item[0]);
-                    value = decodeURIComponent(item[1]);
-                    name = item[0];
-                    value = item[1];
+        // getQueryStringArgs() {
+        //     var qs = location.search.length > 0 ? location.search.substring(1) : '',
+        //         args = {},
+        //         items = qs.length ? qs.split('&') : [],
+        //         item = null,
+        //         name = null,
+        //         value = null,
+        //         i = 0,
+        //         len = items.length;
+        //     for (i = 0; i < len; i++) {
+        //             item = items[i].split('=');
+        //             name = decodeURIComponent(item[0]);
+        //             value = decodeURIComponent(item[1]);
+        //             name = item[0];
+        //             value = item[1];
 
-                    if (name.length) {
-                        args[name] = value;
-                    }
-                }
-            return args;
-        },
-        getUsrInfo(){
-            // 存取code
-            let args = this.getQueryStringArgs(),
-                code = decodeURIComponent(args['code']),
-                storage = window.localStorage
-            storage['wxCode'] = code
+        //             if (name.length) {
+        //                 args[name] = value;
+        //             }
+        //         }
+        //     return args;
+        // },
+        // getUsrInfo(){
+        //     // 存取code
+        //     let args = this.getQueryStringArgs(),
+        //         code = decodeURIComponent(args['code']),
+        //         storage = window.localStorage
+        //     storage['wxCode'] = code
 
-            if(storage.wxCode!='undefined'){
-                if(storage.openId){
-                    localStorage.setItem("isShare",false)
-                }else{
-                    localStorage.setItem("isShare",true)
-                    const sendData=new URLSearchParams()
-                    sendData.append('code',code)
-                    this.axios({
-                        method:"post",
-                        url:'/wxPay/get_wx_info.do',
-                        data:sendData
-                    }).then((res)=>{
-                        storage['openId']=res.data.data.openid
-                        storage['headimgurl']=res.data.data.headimgurl
-                        storage['nickname']=res.data.data.nickname
-                        location.reload()
-                    })
-                }
-            }else{
-                // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2fdetailPage%2f"+this.listId+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fmine&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-            }
-        },
+        //     if(storage.wxCode!='undefined'){
+        //         if(storage.openId){
+        //             localStorage.setItem("isShare",false)
+        //         }else{
+        //             localStorage.setItem("isShare",true)
+        //             const sendData=new URLSearchParams()
+        //             sendData.append('code',code)
+        //             this.axios({
+        //                 method:"post",
+        //                 url:'/wxPay/get_wx_info.do',
+        //                 data:sendData
+        //             }).then((res)=>{
+        //                 storage['openId']=res.data.data.openid
+        //                 storage['headimgurl']=res.data.data.headimgurl
+        //                 storage['nickname']=res.data.data.nickname
+        //                 location.reload()
+        //             })
+        //         }
+        //     }else{
+        //         // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2fdetailPage%2f"+this.listId+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+        //         window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fmine&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+        //     }
+        // },
         toVip(){
             window.open('https://www.xinxueshuo.cn/#/vip','_blank')
         },
@@ -186,7 +187,7 @@ export default {
         }
     },
     created(){
-        this.getUsrInfo()
+        // this.getUsrInfo()
     },
     beforeMount(){
         let storage = window.localStorage
@@ -211,6 +212,7 @@ export default {
         })
     },
     mounted(){
+        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fmine')
         this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px";
         this.getOrderCount()
         this.getMyCourse()

@@ -257,7 +257,7 @@ export default {
     },
     mounted(){
         this.coursePrice=localStorage.getItem('coursePrice')
-        // getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f'+ localStorage.getItem('courseId'))
+        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f'+ localStorage.getItem('courseId'))
         // this.getUsrInfo()
         this.judgeBought()
         this.getCourseInfo()
