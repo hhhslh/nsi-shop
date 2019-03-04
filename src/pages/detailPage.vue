@@ -33,7 +33,8 @@
         </div>
         <div class="content" v-html="book.goodsInfo"></div>
         <div class="buyBox">
-            <span class="buyBtn price">售价：<span>￥{{book.goodsPrice}}</span><em class="free">免运费</em></span>
+            <!-- <span class="buyBtn price">售价：<span>￥{{book.goodsPrice}}.00</span><em class="free">免运费</em></span> -->
+            <span class="buyBtn price">售价：<span>￥{{book.goodsPrice}}.00</span></span>
             <!-- <span class="buyBtn shoppingCart">加入购物车</span> -->
             <router-link to="/order" tag="span" class="buyBtn buy" @click.native="saveGoodsInfo">立即购买</router-link>
         </div>

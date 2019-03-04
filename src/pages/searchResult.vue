@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </scroller>
-        </div>
+        </div> 
     </div>
 </template>
 

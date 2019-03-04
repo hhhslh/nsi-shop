@@ -14,11 +14,11 @@
                     <p class="goodsName">{{item.listTitle}}</p>
                     <p class="goodsPress">国际教育研究院</p>
                     <p class="goodsPress goodsPress01"><span>系列：{{item.listTheme}}</span></p>
-                    <p class="goodsPrice">￥{{item.totalPrice}}<span class="num">x1</span></p>
+                    <p class="goodsPrice">￥{{item.totalPrice}}.00<span class="num">x1</span></p>
                 </div>
             </div>
             <div class="total">
-                <p class="text-right">共计1件商品 合计:￥<span class="totalPrice">{{item.totalPrice}}</span></p>
+                <p class="text-right">共计1件商品 合计:￥<span class="totalPrice">{{item.totalPrice}}.00</span></p>
             </div>
             <div class="btnBox text-right" v-if="item.statusDesc==='未支付'">
                 <a href="javascript:;" class="cancle" @click="cancleOrder(item.orderNo)">取消订单</a>

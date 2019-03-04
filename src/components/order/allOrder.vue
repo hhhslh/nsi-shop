@@ -14,11 +14,11 @@
                     <p class="goodsName">{{item.product.goodsName}}</p>
                     <p class="goodsPress">{{item.product.goodsPress}}</p>
                     <p class="goodsPress goodsPress01"><span>系列：{{item.product.goodsSeries}}</span></p>
-                    <p class="goodsPrice">￥{{item.product.goodsPrice}}<span class="num">x{{item.quantity}}</span></p>
+                    <p class="goodsPrice">￥{{item.product.goodsPrice}}.00<span class="num">x{{item.quantity}}</span></p>
                 </div>
             </div>
             <div class="total">
-                <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}</span></p>
+                <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}.00</span></p>
             </div>
             <div class="btnBox text-right" v-if="item.statusDesc==='未支付'">
                 <a href="javascript:;" class="cancle" @click="cancleOrder(item.orderNo)">取消订单</a>

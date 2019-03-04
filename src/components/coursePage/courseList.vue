@@ -18,7 +18,7 @@
                             <p class="name">{{book.listTitle}}</p>
                             <p class="bookInfo">{{book.syllabus}}</p>
                             <p class="author">{{book.lecturer}}</p>
-                            <p class="price" v-if="book.listPrice!=0">原价 ￥{{book.listPrice}}</p>
+                            <p class="price" v-if="book.listPrice!=0">原价 ￥{{book.listPrice}}.00</p>
                             <p class="price" v-else>即将上线</p>
                         </div>
                     </div>

@@ -24,7 +24,7 @@
                 </div>
                 <div class="goodsDesc">
                     <p class="goodsName">{{goodsName}}</p>
-                    <p class="goodsPrice">￥{{goodsPrice}}<span class="num">x{{num}}</span></p>
+                    <p class="goodsPrice">￥{{goodsPrice}}.00<span class="num">x{{num}}</span></p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
         </div>
         <!-- 购买btn -->
         <div class="buyBtnBox">
-            <div>合计金额：<span class="rmb">￥</span><span class="totalPrice">{{totalPrice}}</span></div>
+            <div>合计金额：<span class="rmb">￥</span><span class="totalPrice">{{totalPrice}}.00</span></div>
             <div class="apply" @click="sendShoppingInfo">立即支付</div>
         </div>
     </div>

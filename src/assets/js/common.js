@@ -1,4 +1,8 @@
 import axios from 'axios'
+/**
+ *获取用户微信信息
+ *@param {String} url [回调地址]
+ */
 export function getUsrInfo(url) {
     function getQueryStringArgs() {
         var qs = location.search.length > 0 ? location.search.substring(1) : '',
@@ -47,3 +51,27 @@ export function getUsrInfo(url) {
         }
     }
 }
+
+/**
+ * 函数防抖 (只执行最后一次点击)
+ * @param fn
+ * @param delay
+ * @returns {Function}
+ * @constructor
+ */
+export const Debounce = (fn, t) => {
+    let delay = t || 500;
+    let timer;
+    console.log(fn)
+    console.log(typeof fn)
+    return function() {
+        let args = arguments;
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+            timer = null;
+            fn.apply(this, args);
+        }, delay);
+    }
+};

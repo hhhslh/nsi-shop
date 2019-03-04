@@ -114,7 +114,7 @@ export default {
             localStorage.setItem('courseId',listId)
             // let routeData =this.$router.resolve({name:"detailCourse",params:{id:localStorage.getItem('courseId')}})
             // window.location.href=routeData.href
-            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+listId
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+listId
             window.location.href=href
         },             
         courseIndex(){
