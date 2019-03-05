@@ -23,6 +23,7 @@
 <script>
 import chooseAddress from '@/components/address/chooseAddress';
 import {createAddress} from '@/api/api'
+import {Debounce} from '@/assets/js/common'
 export default {
     data() {
         return {
@@ -57,7 +58,7 @@ export default {
             this.district=val.district
             this.addressVal=val.province+' '+val.city+' '+val.district
         },
-        saveAddress(){
+        saveAddress:Debounce(function(){
             let name=this.$refs.usr.value
             let phoneVal=this.$refs.tel.value
             let area01=this.province
@@ -93,7 +94,7 @@ export default {
                     type: 'error'
                 });
             }
-        }
+        })
     },
 
     mounted(){
