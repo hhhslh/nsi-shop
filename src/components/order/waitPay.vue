@@ -1,7 +1,7 @@
 <template>
     <div class="orderState-com waitPay-com" ref="bg" v-loading="loading">
         <!-- <h4 class="title"><span class="iconfont icon-zuojiantou goBack" @click="goBack()"></span>全部订单</h4> -->
-        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='未支付'">
+        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.productType=='书店'&&item.statusDesc==='未支付'">
             <h5 class="goodsTitle">
                 <span class="iconfont icon-dianpu goodsLogo"></span><span class="goodsShop">{{item.product.goodsPress}}</span>
                 <span class="goodsState">{{item.statusDesc}}</span>
@@ -62,7 +62,7 @@ export default {
                     let orderList=res.data.data
                     let waitPayList=[]
                     for(let i=0;i<orderList.length;i++){
-                        if(orderList[i].status===1){
+                        if(orderList[i].status===1&&orderList[i].productType=="书店"){
                             waitPayList.push(orderList[i])
                         }
                     }
@@ -152,7 +152,7 @@ export default {
         this.getOrderList()
     },
     mounted(){
-        this.$refs.bg.style.minHeight=(window.innerHeight-100)+"px"
+        this.$refs.bg.style.minHeight=(window.innerHeight-155)+"px"
     }
 }
 </script>

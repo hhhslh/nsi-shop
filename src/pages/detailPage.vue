@@ -34,9 +34,18 @@
         <div class="content" v-html="book.goodsInfo"></div>
         <div class="buyBox">
             <!-- <span class="buyBtn price">售价：<span>￥{{book.goodsPrice}}.00</span><em class="free">免运费</em></span> -->
-            <span class="buyBtn price">售价：<span>￥{{book.goodsPrice}}.00</span></span>
+            <div class="cartBox">
+                <span class="buyBtn price"><span>￥{{book.goodsPrice}}.00</span></span>
+                <router-link tag="div" to="/cart" class="cartLogo" @click.native="createCid">
+                    <div class="iconfont icon-gouwuche itemlogo"></div>
+                    <div class="text-center item">购物车</div>
+                </router-link>
+            </div>
             <!-- <span class="buyBtn shoppingCart">加入购物车</span> -->
-            <router-link to="/order" tag="span" class="buyBtn buy" @click.native="saveGoodsInfo">立即购买</router-link>
+            <div class="btnAllBox">
+                <router-link to="" tag="span" class="buyBtn buy cart" @click.native="addCart">加入购物车</router-link>
+                <router-link to="/order" tag="span" class="buyBtn buy" @click.native="saveGoodsInfo">立即购买</router-link>
+            </div>
         </div>
         <service-detail></service-detail>
     </div>
@@ -45,6 +54,8 @@
 <script>
 import serviceDetail from '../pages/serviceDetail'
 import wxShareInit from '@/assets/js/weChatShare.js';
+import {Debounce,getUsrInfo} from '@/assets/js/common'
+import {createCartId} from '@/api/api'
 export default {
     components:{
         serviceDetail
@@ -112,11 +123,53 @@ export default {
                 }
             }
             return args;
+        },
+        addCart:Debounce(function(){
+            let idExist=this.$store.state.shoppingList.find((item)=>{
+                return item.goodsId==this.$route.params.id
+            })
+            if(!idExist){
+                let data={
+                    goodsId: this.$route.params.id,
+                    goodsName: this.book.goodsName,
+                    goodsPrice: this.book.goodsPrice,
+                    goodsImg:this.book.goodsImg,
+                    goodsNum: 1
+                }
+                this.$store.commit("addGoods",data)
+                this.$message({
+                    message: '成功添加至购物车',
+                    type: 'success',
+                    duration:1500
+                })
+            }else{
+                this.$message({
+                    message: '已加入购物车',
+                    type: 'warning',
+                    duration:1500
+                })
+            }
+        }),
+        createCid(){
+            if(localStorage.getItem('cartId')){}else{
+                localStorage.removeItem('vuex')  
+                // localStorage.setItem('vuex','')          
+                createCartId({
+                    openId:localStorage.getItem('openId')
+                    // openId:'oCUylv0A1A2hO9JNaCNhVom8guLE'
+                }).then(res=>{
+                    localStorage.setItem('cartId',res.data)
+                })
+            }
         }
     },
     created(){
         this.fetchDate()
         setTimeout(wxShareInit.wxReady(this.wxShareInfo),500)
+    },
+    mounted(){
+        localStorage.setItem('courseId',this.$route.params.id)
+        getUsrInfo('https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+localStorage.getItem('courseId'))
     }
 }
 </script>
@@ -245,28 +298,71 @@ export default {
             left: 0;
             width: 100%;
             background-color: #FFF;
-            padding: 8px 15px;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
+            // padding: 8px 15px;
+            height: 57px;
+            // border-top: 1px solid #eee;
+            // border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             z-index: 100;
-            .buyBtn{
-                width: 120px;
-                text-align: center;
-                height: 40px;
-                line-height: 40px;
-                border-radius: 4px;
-                margin: 0 3px;
+            .cartBox{
+                width: 40%;
+                display: flex;
+                justify-content: space-around;
+                padding-right: 10px;
+                .cartLogo{
+                    display: flex; 
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    .itemlogo{
+                        font-size: 24px;
+                        font-weight: 500;
+                        position: relative;
+                        top: 2px;
+                    }
+                    .item{
+                        font-size: 12px;
+                        position: relative;
+                        top: -1px;
+                    }
+                }
             }
+            .btnAllBox{
+                width: 60%;
+                display: flex;
+                .buyBtn{
+                    // width: 50%;
+                    width: 45%;
+                    // height: 100%;
+                    height: 80%;
+                    border-radius: 4px;
+                    margin: 6px;
+                    font-weight: 500;
+                    font-size: 15px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .buy{
+                    background-color: #feb84f;
+                    color: #fff;
+                }
+                .cart{
+                    background-color: #fe5c4f;
+                }
+            }
+            
             .price{
-                font-size: 19px;
+                font-size: 17px;
                 color: #fb2727;
                 // font-weight: 600;
-                width: 160px;
+                display: flex;
+                align-items: center;
+                width: auto;
                 span{
                     font-weight: 600;
-                    font-size: 22px;
+                    font-size: 16x;
                 }
                 .free{
                     font-style: normal;
@@ -281,10 +377,7 @@ export default {
                 background-color: #ffaaaa;
                 color: #fb2727;
             }
-            .buy{
-                background-color: #fb2727;
-                color: #fff;
-            }
+           
         }
     }
 </style>

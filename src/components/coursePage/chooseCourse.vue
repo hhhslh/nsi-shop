@@ -3,7 +3,7 @@
         <h4 class="title">课程目录</h4>
         <div class="container">
             <ul class="courseList">
-                <li @click="getCourseAddress(item.courseAddress,index)" :class="{'isActive':active===index}" v-for="(item,index) in list" :key="index"><span class="index">{{index+1}}.</span>{{item.courseName}}<span class="free" v-if="item.pattern==1">免费</span><span class="time">{{item.duration}}</span></li>
+                <li @click="getCourseAddress(item.courseAddress,index,item.pattern)" :class="{'isActive':active===index}" v-for="(item,index) in list" :key="index"><span class="index">{{index+1}}.</span>{{item.courseName}}<span class="free" v-if="item.pattern==1">试看</span><span class="time">{{item.duration}}</span></li>
             </ul>
         </div>
     </div>
@@ -20,10 +20,14 @@ export default {
         }
     },
     methods:{
-        getCourseAddress(url,index){
+        getCourseAddress(url,index,pattern){
+            let courseInfo={
+                url,
+                pattern
+            }
             this.active=index
             // console.log(url)
-            Bus.$emit("getSourse",url)
+            Bus.$emit("getSourse",courseInfo)
         },
         getList(){
             getCourseDetail({
@@ -70,7 +74,8 @@ export default {
                 display: flex;
                 width: 100%;
                 // height: 40px;
-                line-height: 40px;
+                line-height: 1.5;
+                padding: 15px 0;
                 border-bottom: 1px solid #eee;
                 color: #232323;
                 font-size: 15px;
@@ -101,7 +106,8 @@ export default {
                 font-size: 12px;
                 padding: 0 8px;
                 position: relative;
-                top: 10px;
+                top:0;
+                flex:0 0 auto;
             }
         }
 

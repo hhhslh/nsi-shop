@@ -21,12 +21,13 @@ export default {
             position: fixed;
             right: -1px;
             bottom: 100px;
-            padding: 4px 5px 4px 20px;
+            padding: 4px 5px 4px 15px;
             border-radius: 50px 0px 0 50px;
             background-color: #215089;
             color: #fff;
             letter-spacing: 5px;
             font-weight: 500;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.4);
         }
     }
 </style>

@@ -31,6 +31,7 @@ import waitPayCourse from '@/components/coursePage/waitPay'
 import successCourse from '@/components/coursePage/successCourse'
 import serviceDetail from '@/pages/serviceDetail'
 import pcPage from '@/pages/judgeIsPc'
+import cartPage from '@/components/shoppingCart/shoppingCart'
 
 Vue.use(Router)
 
@@ -159,8 +160,13 @@ export default new Router({
             ]
         },
         {
+            path: '/cart',
+            component: cartPage
+        },
+        {
             path: '/pc',
-            component: pcPage
+            component: pcPage,
+            name: 'isPC'
         }
     ]
 })

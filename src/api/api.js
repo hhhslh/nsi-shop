@@ -59,3 +59,21 @@ export const getBigCourseDetail = p => get('/courseList/get_course_item.do', p)
 
 // 根据课程id 微信id验证课程观看权限
 export const checkOpenIdCourseIdPrivilege = p => get('/ClassUser/verify_open_by_wechatid.do', p)
+
+// 创建购物车id
+export const createCartId = p => post('/ShopCart/create.do', p)
+
+// 更新购物车
+export const updateCart = p => post('/ShopCart/updateCart.do', p)
+
+// 锁定购物车
+export const lockCart = p => post('/ShopCart/lockCart.do', p)
+
+// 根据cid获取购物车详情
+export const getCartDetail = p => post('/ShopCart/cartDetail.do', p)
+
+// 创建购物车订单
+export const createCardOrder = p => post('/order/create_cart.do', p)
+
+// 返回购物车列表
+export const getCartList = p => get('/order/get_order_cart_list.do', p)

@@ -16,7 +16,7 @@
         </div>
         <!-- <h4>{{listId}}</h4> -->
         <div class="link">
-            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact>课程介绍</router-link>
+            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact class="rightline">课程介绍</router-link>
             <router-link tag="div" to="/detailCourse/chooseCourse">课程选集</router-link>
         </div>
         <div class="courseContent">
@@ -65,57 +65,6 @@ export default {
         }
     },
     methods:{
-        // getQueryStringArgs() {
-        //     var qs = location.search.length > 0 ? location.search.substring(1) : '',
-        //         args = {},
-        //         items = qs.length ? qs.split('&') : [],
-        //         item = null,
-        //         name = null,
-        //         value = null,
-        //         i = 0,
-        //         len = items.length;
-        //     for (i = 0; i < len; i++) {
-        //             item = items[i].split('=');
-        //             name = decodeURIComponent(item[0]);
-        //             value = decodeURIComponent(item[1]);
-        //             name = item[0];
-        //             value = item[1];
-
-        //             if (name.length) {
-        //                 args[name] = value;
-        //             }
-        //         }
-        //     return args;
-        // },
-        // getUsrInfo(){
-        //     // 存取code
-        //     let storage = window.localStorage
-        //     let args = this.getQueryStringArgs()
-        //     let code =decodeURIComponent(args['code'])
-        //     localStorage.setItem('wxCode',code)
-
-        //     if(storage.getItem('openId')){
-        //         this.testmsg+=storage.getItem('openId')
-        //     }else{
-        //         if(localStorage.getItem('wxCode')=='undefined'){
-        //             window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailCourse%2fcourseInfo%2f"+localStorage.getItem('courseId')+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-        //         }else{
-        //             this.testmsg+=storage.getItem('wxCode')
-        //             const sendData=new URLSearchParams()
-        //             sendData.append('code',code)
-        //             this.axios({
-        //                 method:"post",
-        //                 url:'/wxPay/get_wx_info.do',
-        //                 data:sendData
-        //             }).then((res)=>{
-        //                     localStorage.setItem('openId',res.data.data.openid)
-        //                     localStorage.setItem('headimgurl',res.data.data.headimgurl)
-        //                     localStorage.setItem('nickname',res.data.data.nickname)
-        //                     location.reload()
-        //                 })
-        //             }
-        //     }
-        // },
         fetchDate(){
             getBigCourseDetail({
                 listId:this.$route.params.id
@@ -175,7 +124,8 @@ export default {
             // console.log(data)
             let video=this.$refs.play
             Bus.$on('getSourse', (msg) => {
-                if(this.notBought===false){
+                // console.log(msg)
+                if(msg.pattern==1){
                     video.pause()
                     this.getUrl = msg
                     video.load()
@@ -339,6 +289,19 @@ export default {
             .router-link-active{
                 color: goldenrod;
                 border-bottom: 2px solid goldenrod;
+            }
+            .rightline{
+                position: relative;
+                &::before{
+                    display: block;
+                    content: "";
+                    position: absolute;
+                    width: 2px;
+                    height: 20px;
+                    background-color: #eee;
+                    right: 0;
+                    top: 8px;
+                }
             }
         }
 

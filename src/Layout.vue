@@ -30,6 +30,11 @@
 export default {
     name:'app',
     mounted(){
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        } else {
+            // window.location.href = "https://www.xinxueshuo.cn/nsi-shop/index.html#/pc";
+            this.$router.push({path:"/pc"})
+        }
     }
 }
 </script>
@@ -44,7 +49,7 @@ export default {
             left: 0;
             width: 100%;
             background-color: #fff;
-            box-shadow: 0 -1px 10px #d8d8d8;
+            box-shadow: 0 -1px 10px rgba(0,0,0,.4);
             z-index: 99;
             padding-top: 2px;
             .barList{

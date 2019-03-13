@@ -17,9 +17,9 @@
             <div class="myOrderBox">
             <h4 class="myTitle">书籍订单<router-link to="/orderState" tag="div" class="moreOrder">查看全部订单<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
                 <div class="orderBox">
-                    <router-link to="/orderState/wait" tag="div" class="orderItme">
-                        <p class="myOrderLogo orderState text-center"><span class="iconfont icon-qianbao"></span><em class="orderCount" v-if="orderState.NO_PAY>0">{{orderState.NO_PAY}}</em></p>
-                        <p class="myOrder text-center">待付款</p>
+                    <router-link to="/orderState" tag="div" class="orderItme">
+                        <p class="myOrderLogo orderState text-center"><span class="iconfont icon-dingdan1"></span></p>
+                        <p class="myOrder text-center">全部订单</p>
                     </router-link>
                     <router-link to="/orderState/send" tag="div" class="orderItme">
                         <p class="myOrderLogo orderState text-center"><span class="iconfont icon-fahuo"></span><em class="orderCount" v-if="orderState.PAID>0">{{orderState.PAID}}</em></p>
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <!-- 课程 -->
+         <!-- 课程 -->
         <div class="container-fluid mt15">
             <div class="myOrderBox">
                 <h4 class="myTitle">我的课程<router-link to="/mycourse" tag="div" class="moreOrder">更多<span class="iconfont icon-iconfonticonfonti2copycopy"></span></router-link></h4>
@@ -79,7 +79,7 @@
         </div>
 
         <div class="container-fluid copyrightBox">
-            <p class="text-center copyright">- 新学说提供技术支持 -</p>
+            <p class="text-center copyright" @click="clear">- 新学说提供技术支持1.0 -</p>
         </div>
     </div>
 </template>
@@ -98,58 +98,14 @@ export default {
         }
     },
     methods:{
-        // getQueryStringArgs() {
-        //     var qs = location.search.length > 0 ? location.search.substring(1) : '',
-        //         args = {},
-        //         items = qs.length ? qs.split('&') : [],
-        //         item = null,
-        //         name = null,
-        //         value = null,
-        //         i = 0,
-        //         len = items.length;
-        //     for (i = 0; i < len; i++) {
-        //             item = items[i].split('=');
-        //             name = decodeURIComponent(item[0]);
-        //             value = decodeURIComponent(item[1]);
-        //             name = item[0];
-        //             value = item[1];
-
-        //             if (name.length) {
-        //                 args[name] = value;
-        //             }
-        //         }
-        //     return args;
-        // },
-        // getUsrInfo(){
-        //     // 存取code
-        //     let args = this.getQueryStringArgs(),
-        //         code = decodeURIComponent(args['code']),
-        //         storage = window.localStorage
-        //     storage['wxCode'] = code
-
-        //     if(storage.wxCode!='undefined'){
-        //         if(storage.openId){
-        //             localStorage.setItem("isShare",false)
-        //         }else{
-        //             localStorage.setItem("isShare",true)
-        //             const sendData=new URLSearchParams()
-        //             sendData.append('code',code)
-        //             this.axios({
-        //                 method:"post",
-        //                 url:'/wxPay/get_wx_info.do',
-        //                 data:sendData
-        //             }).then((res)=>{
-        //                 storage['openId']=res.data.data.openid
-        //                 storage['headimgurl']=res.data.data.headimgurl
-        //                 storage['nickname']=res.data.data.nickname
-        //                 location.reload()
-        //             })
-        //         }
-        //     }else{
-        //         // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=http%3a%2f%2fdata.xinxueshuo.cn%2fnsi-shop%2fdist%2f%23%2fdetailPage%2f"+this.listId+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-        //         window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e5ddff7dc5282e&redirect_uri=https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fmine&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-        //     }
-        // },
+        clear(){
+            localStorage.removeItem('vuex')
+            localStorage.removeItem('cartId')
+            this.$message({
+                message: '已清空缓存',
+                type: 'success'
+            })
+        },
         toVip(){
             window.open('https://www.xinxueshuo.cn/#/vip','_blank')
         },
@@ -184,7 +140,7 @@ export default {
             // console.log(id)
             let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+id
             window.location.href=href
-        }
+        },
     },
     created(){
         // this.getUsrInfo()
@@ -368,6 +324,7 @@ export default {
                     border-radius: 4px;
                 }
                 .courseName{
+                    margin-bottom: 0;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: -webkit-box;
