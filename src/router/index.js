@@ -32,6 +32,7 @@ import successCourse from '@/components/coursePage/successCourse'
 import serviceDetail from '@/pages/serviceDetail'
 import pcPage from '@/pages/judgeIsPc'
 import cartPage from '@/components/shoppingCart/shoppingCart'
+import invoicePage from '@/components/invoice/invoice'
 
 Vue.use(Router)
 
@@ -94,7 +95,7 @@ export default new Router({
                     component: courseInfoCom
                 },
                 {
-                    path: '/detailCourse/chooseCourse',
+                    path: '/detailCourse/chooseCourse/:id',
                     component: chooseCourseCom
                 }
             ]
@@ -167,6 +168,10 @@ export default new Router({
             path: '/pc',
             component: pcPage,
             name: 'isPC'
+        },
+        {
+            path: '/invoice',
+            component: invoicePage
         }
     ]
 })

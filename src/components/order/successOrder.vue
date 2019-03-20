@@ -20,6 +20,9 @@
             <div class="total">
                 <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}.00</span></p>
             </div>
+            <!-- <div class="btnBox text-right">
+                <a href="javascript:;"  v-if="item.statusDesc==='已付款'" class="cancle" @click="toinvoice(item)">申请开票</a>
+            </div> -->
         </div>
 
         <!-- 购物车 -->
@@ -46,9 +49,8 @@
             <div class="total">
                 <p class="text-right">共计{{item.list.length}}类商品 合计:￥<span class="totalPrice">{{item.totalPrice}}.00</span></p>
             </div>
-            <!-- <div class="btnBox text-right" v-if="item.statusDesc==='未支付'">
-                <a href="javascript:;" class="cancle" @click="cancleOrder(item.orderNo)">取消订单</a>
-                <a href="javascript:;" class="toPay" @click="toPay(item)">付款</a>
+            <!-- <div class="btnBox text-right">
+                <a href="javascript:;"  v-if="item.statusDesc==='已付款'" class="cancle" @click="toinvoice(item)">申请开票</a>
             </div> -->
         </div>
 
@@ -80,6 +82,16 @@ export default {
             let routeData =this.$router.resolve({name:"orderDetail",params:{id:orderNum}})
             window.location.href=routeData.href
         },
+        toinvoice(item){
+            // console.log(item)
+            localStorage.setItem('orderNo',item.orderNo)
+            if(item.total_price){
+                localStorage.setItem('total_price',item.total_price)
+            }else{
+                localStorage.setItem('total_price',item.totalPrice)
+            }
+            this.$router.push({path:'/invoice'})
+        }
     },
     created(){
         this.axios({

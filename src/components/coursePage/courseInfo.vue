@@ -31,7 +31,7 @@ export default {
             })
         },
         moreCourse(){
-            this.$router.push({path:'/detailCourse/chooseCourse'})
+            this.$router.push({path:'/detailCourse/chooseCourse/'+localStorage.getItem('courseId')})
         }
     },
     created(){

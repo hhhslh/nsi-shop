@@ -1,7 +1,7 @@
 <template>
     <div class="courseList-com" ref="list">
-        <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com">
-            <div class="container-fluid" style="padding-bottom:15px">
+        <!-- <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com"> -->
+            <div class="container-fluid" style="padding-bottom:15px;margin-top:15px;">
                 <!-- search -->
                 <!-- searchList -->
                 <div class="row bookList" v-for="(book,index) in bookList" :key="index" @click="toDetail(book)">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-        </scroller>
+        <!-- </scroller> -->
     </div>
 </template>
 

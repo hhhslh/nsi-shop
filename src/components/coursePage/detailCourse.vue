@@ -17,10 +17,19 @@
         <!-- <h4>{{listId}}</h4> -->
         <div class="link">
             <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact class="rightline">课程介绍</router-link>
-            <router-link tag="div" to="/detailCourse/chooseCourse">课程选集</router-link>
+            <router-link tag="div" :to="'/detailCourse/chooseCourse/'+listId">课程选集</router-link>
         </div>
         <div class="courseContent">
             <router-view></router-view>
+        </div>
+        <div class="buyAbout">
+            <div class="content">
+                <!-- <p class="text-center title">购买须知</p> -->
+                <ul>
+                    <li>● 此课程一经购买成功，概不支持退款</li>
+                    <li>● 购买后观看有效期为1年</li>
+                </ul>
+            </div>
         </div>
         <div v-if="notBought" class="pay">
             <div>￥<span>{{coursePrice}}.00</span></div>
@@ -75,6 +84,7 @@ export default {
                 this.wxShareInfo.imgUrl=res.data.listImg
                 this.wxShareInfo.href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+res.data.listId
                 this.wxShareInfo.desc=res.data.syllabus
+                setTimeout(wxShareInit.wxReady(this.wxShareInfo),30)
 
                 // 本地存储课程信息
                 let item=res.data
@@ -125,12 +135,7 @@ export default {
             let video=this.$refs.play
             Bus.$on('getSourse', (msg) => {
                 // console.log(msg)
-                if(msg.pattern==1){
-                    video.pause()
-                    this.getUrl = msg
-                    video.load()
-                    video.play()
-                }else{
+                if(this.notBought){
                     this.$refs.coverbg.style.display="block";
                     this.isPlay=false
                     video.pause()
@@ -138,6 +143,18 @@ export default {
                         message: '您未购买该课程',
                         type: 'info'
                     });
+                }else{
+                    video.pause()
+                    this.getUrl = msg.url
+                    video.load()
+                    video.play()
+                }
+
+                if(msg.pattern==1){
+                    video.pause()
+                    this.getUrl = msg.url
+                    video.load()
+                    video.play()
                 }
                 // console.log(this.getUrl)
             })
@@ -216,7 +233,6 @@ export default {
         this.nextPlay()
         this.fetchDate()
         this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px"
-        setTimeout(wxShareInit.wxReady(this.wxShareInfo),30)
         // this.testmsg=window.location.href
     }
 }
@@ -224,7 +240,7 @@ export default {
 
 <style lang="scss">
     .detailCourse-com{
-        padding-bottom: 20px;
+        padding-bottom: 30px;
         position: relative;
         .videoBox{
             position: relative;
@@ -361,6 +377,38 @@ export default {
                     vertical-align: middle;
                     position: relative;
                     top: -2px;
+                }
+            }
+        }
+        .buyAbout{
+            margin: 0 10px;
+            .content{
+                border-radius: 4px;
+                overflow: hidden;
+                // box-shadow: 0 3px 10px rgba(121, 121, 121, 0.4);
+            }
+            .title{
+                font-size: 15px;
+                font-weight: 600;
+                color: #fff;
+                padding-top: 8px;
+                background-color: #c1c1c1;
+                padding-bottom: 8px;
+                letter-spacing: 1px;
+                margin-bottom: 0;
+            }
+            ul{
+                padding: 10px;
+                list-style: none;
+                margin-bottom: 0;
+                li{
+                    font-size: 13px;
+                    margin-bottom: 10px;
+                    color: #808080;
+                    font-weight: 500;
+                    &:last-of-type{
+                        margin-bottom: 0;
+                    }
                 }
             }
         }

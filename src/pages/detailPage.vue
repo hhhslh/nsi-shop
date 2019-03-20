@@ -94,6 +94,7 @@ export default {
                 this.wxShareInfo.imgUrl=this.book.goodsImg
                 this.wxShareInfo.href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+this.listId
                 this.wxShareInfo.desc=this.book.goodsDescribe
+                setTimeout(wxShareInit.wxReady(this.wxShareInfo),500)
             })
         },
         saveGoodsInfo(){
@@ -165,11 +166,11 @@ export default {
     },
     created(){
         this.fetchDate()
-        setTimeout(wxShareInit.wxReady(this.wxShareInfo),500)
+
     },
     mounted(){
         localStorage.setItem('courseId',this.$route.params.id)
-        getUsrInfo('https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+localStorage.getItem('courseId'))
+        getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailPage%2f'+localStorage.getItem('courseId'))
     }
 }
 </script>
@@ -335,7 +336,7 @@ export default {
                     // width: 50%;
                     width: 45%;
                     // height: 100%;
-                    height: 80%;
+                    height: 79%;
                     border-radius: 4px;
                     margin: 6px;
                     font-weight: 500;
