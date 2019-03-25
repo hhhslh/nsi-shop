@@ -1,6 +1,6 @@
 <template>
 <div class="searchList-com" ref="list">
-    <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com">
+    <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com"  v-loading="loading">
         <div class="container-fluid" style="padding-bottom:15px">
             <!-- search -->
             <!-- searchList -->
@@ -29,6 +29,7 @@ import {getBookList} from '@/api/api'
 export default {
     data() {
         return {
+            loading:true,
             noDate:false,
             bookList:[],
             pageNum:1,
@@ -62,6 +63,7 @@ export default {
                         this.noDate=true
                     }
                 }
+                this.loading=false
             })
         },
         infinite(done){

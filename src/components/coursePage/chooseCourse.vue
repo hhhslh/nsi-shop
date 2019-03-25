@@ -6,6 +6,15 @@
                 <li @click="getCourseAddress(item.courseAddress,index,item.pattern)" :class="{'isActive':active===index}" v-for="(item,index) in list" :key="index"><span class="index">{{index+1}}.</span>{{item.courseName}}<span class="free" v-if="item.pattern==1">试看</span><span class="time">{{item.duration}}</span></li>
             </ul>
         </div>
+        <div class="buyAbout">
+            <div class="content">
+                <!-- <p class="text-center title">购买须知</p> -->
+                <ul>
+                    <li>● 此课程一经购买成功，概不支持退款</li>
+                    <li>● 购买后观看有效期为1年</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </template>
 

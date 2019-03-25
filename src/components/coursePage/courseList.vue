@@ -1,7 +1,7 @@
 <template>
     <div class="courseList-com" ref="list">
         <!-- <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com"> -->
-            <div class="container-fluid" style="padding-bottom:15px;margin-top:15px;">
+            <div class="container-fluid" style="padding-bottom:15px;margin-top:15px;" v-loading="loading">
                 <!-- search -->
                 <!-- searchList -->
                 <div class="row bookList" v-for="(book,index) in bookList" :key="index" @click="toDetail(book)">
@@ -33,6 +33,7 @@ import {getCourseList} from '@/api/api'
 export default {
     data() {
         return {
+            loading:true,
             noDate:false,
             bookList:[],
             pageNum:1,
@@ -80,6 +81,7 @@ export default {
                         this.noDate=true
                     }
                 }
+                this.loading=false
             })
         },
         infinite(done){

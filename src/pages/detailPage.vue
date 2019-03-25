@@ -90,7 +90,7 @@ export default {
                 // console.log(this.book)
                 // document.title=this.detail.title
                 // 微信分享
-                this.wxShareInfo.title="心选书籍 | "+this.book.goodsName
+                this.wxShareInfo.title="国际教育研究院 | "+this.book.goodsName
                 this.wxShareInfo.imgUrl=this.book.goodsImg
                 this.wxShareInfo.href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+this.listId
                 this.wxShareInfo.desc=this.book.goodsDescribe

@@ -1,5 +1,5 @@
 <template>
-    <div class="detailCourse-com" ref="bg">
+    <div class="detailCourse-com" ref="bg" >
         <div class="videoBox">
             <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" controls ref="play" controlslist="nodownload"></video> -->
             <video webkit-playsinline="true" :src="getUrl" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
@@ -15,21 +15,12 @@
             </div>
         </div>
         <!-- <h4>{{listId}}</h4> -->
-        <div class="link">
+        <div class="link" id="searchBar" :class="{'addShadow':isScroll}">
             <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact class="rightline">课程介绍</router-link>
             <router-link tag="div" :to="'/detailCourse/chooseCourse/'+listId">课程选集</router-link>
         </div>
-        <div class="courseContent">
+        <div class="courseContent" v-loading="loading">
             <router-view></router-view>
-        </div>
-        <div class="buyAbout">
-            <div class="content">
-                <!-- <p class="text-center title">购买须知</p> -->
-                <ul>
-                    <li>● 此课程一经购买成功，概不支持退款</li>
-                    <li>● 购买后观看有效期为1年</li>
-                </ul>
-            </div>
         </div>
         <div v-if="notBought" class="pay">
             <div>￥<span>{{coursePrice}}.00</span></div>
@@ -57,6 +48,7 @@ export default {
     },
     data(){
         return{
+            loading:true,
             listId:'',
             isPlay:false,
             getUrl:'#',
@@ -70,7 +62,8 @@ export default {
                 imgUrl:"",
                 href:'',
                 desc:""
-            }
+            },
+            isScroll:false
         }
     },
     methods:{
@@ -78,6 +71,7 @@ export default {
             getBigCourseDetail({
                 listId:this.$route.params.id
             }).then(res=>{
+                this.loading=false
                 // console.log(res.data)
                 // 微信分享配置
                 this.wxShareInfo.title="国际教育研究院 | "+res.data.listTitle
@@ -85,7 +79,6 @@ export default {
                 this.wxShareInfo.href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+res.data.listId
                 this.wxShareInfo.desc=res.data.syllabus
                 setTimeout(wxShareInit.wxReady(this.wxShareInfo),30)
-
                 // 本地存储课程信息
                 let item=res.data
                 this.coverImg=item.listImg
@@ -120,7 +113,7 @@ export default {
             // console.log(this.listId)
         },
         createPlayer(){
-            let videoHeight=(window.innerWidth/16*9)+"px"
+            let videoHeight=Math.floor((window.innerWidth/16*9))+"px"
             this.$refs.play.style.height=videoHeight
             this.$refs.coverbg.style.height=videoHeight
         },
@@ -221,6 +214,27 @@ export default {
                 }
             })
         },
+        handleScroll () {
+            let linkTop=Math.floor((window.innerWidth/16*9))
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+            var searchTop = document.querySelector('#searchBar').offsetTop
+            if(scrollTop>0){
+                searchTop = linkTop - Number(scrollTop);
+                if(searchTop<=0){
+                // document.querySelector('#searchBar').style.opacity="0.9"
+                    document.querySelector('#searchBar').style.top ='0px';
+                    this.isScroll=true
+                    // document.querySelector('#searchBar').style.boxShadow ="0 1px 10px rgba(0, 0, 0, 0.4);";
+                }else{
+                    document.querySelector('#searchBar').style.top = searchTop+'px';
+                    // document.querySelector('#searchBar').style.boxShadow ="0 1px 10px rgba(0, 0, 0, 0.4);";
+                }
+            }else{
+                // document.querySelector('#searchBar').style.opacity="1"
+                this.isScroll=false
+                document.querySelector('#searchBar').style.top = linkTop+'px';
+            }
+        },
     },
     mounted(){
         this.coursePrice=localStorage.getItem('coursePrice')
@@ -233,7 +247,7 @@ export default {
         this.nextPlay()
         this.fetchDate()
         this.$refs.bg.style.minHeight=(window.innerHeight-57)+"px"
-        // this.testmsg=window.location.href
+        window.addEventListener('scroll', this.handleScroll)
     }
 }
 </script>
@@ -289,11 +303,18 @@ export default {
                 }
             }
         }
+        .addShadow{
+            box-shadow: -1px 1px 10px rgba(0, 0, 0, 0.4);
+        }
         .link{
             display: flex;
             width: 100%;
             justify-content: space-around;
-            border-bottom: 7px solid #f7f7f7;
+            // border-bottom: 7px solid #f7f7f7;
+            position: fixed;
+            background-color: #FFF;
+            width: 100%;
+            // transition: all .3s ease-in-out;
             div{
                 width: 50%;
                 text-align: center;
@@ -320,7 +341,10 @@ export default {
                 }
             }
         }
-
+        .courseContent{
+            border-top: 7px solid #f7f7f7;
+            margin-top: 40px;
+        }
         .back{
             position: absolute;
             top: 10px;

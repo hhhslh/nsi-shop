@@ -124,7 +124,7 @@ export default {
                 pageNum:this.pageNum,
                 pageSize:this.pageSize
             }).then((res)=>{
-                this.courseList=res.data.list.slice(0,1)
+                this.courseList=res.data.list.slice(0,2)
             })
         },   
         bookPop(){
@@ -309,6 +309,7 @@ export default {
                 }
             }
             .courseContentRow{
+                margin-bottom: 10px;
                 img{
                     position: relative;
                 }
