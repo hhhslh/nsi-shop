@@ -21,7 +21,7 @@
                 <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}.00</span></p>
             </div>
             <div class="btnBox text-right">
-                <!-- <a href="javascript:;"  v-if="item.statusDesc==='已付款'" class="cancle" @click="toinvoice(item)">申请开票</a> -->
+                <a href="javascript:;"  v-if="item.statusDesc==='已付款'" class="cancle" @click="toinvoice(item)">申请开票</a>
                 <a href="javascript:;"  v-if="item.statusDesc==='未支付'" class="cancle" @click="cancleOrder(item.orderNo)">取消订单</a>
                 <a href="javascript:;"  v-if="item.statusDesc==='未支付'" class="toPay" @click="toPay(item)">付款</a>
             </div>

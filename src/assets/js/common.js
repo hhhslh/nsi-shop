@@ -1,4 +1,5 @@
 import axios from 'axios'
+import wx from 'weixin-js-sdk'
 /**
  *获取用户微信信息
  *@param {String} url [回调地址]
@@ -75,3 +76,27 @@ export const Debounce = (fn, t) => {
         }, delay);
     }
 };
+
+/** 
+ * 判断当前是否微信小程序环境
+ */
+
+export function isminiprogream() {
+    if (/MicroMessenger/i.test(navigator.userAgent)) {
+        wx.miniProgram.getEnv((res) => {
+            if (res.miniprogram) {
+                return true
+            } else {
+                return false
+            }
+        })
+    }
+}
+
+export function miniProPayInfo(timeStamp, nonceStr, packageNum, paySign) {
+    // let jumpUrl = encodeURIComponent(window.location)
+    let path = `/page/pay/pay?timeStamp=${timeStamp}&nonceStr=${nonceStr}&package=${packageNum}&paySign=${paySign}`
+    wx.miniProgram.navigateTo({
+        url: path
+    })
+}

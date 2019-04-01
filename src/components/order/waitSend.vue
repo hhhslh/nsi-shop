@@ -20,9 +20,9 @@
             <div class="total">
                 <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}.00</span></p>
             </div>
-            <!-- <div class="btnBox text-right">
+            <div class="btnBox text-right">
                 <a href="javascript:;"  v-if="item.statusDesc==='已付款'" class="cancle" @click="toinvoice(item)">申请开票</a>
-            </div> -->
+            </div>
         </div>
 
         <!-- 购物车 -->
@@ -49,9 +49,9 @@
             <div class="total">
                 <p class="text-right">共计{{item.list.length}}类商品 合计:￥<span class="totalPrice">{{item.totalPrice}}.00</span></p>
             </div>
-            <!-- <div class="btnBox text-right">
+            <div class="btnBox text-right">
                 <a href="javascript:;"  v-if="item.statusDesc==='已付款'" class="cancle" @click="toinvoice(item)">申请开票</a>
-            </div> -->
+            </div>
         </div>
 
         <div class="noOrder" v-if="orderCode=='1'">

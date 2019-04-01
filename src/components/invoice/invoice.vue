@@ -105,7 +105,7 @@ export default {
                     // console.log(res.data)
                     if(res.code==0){
                         this.$message({
-                            message: '申请成功，稍后电子发票将发送至您的邮箱，请注意查收',
+                            message: '申请成功，一个工作日电子发票将发送至您的邮箱，请注意查收',
                             type: 'success'
                         })
                         history.go(-1)
@@ -148,7 +148,7 @@ export default {
         }
         .form{
             padding: 10px;
-            padding-right: 30px;
+            padding-right: 20px;
             padding-top: 20px;
             background-color: #fff;
         }
