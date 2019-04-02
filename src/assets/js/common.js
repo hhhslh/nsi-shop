@@ -79,23 +79,28 @@ export const Debounce = (fn, t) => {
 
 /** 
  * 判断当前是否微信小程序环境
+ * @return {boolean}
  */
 
 export function isminiprogream() {
-    if (/MicroMessenger/i.test(navigator.userAgent)) {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') { //判断是否是微信环境
+        //微信环境
         wx.miniProgram.getEnv((res) => {
             if (res.miniprogram) {
-                return true
+                // 小程序环境下逻辑
             } else {
-                return false
+                //非小程序环境下逻辑
             }
         })
+    } else {
+        //非微信环境逻辑
     }
 }
 
 export function miniProPayInfo(timeStamp, nonceStr, packageNum, paySign) {
-    // let jumpUrl = encodeURIComponent(window.location)
-    let path = `/page/pay/pay?timeStamp=${timeStamp}&nonceStr=${nonceStr}&package=${packageNum}&paySign=${paySign}`
+    let jumpUrl = encodeURIComponent('https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/orderState/all')
+    let path = `/pages/pay/pay?timeStamp=${timeStamp}&nonceStr=${nonceStr}&package=${packageNum}&paySign=${paySign}&jumpUrl=${jumpUrl}`
     wx.miniProgram.navigateTo({
         url: path
     })
