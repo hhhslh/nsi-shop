@@ -84,6 +84,7 @@ export default {
         },
         toinvoice(item){
             // console.log(item)
+            localStorage.setItem('orderNo',item.orderNo)
             if(item.total_price){
                 localStorage.setItem('total_price',item.total_price)
             }else{

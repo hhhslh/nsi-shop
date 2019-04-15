@@ -105,35 +105,56 @@ export default {
                     data:data
                 }).then((res)=>{
                     let payInfo=res.data.data
-                    this.axios({
-                        method:'get',
-                        url:'/Pay/WxPay_public.do',
-                        params:{
-                            openid:openId,
-                            body:localStorage.getItem('goodsName'),
-                            total_fee:payInfo.totalPrice,
-                            // total_fee:'0.01',
-                            out_trade_no:payInfo.orderNo
-                        }
-                    }).then((res)=>{
-                        let payment=res.data.data
-                        let appId = payment.appId
-                        let timeStamp = payment.timeStamp
-                        let nonceStr = payment.nonceStr
-                        let packageNum = payment.package
-                        let signType = payment.signType
-                        let paySign = payment.paySign
+                    // 判断微信小程序支付
+                    var ua = window.navigator.userAgent.toLowerCase();
+                        if (ua.match(/MicroMessenger/i) == 'micromessenger') { //判断是否是微信环境
+                            //微信环境
+                            wx.miniProgram.getEnv((res) => {
+                                if (res.miniprogram) {
+                                    // 小程序环境下逻辑
+                                    // let enPackageNum=encodeURIComponent(packageNum)
+                                    // miniProPayInfo(timeStamp,nonceStr,enPackageNum,paySign)
+                                    this.axios({
+                                        method:'get',
+                                        url:'/Pay/WxPay_miniProgram.do',
+                                        // url:'http://192.168.0.13:8080/nsi-1.0/Pay/WxPay_miniProgram.do',
+                                        params:{
+                                            openid:openId,
+                                            body:localStorage.getItem('goodsName'),
+                                            total_fee:payInfo.totalPrice,
+                                            // total_fee:'0.01',
+                                            out_trade_no:payInfo.orderNo,
+                                            attach:"attach",
+                                        }
+                                    }).then((resData)=>{
+                                        let sendData=resData.data.data
+                                        console.log(sendData)
+                                        let enPackageNum=encodeURIComponent(sendData.package)
+                                        // miniProPayInfo(sendData.timeStamp,sendData.nonceStr,enPackageNum,sendData.paySign)
+                                        // console.log(localStorage.getItem('goodsName'),payInfo.totalPrice,payInfo.orderNo)
+                                        miniProPayInfo(localStorage.getItem('goodsName'),payInfo.totalPrice,payInfo.orderNo)
+                                    })
+                                } else {
+                                    // H5支付
+                                    this.axios({
+                                        method:'get',
+                                        url:'/Pay/WxPay_public.do',
+                                        params:{
+                                            openid:openId,
+                                            body:localStorage.getItem('goodsName'),
+                                            total_fee:payInfo.totalPrice,
+                                            // total_fee:'0.01',
+                                            out_trade_no:payInfo.orderNo
+                                        }
+                                    }).then((res)=>{
+                                        let payment=res.data.data
+                                        let appId = payment.appId
+                                        let timeStamp = payment.timeStamp
+                                        let nonceStr = payment.nonceStr
+                                        let packageNum = payment.package
+                                        let signType = payment.signType
+                                        let paySign = payment.paySign
 
-                        // 判断微信小程序支付
-                        var ua = window.navigator.userAgent.toLowerCase();
-                            if (ua.match(/MicroMessenger/i) == 'micromessenger') { //判断是否是微信环境
-                                //微信环境
-                                wx.miniProgram.getEnv((res) => {
-                                    if (res.miniprogram) {
-                                        // 小程序环境下逻辑
-                                        miniProPayInfo(timeStamp,nonceStr,packageNum,paySign)
-                                    } else {
-                                        //非小程序环境下逻辑
                                         function onBridgeReady(){
                                             WeixinJSBridge.invoke(
                                                 'getBrandWCPayRequest', {
@@ -164,10 +185,10 @@ export default {
                                         } else {
                                             onBridgeReady();
                                         }
-                                    }
-                                })
-                            } else {}
-                    })
+                                    })
+                            }
+                        })
+                    } else {}
                 })
             }
         }

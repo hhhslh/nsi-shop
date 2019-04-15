@@ -27,10 +27,17 @@
 </template>
 
 <script>
+import wx from 'weixin-js-sdk'
 export default {
     name:'app',
     mounted(){
         if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            // wx.miniProgram.getEnv(res=>{
+            //     if(res.miniprogram){
+            //         // window.location.href="https://www.xinxueshuo.cn"
+            //         window.location.href="https://data.xinxueshuo.cn/nsi-wap/"
+            //     }
+            // })
         } else {
             // window.location.href = "https://www.xinxueshuo.cn/nsi-shop/index.html#/pc";
             this.$router.push({path:"/pc"})

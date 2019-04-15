@@ -25,7 +25,7 @@
                     </div>
                 </div>
                  <div class="bookListContent">
-                    <h4 class="title">国际学校职能岗位课程</h4>    
+                    <h4 class="title">精品课程</h4>    
                     <div class="courseContentRow" v-for="(item,index) in courseList" :key="index"  @click="toCourseDetail(item.listId)">
                         <div class="row">
                             <div class="col-xs-4">

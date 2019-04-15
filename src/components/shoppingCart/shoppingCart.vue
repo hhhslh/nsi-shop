@@ -58,7 +58,7 @@
 
 <script>
 import {getAddress,updateCart,lockCart,createCardOrder} from '@/api/api'
-import {Debounce} from '@/assets/js/common'
+import {Debounce,miniProPayInfo} from '@/assets/js/common'
 export default {
     data() {
         return {
@@ -206,11 +206,35 @@ export default {
                                 quantity:1,
                                 payment:totalfee,
                                 totalPrice:totalfee
-                            }).then(res=>{
-                                // 微信支付
-                                this.towxPay(totalfee,res.data.orderNo)
+                            }).then((res)=>{
+                                var ua=window.navigator.userAgent.toLowerCase()
+                                if (ua.match(/MicroMessenger/i) == 'micromessenger') { 
+                                    wx.miniProgram.getEnv((wxres)=>{
+                                        if(wxres.miniprogram){
+                                            this.axios({
+                                                method:'get',
+                                                url:'/Pay/WxPay_miniProgram.do',
+                                                // url:'http://192.168.0.13:8080/nsi-1.0/Pay/WxPay_miniProgram.do',
+                                                params:{
+                                                    openid:localStorage.getItem('openId'),
+                                                    body:"购物车",
+                                                    total_fee:totalfee,
+                                                    // total_fee:'0.01',
+                                                    out_trade_no:res.data.orderNo,
+                                                    attach:"attach",
+                                                }
+                                            }).then((resData)=>{
+                                                miniProPayInfo('购物车',totalfee,res.data.orderNo)
+                                            })
+                                        }else{
+                                            // console.log("微信H5支付")
+                                            // 微信支付
+                                            this.towxPay(totalfee,res.data.orderNo)
+                                        }
+                                    })
+                                }
                             })
-                        })
+                        }) 
                     }else{
                         this.$message({
                             message: '网络错误，请联系客服或稍后尝试1',

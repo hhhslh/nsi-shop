@@ -20,9 +20,19 @@
             <div class="total">
                 <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}.00</span></p>
             </div>
-            <!-- <div class="btnBox text-right">
-                <a href="javascript:;"  v-if="item.statusDesc==='已付款'" class="cancle" @click="toinvoice(item)">申请开票</a>
-            </div> -->
+            <div class="btnBox text-right">
+                 <a href="javascript:;"  v-if="item.statusDesc==='已发货'" class="cancle" @click="toinvoice(item)">申请开票</a>
+                 <!-- <a href="javascript:;" v-if="item.statusDesc==='已发货'" class="cancle" @click="newLogistics(item)">查看物流</a> -->
+            </div>
+            <!-- <el-dialog title="物流信息" :visible.sync="dialogVisible" width="90%" class="tracesBox">
+                 <div class="traces" v-for="(item,index) in activities">
+                    <div class="spot" :class="{'redspot':index==0}"></div>
+                    <div class="tracesInfo" :class="{'blacktracesInfo':index==0}">
+                        <p class="acceptStation">{{item.acceptStation}}</p>
+                        <p class="acceptTime">{{item.acceptTime}}</p>
+                    </div>
+                </div>
+            </el-dialog> -->
         </div>
 
         <!-- 购物车 -->
@@ -51,7 +61,17 @@
             </div>
             <div class="btnBox text-right">
                 <a href="javascript:;"  v-if="item.statusDesc==='已发货'" class="cancle" @click="toinvoice(item)">申请开票</a>
+                <a href="javascript:;" v-if="item.statusDesc==='已发货'" class="cancle" @click="newLogistics(item)">查看物流</a>
             </div>
+            <el-dialog title="物流信息" :visible.sync="dialogVisible" width="90%" class="tracesBox">
+                 <div class="traces" v-for="(item,index) in activities">
+                    <div class="spot" :class="{'redspot':index==0}"></div>
+                    <div class="tracesInfo" :class="{'blacktracesInfo':index==0}">
+                        <p class="acceptStation">{{item.acceptStation}}</p>
+                        <p class="acceptTime">{{item.acceptTime}}</p>
+                    </div>
+                </div>
+            </el-dialog>
         </div>
 
         <div class="noOrder" v-if="orderCode=='1'">
@@ -70,7 +90,10 @@ export default {
             orderItem:[],
             loading:true,
             cartIdList:[],
-            cartItem:[]
+            cartItem:[],
+            newLogisticsTxt:'暂无物流信息',
+            dialogVisible:false,
+            activities:[]
         }
     },
     methods:{
@@ -82,6 +105,7 @@ export default {
             window.location.href=routeData.href
         },
         toinvoice(item){
+            // console.log(item)
             localStorage.setItem('orderNo',item.orderNo)
             if(item.total_price){
                 localStorage.setItem('total_price',item.total_price)
@@ -90,6 +114,43 @@ export default {
             }
             this.$router.push({path:'/invoice'})
         },
+        newLogistics(item){
+            this.dialogVisible=true
+            // console.log(item)
+            var getOrderDetail=new Promise((resolve,reject)=>{
+                this.axios({
+                    method:'get',
+                    url:'/order/find_order_item.do',
+                    params:{
+                        wechatId:localStorage.getItem('openId'),
+                        orderNo:item.orderNo
+                    }
+                }).then((res)=>{
+                    resolve(res)
+                })
+            })
+
+            getOrderDetail.then(res=>{
+                this.itemDesc=res.data.data
+                let logisticCode=res.data.data.shippingCode
+                // let logisticCode="ZTO_73109132776833"
+                this.axios({
+                    method:'get',
+                    url:'/order/find_logistics_info.do',
+                    params:{
+                        orderNo:item.orderNo,
+                        logisticCode:logisticCode
+                    }
+                }).then(res=>{
+                    // this.traces=res.data.traces.reverse()
+                    // let lastone=res.data.traces.length-1
+                    // console.log(res.data.traces[lastone].acceptStation)
+                    // this.newLogisticsTxt=res.data.traces[lastone].acceptStation
+                    this.activities=res.data.traces.reverse()
+                    // console.log(this.activities)
+                })
+            })
+        }
     },
     created(){
         this.axios({

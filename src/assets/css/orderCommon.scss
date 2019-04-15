@@ -156,4 +156,39 @@
             border: 1px solid #ccc;
         }
     }
+    .tracesBox {
+        .el-dialog__body {
+            height: 380px;
+            overflow-y: auto;
+        }
+        .traces {
+            display: flex;
+            align-items: center;
+            .spot {
+                flex: 0 0 auto;
+                width: 10px;
+                height: 10px;
+                background-color: #ccc;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+            .redspot {
+                background-color: rgb(253, 74, 74);
+            }
+            .tracesInfo {
+                width: 100%;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #eee;
+                color: #888;
+                .acceptTime {
+                    font-weight: 500;
+                    margin-bottom: 0;
+                }
+            }
+            .blacktracesInfo {
+                color: #232323
+            }
+        }
+    }
 }

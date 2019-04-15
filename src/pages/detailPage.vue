@@ -87,6 +87,7 @@ export default {
                 }
             }).then((res)=>{
                 this.book=res.data.data
+                document.title=this.book.goodsName
                 // console.log(this.book)
                 // document.title=this.detail.title
                 // 微信分享
@@ -171,6 +172,9 @@ export default {
     mounted(){
         localStorage.setItem('courseId',this.$route.params.id)
         getUsrInfo('https%3a%2f%2fwww.xinxueshuo.cn%2fnsi-shop%2fdist%2findex.html%23%2fdetailPage%2f'+localStorage.getItem('courseId'))
+    },
+    destroyed(){
+        document.title="国际教育研究院"
     }
 }
 </script>

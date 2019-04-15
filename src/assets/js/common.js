@@ -98,9 +98,12 @@ export function isminiprogream() {
     }
 }
 
-export function miniProPayInfo(timeStamp, nonceStr, packageNum, paySign) {
+// export function miniProPayInfo(timeStamp, nonceStr, packageNum, paySign) {
+export function miniProPayInfo(body, totalFee, outTradeNo) {
     let jumpUrl = encodeURIComponent('https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/orderState/all')
-    let path = `/pages/pay/pay?timeStamp=${timeStamp}&nonceStr=${nonceStr}&package=${packageNum}&paySign=${paySign}&jumpUrl=${jumpUrl}`
+        // let path = `/pages/pay/pay?timeStamp=${timeStamp}&nonceStr=${nonceStr}&package=${packageNum}&paySign=${paySign}&jumpUrl=${jumpUrl}`
+    let path = `/pages/pay/pay?body=${body}&totalFee=${totalFee}&outTradeNo=${outTradeNo}&jumpUrl=${jumpUrl}`
+    console.log(path)
     wx.miniProgram.navigateTo({
         url: path
     })

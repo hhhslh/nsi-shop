@@ -33,6 +33,7 @@ import serviceDetail from '@/pages/serviceDetail'
 import pcPage from '@/pages/judgeIsPc'
 import cartPage from '@/components/shoppingCart/shoppingCart'
 import invoicePage from '@/components/invoice/invoice'
+import offlineCoursePage from '@/components/coursePage/offlineCourse'
 
 Vue.use(Router)
 
@@ -172,6 +173,9 @@ export default new Router({
         {
             path: '/invoice',
             component: invoicePage
+        }, {
+            path: '/offlinecourse/:id',
+            component: offlineCoursePage
         }
     ]
 })
