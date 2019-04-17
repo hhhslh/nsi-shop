@@ -44,9 +44,12 @@ export function getUsrInfo(url) {
                 url: '/wxPay/get_wx_info.do',
                 data: sendData
             }).then((res) => {
+                // alert(res.data.data)
+                console.log(res.data.data)
                 localStorage.setItem('openId', res.data.data.openid)
                 localStorage.setItem('headimgurl', res.data.data.headimgurl)
                 localStorage.setItem('nickname', res.data.data.nickname)
+                localStorage.setItem('unionid', res.data.data.unionid)
                 location.reload()
             })
         }
