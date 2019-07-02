@@ -25,7 +25,7 @@
                     </div>
                 </div>
                  <div class="bookListContent">
-                    <h4 class="title">国际学校职能岗位课程</h4>    
+                    <h4 class="title">精品课程</h4>    
                     <div class="courseContentRow" v-for="(item,index) in courseList" :key="index"  @click="toCourseDetail(item.listId)">
                         <div class="row">
                             <div class="col-xs-4">
@@ -105,17 +105,17 @@ export default {
     },
     methods:{
         toDetail(id){  
-            let routeData =this.$router.resolve({name:"detail",params:{id:id}})
-            window.location.href=routeData.href
-            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
-            // window.location.href=href
+            // let routeData =this.$router.resolve({name:"detail",params:{id:id}})
+            // window.location.href=routeData.href
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+id
+            window.location.href=href
         },
         toCourseDetail(listId){
             localStorage.setItem('courseId',listId)
-            let routeData =this.$router.resolve({name:"detailCourse",params:{id:localStorage.getItem('courseId')}})
-            window.location.href=routeData.href
-            // let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailPage/'+listId
-            // window.location.href=href
+            // let routeData =this.$router.resolve({name:"detailCourse",params:{id:localStorage.getItem('courseId')}})
+            // window.location.href=routeData.href
+            let href='https://www.xinxueshuo.cn/nsi-shop/dist/index.html#/detailCourse/courseInfo/'+listId
+            window.location.href=href
         },             
         courseIndex(){
             getCourseList({
@@ -124,7 +124,7 @@ export default {
                 pageNum:this.pageNum,
                 pageSize:this.pageSize
             }).then((res)=>{
-                this.courseList=res.data.list.slice(0,1)
+                this.courseList=res.data.list.slice(0,2)
             })
         },   
         bookPop(){
@@ -309,6 +309,7 @@ export default {
                 }
             }
             .courseContentRow{
+                margin-bottom: 10px;
                 img{
                     position: relative;
                 }

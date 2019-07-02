@@ -15,8 +15,6 @@ let weiChatInit = {
     wxConfig() {
         axios({
             method: "get",
-            // url: '/Admin_api?whereFrom=WeChatShare&Callback=',
-            // url: '/wxPay/wx_chat_share.do',
             url: '/CommonApi/WxShare.do',
             params: {
                 // url: window.location.href

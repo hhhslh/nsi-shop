@@ -12,7 +12,7 @@
                 <input class="txt" type="text" @click="close" placeholder="收货人" ref="usr" :value="name">
             </div>
             <div class="inputBox">
-                <input class="txt" type="text" @click="close" placeholder="手机号码" ref="tel" :value="phoneVal">
+                <input class="txt" type="number" @click="close" placeholder="手机号码" ref="tel" :value="phoneVal" onkeyup="value=value.replace(/[^\d]/g,'')">
             </div>
         </div>
         <!-- 省市级三级联动 -->
@@ -23,6 +23,7 @@
 <script>
 import chooseAddress from '@/components/address/chooseAddress';
 import {editAddress,getAddress} from '@/api/api';
+import {Debounce} from '@/assets/js/common'
 export default {
     data() {
         return {
@@ -58,7 +59,7 @@ export default {
             this.district=val.district
             this.addressVal=val.province+' '+val.city+' '+val.district
         },
-        saveAddress(){
+        saveAddress:Debounce(function(){
             let name=this.$refs.usr.value
             let phoneVal=this.$refs.tel.value
             let area01=this.province
@@ -66,22 +67,36 @@ export default {
             let area03=this.$refs.area03.value
             let openId=localStorage.getItem('openId')
             // console.log(name,phoneVal,area01,area02,area03)
-            editAddress({
-                wechatid:openId,
-                receivename:name,
-                receivephone:phoneVal,
-                receivearea01:area01,
-                receivearea02:area02,
-                receivearea03:area03,
-            }).then(res=>{
+            if(name!=''&&phoneVal!=''&&area01!=''&&area02!=''&&area03!=''){
+                if(phoneVal.length!=11){
+                    this.$message({
+                        message: '手机格式不正确',
+                        type: 'error'
+                    });
+                }else{
+                    editAddress({
+                        wechatid:openId,
+                        receivename:name,
+                        receivephone:phoneVal,
+                        receivearea01:area01,
+                        receivearea02:area02,
+                        receivearea03:area03,
+                    }).then(res=>{
+                        this.$message({
+                            message: '地址更换成功',
+                            type: 'success'
+                        });
+                        // console.log(res)
+                        history.go(-1)
+                    })
+                }
+            }else{
                  this.$message({
-                    message: '地址更换成功',
-                    type: 'success'
+                    message: '请将收货信息补全',
+                    type: 'error'
                 });
-                // console.log(res)
-                history.go(-1)
-            })
-        }
+            }
+        })
     },
     created(){
         getAddress({

@@ -1,9 +1,9 @@
 <template>
-    <div class="judge">
+    <div class="judge" ref="bg">
         <img src="../assets/erweima.png" alt="" width="300">
         <p><span class="iconfont icon-weixin"></span>微信扫描二维码进入手机版</p>
         <div class="intro">
-            <p>国际教育研究院</p>
+            <p style="margin-top:20px;">国际教育研究院</p>
             <ul>
                 <li><span>国际教育最新研究报告</span></li>
                 <li><span>国际学校职能岗位课程</span></li>
@@ -14,13 +14,18 @@
 
 <script>
 export default {
-
+    mounted(){
+        this.$refs.bg.style.minHeight=(window.outerHeight)+"px"
+    }
 }
 </script>
 
 <style lang="scss">
     .judge{
 		text-align: center;
+        z-index: 999;
+        position: relative;
+        background-color: #FFF;
         img{
             margin-top:150px
         }

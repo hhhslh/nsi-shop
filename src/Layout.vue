@@ -27,12 +27,21 @@
 </template>
 
 <script>
+import wx from 'weixin-js-sdk'
 export default {
     name:'app',
     mounted(){
-    //   document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-    //       WeixinJSBridge.call('hideToolbar');
-    //     });
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            // wx.miniProgram.getEnv(res=>{
+            //     if(res.miniprogram){
+            //         // window.location.href="https://www.xinxueshuo.cn"
+            //         window.location.href="https://data.xinxueshuo.cn/nsi-wap/"
+            //     }
+            // })
+        } else {
+            // window.location.href = "https://www.xinxueshuo.cn/nsi-shop/index.html#/pc";
+            this.$router.push({path:"/pc"})
+        }
     }
 }
 </script>
@@ -47,7 +56,7 @@ export default {
             left: 0;
             width: 100%;
             background-color: #fff;
-            box-shadow: 0 -1px 10px #d8d8d8;
+            box-shadow: 0 -1px 10px rgba(0,0,0,.4);
             z-index: 99;
             padding-top: 2px;
             .barList{

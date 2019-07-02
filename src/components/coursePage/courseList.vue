@@ -1,7 +1,7 @@
 <template>
     <div class="courseList-com" ref="list">
-        <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com">
-            <div class="container-fluid" style="padding-bottom:15px">
+        <!-- <scroller :on-infinite="infinite" ref="myscroller" class="scroller-com"> -->
+            <div class="container-fluid" style="padding-bottom:15px;margin-top:15px;" v-loading="loading">
                 <!-- search -->
                 <!-- searchList -->
                 <div class="row bookList" v-for="(book,index) in bookList" :key="index" @click="toDetail(book)">
@@ -16,15 +16,15 @@
                         <div class="infoBox">
                             <!-- <p class="englishName">{{book.englishName}}</p> -->
                             <p class="name">{{book.listTitle}}</p>
-                            <p class="bookInfo">{{book.listDescription}}</p>
+                            <p class="bookInfo">{{book.syllabus}}</p>
                             <p class="author">{{book.lecturer}}</p>
-                            <p class="price" v-if="book.listPrice!=0">原价 ￥{{book.listPrice}}</p>
+                            <p class="price" v-if="book.listPrice!=0">原价 ￥{{book.listPrice}}.00</p>
                             <p class="price" v-else>即将上线</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </scroller>
+        <!-- </scroller> -->
     </div>
 </template>
 
@@ -33,6 +33,7 @@ import {getCourseList} from '@/api/api'
 export default {
     data() {
         return {
+            loading:true,
             noDate:false,
             bookList:[],
             pageNum:1,
@@ -80,6 +81,7 @@ export default {
                         this.noDate=true
                     }
                 }
+                this.loading=false
             })
         },
         infinite(done){
@@ -192,14 +194,14 @@ export default {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
-                -webkit-line-clamp: 3;
+                -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 // position: absolute;
                 // bottom: 8px;
                 // left: 0;
                 color: #545c63;
-                max-height: 55px;
-                min-height: 55px;
+                max-height: 36px;
+                // min-height: 36px;
                 font-size: 14px;
                 line-height: 18px;
                 margin-bottom: 10px;

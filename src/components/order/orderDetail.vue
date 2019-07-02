@@ -22,7 +22,7 @@
                     <p class="goodsName">{{itemDesc.product.goodsName}}</p>
                     <p class="goodsPress">{{itemDesc.product.goodsType}}<span>{{itemDesc.product.goodsLabel}}</span></p>
                     <p class="goodsQuantity">数量：{{itemDesc.quantity}}&nbsp;系列：{{itemDesc.product.goodsSeries}}</p>
-                    <p class="goodsPrice">￥{{itemDesc.product.goodsPrice}}</p>
+                    <p class="goodsPrice">￥{{itemDesc.product.goodsPrice}}.00</p>
                 </div>
             </div>
         </div>
@@ -33,10 +33,10 @@
             <p><span>配送方式：</span>普通快递</p>
         </div>
         <div class="orderPrice">
-            <p>商品总额<span>￥{{itemDesc.total_price}}</span></p>
+            <p>商品总额<span>￥{{itemDesc.total_price}}.00</span></p>
             <p>运费<span>+ ￥0.00</span></p>
-            <div class="text-right needToPay" v-if="itemDesc.status==1">需付款：<span>￥{{itemDesc.total_price}}</span></div>
-            <div class="text-right needToPay" v-else="itemDesc.status==2||itemDesc.status==4||itemDesc.status==5">实付款：<span>￥{{itemDesc.total_price}}</span></div>
+            <div class="text-right needToPay" v-if="itemDesc.status==1">需付款：<span>￥{{itemDesc.total_price}}.00</span></div>
+            <div class="text-right needToPay" v-else="itemDesc.status==2||itemDesc.status==4||itemDesc.status==5">实付款：<span>￥{{itemDesc.total_price}}.00</span></div>
         </div>
         <div class="btnBox text-right" v-if="itemDesc.status==1">
             <a href="javascript:;" class="cancle" @click="cancleOrder(itemDesc.orderNo)">取消订单</a>
@@ -157,8 +157,8 @@ export default {
                 params:{
                     openid:localStorage.getItem('openId'),
                     body:item.product.goodsName,
-                    // total_fee:item.totalPrice,
-                    total_fee:'0.01',
+                    total_fee:item.totalPrice,
+                    // total_fee:'0.01',
                     out_trade_no:item.orderNo
                 }
             }).then((res)=>{

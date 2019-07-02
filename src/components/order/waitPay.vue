@@ -1,7 +1,7 @@
 <template>
     <div class="orderState-com waitPay-com" ref="bg" v-loading="loading">
         <!-- <h4 class="title"><span class="iconfont icon-zuojiantou goBack" @click="goBack()"></span>全部订单</h4> -->
-        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.statusDesc==='未支付'">
+        <div class="orderItem" v-for="(item,index) in orderItem" v-if="item.productType=='书店'&&item.statusDesc==='未支付'">
             <h5 class="goodsTitle">
                 <span class="iconfont icon-dianpu goodsLogo"></span><span class="goodsShop">{{item.product.goodsPress}}</span>
                 <span class="goodsState">{{item.statusDesc}}</span>
@@ -14,11 +14,11 @@
                     <p class="goodsName">{{item.product.goodsName}}</p>
                     <p class="goodsPress">{{item.product.goodsPress}}</p>
                     <p class="goodsPress goodsPress01"><span>系列：{{item.product.goodsSeries}}</span></p>
-                    <p class="goodsPrice">￥{{item.product.goodsPrice}}<span class="num">x{{item.quantity}}</span></p>
+                    <p class="goodsPrice">￥{{item.product.goodsPrice}}.00<span class="num">x{{item.quantity}}</span></p>
                 </div>
             </div>
             <div class="total">
-                <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}</span></p>
+                <p class="text-right">共计{{item.quantity}}件商品 合计:￥<span class="totalPrice">{{item.total_price}}.00</span></p>
             </div>
             <div class="btnBox text-right" v-if="item.statusDesc==='未支付'">
                 <a href="javascript:;" class="cancle" @click="cancleOrder(item.orderNo)">取消订单</a>
@@ -62,7 +62,7 @@ export default {
                     let orderList=res.data.data
                     let waitPayList=[]
                     for(let i=0;i<orderList.length;i++){
-                        if(orderList[i].status===1){
+                        if(orderList[i].status===1&&orderList[i].productType=="书店"){
                             waitPayList.push(orderList[i])
                         }
                     }
@@ -102,8 +102,8 @@ export default {
                 params:{
                     openid:localStorage.getItem('openId'),
                     body:item.product.goodsName,
-                    // total_fee:item.totalPrice,
-                    total_fee:0.01,
+                    total_fee:item.total_price,
+                    // total_fee:0.01,
                     out_trade_no:item.orderNo
                 }
             }).then((res)=>{
@@ -152,7 +152,7 @@ export default {
         this.getOrderList()
     },
     mounted(){
-        this.$refs.bg.style.minHeight=(window.innerHeight-100)+"px"
+        this.$refs.bg.style.minHeight=(window.innerHeight-155)+"px"
     }
 }
 </script>

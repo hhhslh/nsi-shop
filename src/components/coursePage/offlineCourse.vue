@@ -1,23 +1,20 @@
 <template>
     <div class="detailCourse-com" ref="bg" >
-        <div class="videoBox">
-            <!-- <video src="https://nsi-class-video.oss-cn-zhangjiakou.aliyuncs.com/class/test.mp4" class="play" controls ref="play" controlslist="nodownload"></video> -->
+        <!-- <div class="videoBox">
             <video webkit-playsinline="true" :src="getUrl" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video>
-            <!-- <video src="https://nsi.oss-cn-zhangjiakou.aliyuncs.com/test/yearVideo/xxs.mp4" class="play" :class="{'zindex9':isPlay}" controls ref="play" controlslist="nodownload"></video> -->
             <div class="cover coverbg" ref="coverbg" :style="'background-image:url('+coverImg+')'">
                 <div class="cover coverContent">
                     <span class="iconfont icon-bofang" @click="toplay"></span>
                 </div>
             </div>
-            <!-- back -->
             <div class="back" @click="toBack">
                 <span class="iconfont icon-zuojiantou"></span>
             </div>
-        </div>
+        </div> -->
         <!-- <h4>{{listId}}</h4> -->
         <div class="link" id="searchBar" :class="{'addShadow':isScroll}">
-            <router-link tag="div" :to="'/detailCourse/courseInfo/'+listId" exact class="rightline">课程介绍</router-link>
-            <router-link tag="div" :to="'/detailCourse/chooseCourse/'+listId">课程选集</router-link>
+            <router-link tag="div" :to="'/offlinecourse/'+listId" exact>课程介绍</router-link>
+            <!-- <router-link tag="div" :to="'/detailCourse/chooseCourse/'+listId">课程选集</router-link> -->
         </div>
         <div class="courseContent" v-loading="loading">
             <router-view></router-view>
@@ -342,8 +339,8 @@ export default {
             }
         }
         .courseContent{
-            border-top: 7px solid #f7f7f7;
-            margin-top: 40px;
+            // border-bottom: 7px solid #f7f7f7;
+            // margin-top: 40px;
         }
         .back{
             position: absolute;

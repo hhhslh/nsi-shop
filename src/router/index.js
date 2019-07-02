@@ -30,6 +30,10 @@ import allCourse from '@/components/coursePage/allCourse'
 import waitPayCourse from '@/components/coursePage/waitPay'
 import successCourse from '@/components/coursePage/successCourse'
 import serviceDetail from '@/pages/serviceDetail'
+import pcPage from '@/pages/judgeIsPc'
+import cartPage from '@/components/shoppingCart/shoppingCart'
+import invoicePage from '@/components/invoice/invoice'
+import offlineCoursePage from '@/components/coursePage/offlineCourse'
 
 Vue.use(Router)
 
@@ -92,7 +96,7 @@ export default new Router({
                     component: courseInfoCom
                 },
                 {
-                    path: '/detailCourse/chooseCourse',
+                    path: '/detailCourse/chooseCourse/:id',
                     component: chooseCourseCom
                 }
             ]
@@ -156,6 +160,22 @@ export default new Router({
                     component: successCourse
                 }
             ]
+        },
+        {
+            path: '/cart',
+            component: cartPage
+        },
+        {
+            path: '/pc',
+            component: pcPage,
+            name: 'isPC'
+        },
+        {
+            path: '/invoice',
+            component: invoicePage
+        }, {
+            path: '/offlinecourse/:id',
+            component: offlineCoursePage
         }
     ]
 })

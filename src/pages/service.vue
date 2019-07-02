@@ -6,6 +6,7 @@
                 <img src="../assets/serviceLogo.jpg" alt="" class="img-responsive">
                 <p>长按识别上图小程序码，接入在线客服</p>
                 <p>客服小新电话：15010927730</p>
+                <p>客服座机：010-52468286</p>
             </div>
             <div class="content">
                 <p>书籍将在48小时内发货，请耐心等待！</p>
